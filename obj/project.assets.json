@@ -5746,11 +5746,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hp\\Desktop\\SIS4DOMI\\SISDOMI\\SISDOMI.csproj",
+      "projectUniqueName": "C:\\Users\\hp\\Desktop\\SIS4DOMI\\SISDOMI.csproj",
       "projectName": "SISDOMI",
-      "projectPath": "C:\\Users\\hp\\Desktop\\SIS4DOMI\\SISDOMI\\SISDOMI.csproj",
+      "projectPath": "C:\\Users\\hp\\Desktop\\SIS4DOMI\\SISDOMI.csproj",
       "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hp\\Desktop\\SIS4DOMI\\SISDOMI\\obj\\",
+      "outputPath": "C:\\Users\\hp\\Desktop\\SIS4DOMI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
