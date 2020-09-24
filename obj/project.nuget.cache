@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fKxVMrAP6y8M4d4jg0Z6ddzUZeu2A7zK611LA4W+Gze8TyVMSOq7Ux2u1PCE3+FEbL8teGn23lvzVGQbFwyZXQ==",
+  "dgSpecHash": "dZdy0eXE4Pf5PLcwamvFLNlRDF92W9oClaeHfANi9dbpC44/RZgBX/EN6U9fyfUvZfYu3S3jXfWkLx3wrcuy5Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\hp\\Desktop\\SIS4DOMI\\SISDOMI.csproj",
+  "projectFilePath": "C:\\Users\\hp\\Desktop\\SIS4DOMI-BACK\\SISDOMI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hp\\.nuget\\packages\\dnsclient\\1.3.1\\dnsclient.1.3.1.nupkg.sha512",
     "C:\\Users\\hp\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.8\\microsoft.aspnetcore.authentication.jwtbearer.3.1.8.nupkg.sha512",

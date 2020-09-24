@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hp\\Desktop\\SIS4DOMI\\SISDOMI.csproj": {}
+    "C:\\Users\\hp\\Desktop\\SIS4DOMI-BACK\\SISDOMI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hp\\Desktop\\SIS4DOMI\\SISDOMI.csproj": {
+    "C:\\Users\\hp\\Desktop\\SIS4DOMI-BACK\\SISDOMI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hp\\Desktop\\SIS4DOMI\\SISDOMI.csproj",
+        "projectUniqueName": "C:\\Users\\hp\\Desktop\\SIS4DOMI-BACK\\SISDOMI.csproj",
         "projectName": "SISDOMI",
-        "projectPath": "C:\\Users\\hp\\Desktop\\SIS4DOMI\\SISDOMI.csproj",
+        "projectPath": "C:\\Users\\hp\\Desktop\\SIS4DOMI-BACK\\SISDOMI.csproj",
         "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hp\\Desktop\\SIS4DOMI\\obj\\",
+        "outputPath": "C:\\Users\\hp\\Desktop\\SIS4DOMI-BACK\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
