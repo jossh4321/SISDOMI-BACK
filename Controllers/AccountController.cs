@@ -28,7 +28,7 @@ namespace SISDOMI.Controllers
             _configuration = configuration;
             _usuarioservice = usuarioservice;
         }
-
+        //endpoints
         [HttpPost("signup")]
         [AllowAnonymous]
         public async Task<ActionResult<UserToken>> CreateUser(
