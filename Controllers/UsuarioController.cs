@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SISDOMI.DTOs;
 using SISDOMI.Entities;
 using SISDOMI.Helpers;
 using SISDOMI.Services;
@@ -46,6 +47,43 @@ namespace SISDOMI.Controllers
             }
             Usuario objetousuario = _usuarioservice.CreateUser(usuario);
             return objetousuario;
+        }
+
+        [HttpPut("")]
+        public async Task<ActionResult<Usuario>> ModificarUsuario(Usuario usuario)
+        {
+            Usuario usuariobd = new Usuario();
+            usuariobd = _usuarioservice.GetById(usuario.id);
+
+            if (!string.IsNullOrWhiteSpace(usuario.datos.imagen))
+            {
+                var profileimg = Convert.FromBase64String(usuario.datos.imagen);
+                usuario.datos.imagen = await _fileStorage.EditFile(profileimg, "jpg", "usuarios",usuariobd.datos.imagen);
+            }
+            Usuario objetousuario = _usuarioservice.ModifyUser(usuario);
+            return objetousuario;
+        }
+
+        [HttpDelete("")]
+        public async Task<ActionResult<String>> EliminarUsuario([FromQuery] string id)
+        {
+           await  _usuarioservice.DeleteUser(id);
+            return $"se elimin el usuario {id}";
+        }
+
+
+        [HttpGet("rol")]
+        [AllowAnonymous]
+        public async Task<ActionResult<UsuarioDTOR>> ObtenerUsuarioDTO([FromQuery]string id)
+        {
+           return await _usuarioservice.ObtenerUsuarioRol(id);
+        }
+
+        [HttpGet("roles")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<UsuarioDTOR>>> ObtenerUsuariosDTOs()
+        {
+            return await _usuarioservice.ObtenerUsuariosRoles();
         }
 
     }
