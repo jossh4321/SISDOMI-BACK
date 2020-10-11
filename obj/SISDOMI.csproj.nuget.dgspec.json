@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hp\\Desktop\\SIS4DOMI-BACK\\SISDOMI.csproj": {}
+    "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hp\\Desktop\\SIS4DOMI-BACK\\SISDOMI.csproj": {
+    "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hp\\Desktop\\SIS4DOMI-BACK\\SISDOMI.csproj",
+        "projectUniqueName": "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
         "projectName": "SISDOMI",
-        "projectPath": "C:\\Users\\hp\\Desktop\\SIS4DOMI-BACK\\SISDOMI.csproj",
-        "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hp\\Desktop\\SIS4DOMI-BACK\\obj\\",
+        "projectPath": "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
+        "packagesPath": "C:\\Users\\V330\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\V330\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -72,7 +69,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
