@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 
 namespace SISDOMI.Controllers
 {
@@ -25,7 +26,7 @@ namespace SISDOMI.Controllers
         }
 
         [HttpGet("all")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<List<Usuario>> GetAll()
         {
             return _usuarioservice.GetAll();
@@ -72,16 +73,30 @@ namespace SISDOMI.Controllers
         }
 
 
+        [HttpGet("rol/permiso")]
+        [AllowAnonymous]
+        public async Task<ActionResult<UsuarioDTOR>> ObtenerUsuarioRolPermiso([FromQuery]string id)
+        {
+           return await _usuarioservice.ObtenerUsuarioRolPermiso(id);
+        }
+
+        [HttpGet("roles/permisos")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<UsuarioDTOR>>> ObtenerUsuariosRolesPermisos()
+        {
+            return await _usuarioservice.ObtenerUsuariosRolesPermisos();
+        }
+
         [HttpGet("rol")]
         [AllowAnonymous]
-        public async Task<ActionResult<UsuarioDTOR>> ObtenerUsuarioDTO([FromQuery]string id)
+        public async Task<ActionResult<UsuarioDTO_UnwindRol>> ObtenerUsuarioRol([FromQuery]string id)
         {
-           return await _usuarioservice.ObtenerUsuarioRol(id);
+            return await _usuarioservice.ObtenerUsuarioRol(id);
         }
 
         [HttpGet("roles")]
         [AllowAnonymous]
-        public async Task<ActionResult<List<UsuarioDTOR>>> ObtenerUsuariosDTOs()
+        public async Task<ActionResult<List<UsuarioDTO_UnwindRol>>> ObtenerUsuariosRoles()
         {
             return await _usuarioservice.ObtenerUsuariosRoles();
         }

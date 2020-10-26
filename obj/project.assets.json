@@ -11,7 +11,54 @@
           "lib/netstandard2.1/DnsClient.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Authentication.JwtBearer/3.1.8": {
+      "Microsoft.AspNet.Cors/5.2.7": {
+        "type": "package",
+        "compile": {
+          "lib/net45/System.Web.Cors.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Cors.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.Client/5.2.7": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "10.0.1",
+          "Newtonsoft.Json.Bson": "1.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/System.Net.Http.Formatting.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Net.Http.Formatting.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.Core/5.2.7": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.Client": "5.2.7"
+        },
+        "compile": {
+          "lib/net45/System.Web.Http.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Http.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.Cors/5.2.7": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Cors": "5.2.7",
+          "Microsoft.AspNet.WebApi.Core": "[5.2.7, 5.3.0)"
+        },
+        "compile": {
+          "lib/net45/System.Web.Http.Cors.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Http.Cors.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.JwtBearer/3.1.9": {
         "type": "package",
         "dependencies": {
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "5.5.0"
@@ -145,7 +192,7 @@
           "ref/netstandard1.3/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "MongoDB.Bson/2.11.2": {
+      "MongoDB.Bson/2.11.3": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/MongoDB.Bson.dll": {}
@@ -154,11 +201,11 @@
           "lib/netstandard2.0/MongoDB.Bson.dll": {}
         }
       },
-      "MongoDB.Driver/2.11.2": {
+      "MongoDB.Driver/2.11.3": {
         "type": "package",
         "dependencies": {
-          "MongoDB.Bson": "2.11.2",
-          "MongoDB.Driver.Core": "2.11.2",
+          "MongoDB.Bson": "2.11.3",
+          "MongoDB.Driver.Core": "2.11.3",
           "MongoDB.Libmongocrypt": "1.0.0"
         },
         "compile": {
@@ -168,11 +215,11 @@
           "lib/netstandard2.0/MongoDB.Driver.dll": {}
         }
       },
-      "MongoDB.Driver.Core/2.11.2": {
+      "MongoDB.Driver.Core/2.11.3": {
         "type": "package",
         "dependencies": {
           "DnsClient": "1.3.1",
-          "MongoDB.Bson": "2.11.2",
+          "MongoDB.Bson": "2.11.3",
           "MongoDB.Libmongocrypt": "1.0.0",
           "SharpCompress": "0.23.0",
           "System.Buffers": "4.4.0"
@@ -287,6 +334,19 @@
         },
         "runtime": {
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Newtonsoft.Json.Bson/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "Newtonsoft.Json": "10.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/Newtonsoft.Json.Bson.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Newtonsoft.Json.Bson.dll": {}
         }
       },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
@@ -1632,10 +1692,66 @@
         "lib/netstandard2.1/DnsClient.xml"
       ]
     },
-    "Microsoft.AspNetCore.Authentication.JwtBearer/3.1.8": {
-      "sha512": "sAXFFgsSEYd6PTFCzBKYBlXnb+ncclrQPMyMzARELxBv94Onqtr/JTWKih+NUr/3xR5BAs1xE6boao0Us6xcPA==",
+    "Microsoft.AspNet.Cors/5.2.7": {
+      "sha512": "r7qTj8SKzHT32F2mbB3qgE+6VUd2xILkGaq4LtMW+KP3dDAQmI//j+8Ku01I3D1GKZvB9PU8HTJPkaw7sxSLtQ==",
       "type": "package",
-      "path": "microsoft.aspnetcore.authentication.jwtbearer/3.1.8",
+      "path": "microsoft.aspnet.cors/5.2.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/System.Web.Cors.dll",
+        "microsoft.aspnet.cors.5.2.7.nupkg.sha512",
+        "microsoft.aspnet.cors.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.WebApi.Client/5.2.7": {
+      "sha512": "/76fAHknzvFqbznS6Uj2sOyE9rJB3PltY+f53TH8dX9RiGhk02EhuFCWljSj5nnqKaTsmma8DFR50OGyQ4yJ1g==",
+      "type": "package",
+      "path": "microsoft.aspnet.webapi.client/5.2.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/System.Net.Http.Formatting.dll",
+        "lib/net45/System.Net.Http.Formatting.xml",
+        "lib/netstandard2.0/System.Net.Http.Formatting.dll",
+        "lib/netstandard2.0/System.Net.Http.Formatting.xml",
+        "lib/portable-wp8+netcore45+net45+wp81+wpa81/System.Net.Http.Formatting.dll",
+        "lib/portable-wp8+netcore45+net45+wp81+wpa81/System.Net.Http.Formatting.xml",
+        "microsoft.aspnet.webapi.client.5.2.7.nupkg.sha512",
+        "microsoft.aspnet.webapi.client.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.WebApi.Core/5.2.7": {
+      "sha512": "gM2QzApnHdy1FbKUJ/ROGJSm69P2G+HMoVd/t5Vq1O/zZ5TI4IKC9PX6nUfRt/NHgebZOIWHpB4/4K4inuy4yQ==",
+      "type": "package",
+      "path": "microsoft.aspnet.webapi.core/5.2.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/web.config.transform",
+        "lib/net45/System.Web.Http.dll",
+        "lib/net45/System.Web.Http.xml",
+        "microsoft.aspnet.webapi.core.5.2.7.nupkg.sha512",
+        "microsoft.aspnet.webapi.core.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.WebApi.Cors/5.2.7": {
+      "sha512": "LUY5ufoiYLHKZXdrrNe7GlAwmu9WlyrX5iUtBSLwFZ31/tvPobyU7j1E31OWVdGZMBvRCxKbfyB7unxgrjTRpA==",
+      "type": "package",
+      "path": "microsoft.aspnet.webapi.cors/5.2.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/System.Web.Http.Cors.dll",
+        "lib/net45/System.Web.Http.Cors.xml",
+        "microsoft.aspnet.webapi.cors.5.2.7.nupkg.sha512",
+        "microsoft.aspnet.webapi.cors.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Authentication.JwtBearer/3.1.9": {
+      "sha512": "6f61m1Rj5qne88CsfuyzRIE9dih7K0e3J3I3A4d9nyPcWhjz+0UUCYGocLHhYihVahxDIifK6Jn2m1LWD8/XEg==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/3.1.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1643,7 +1759,7 @@
         "THIRD-PARTY-NOTICES.TXT",
         "lib/netcoreapp3.1/Microsoft.AspNetCore.Authentication.JwtBearer.dll",
         "lib/netcoreapp3.1/Microsoft.AspNetCore.Authentication.JwtBearer.xml",
-        "microsoft.aspnetcore.authentication.jwtbearer.3.1.8.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.jwtbearer.3.1.9.nupkg.sha512",
         "microsoft.aspnetcore.authentication.jwtbearer.nuspec"
       ]
     },
@@ -1879,10 +1995,10 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "MongoDB.Bson/2.11.2": {
-      "sha512": "7vJoaUKPPnW6Ej0r4UHV8DeYD0/SKk/73WlDfc5JMRJRjTj3jRUtGIXwpaFYq3wT8MRHmLwbM/KvkEAb7deHRw==",
+    "MongoDB.Bson/2.11.3": {
+      "sha512": "pz8qtNVGLRRdDHmkRb5r/w4KYAnPClkGbQUPAuYudlMc2cd1HRIgIQMvY3lE5F0qFAhrceObbF57UHDwcSK5xg==",
       "type": "package",
-      "path": "mongodb.bson/2.11.2",
+      "path": "mongodb.bson/2.11.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1893,15 +2009,15 @@
         "lib/netstandard1.5/MongoDB.Bson.xml",
         "lib/netstandard2.0/MongoDB.Bson.dll",
         "lib/netstandard2.0/MongoDB.Bson.xml",
-        "mongodb.bson.2.11.2.nupkg.sha512",
+        "mongodb.bson.2.11.3.nupkg.sha512",
         "mongodb.bson.nuspec",
         "packageIcon.png"
       ]
     },
-    "MongoDB.Driver/2.11.2": {
-      "sha512": "4DT/VcE/6sw73tInWmQ1C92p1kHgKiuRx/DgYRtaUUILRaAdL8X1Gl3f8FXNMwH2rzH+KhOYCliYK7/+XWWZIw==",
+    "MongoDB.Driver/2.11.3": {
+      "sha512": "SqDCN7a8ejLB9q1lowxf6v6mD2Q/1ZSle4aEfrB0ITs0+GxjMe2zNPzxIGgsIaux1HuAwAOEP4le9SaicSj+5g==",
       "type": "package",
-      "path": "mongodb.driver/2.11.2",
+      "path": "mongodb.driver/2.11.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1912,15 +2028,15 @@
         "lib/netstandard1.5/MongoDB.Driver.xml",
         "lib/netstandard2.0/MongoDB.Driver.dll",
         "lib/netstandard2.0/MongoDB.Driver.xml",
-        "mongodb.driver.2.11.2.nupkg.sha512",
+        "mongodb.driver.2.11.3.nupkg.sha512",
         "mongodb.driver.nuspec",
         "packageIcon.png"
       ]
     },
-    "MongoDB.Driver.Core/2.11.2": {
-      "sha512": "e5/q9bqGEfGSsAq9Gn6+qWKEPs0s/U41tgfcWNtwAEpyg/btWO4RkeV0Jv8tG/KaXey1E151npmDPcwTrg7qjQ==",
+    "MongoDB.Driver.Core/2.11.3": {
+      "sha512": "BKX6HlO2RuNO3lX4jjwdHChmjisgjm9BsSPAiUXTEG6SSithL1IxuM+xqVRG8e/w7Z6YWZdU2ruTUZM4BVyN3A==",
       "type": "package",
-      "path": "mongodb.driver.core/2.11.2",
+      "path": "mongodb.driver.core/2.11.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1945,7 +2061,7 @@
         "lib/netstandard1.5/MongoDB.Driver.Core.xml",
         "lib/netstandard2.0/MongoDB.Driver.Core.dll",
         "lib/netstandard2.0/MongoDB.Driver.Core.xml",
-        "mongodb.driver.core.2.11.2.nupkg.sha512",
+        "mongodb.driver.core.2.11.3.nupkg.sha512",
         "mongodb.driver.core.nuspec",
         "packageIcon.png",
         "runtimes/win/native/libzstd.dll",
@@ -2009,6 +2125,21 @@
         "newtonsoft.json.10.0.2.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "tools/install.ps1"
+      ]
+    },
+    "Newtonsoft.Json.Bson/1.0.1": {
+      "sha512": "5PYT/IqQ+UK31AmZiSS102R6EsTo+LGTSI8bp7WAUqDKaF4wHXD8U9u4WxTI1vc64tYi++8p3dk3WWNqPFgldw==",
+      "type": "package",
+      "path": "newtonsoft.json.bson/1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Newtonsoft.Json.Bson.dll",
+        "lib/net45/Newtonsoft.Json.Bson.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.Bson.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.Bson.xml",
+        "newtonsoft.json.bson.1.0.1.nupkg.sha512",
+        "newtonsoft.json.bson.nuspec"
       ]
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
@@ -5734,8 +5865,9 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "Microsoft.AspNetCore.Authentication.JwtBearer >= 3.1.8",
-      "MongoDB.Driver >= 2.11.2",
+      "Microsoft.AspNet.WebApi.Cors >= 5.2.7",
+      "Microsoft.AspNetCore.Authentication.JwtBearer >= 3.1.9",
+      "MongoDB.Driver >= 2.11.3",
       "WindowsAzure.Storage >= 9.3.3"
     ]
   },
@@ -5780,13 +5912,17 @@
     "frameworks": {
       "netcoreapp3.1": {
         "dependencies": {
+          "Microsoft.AspNet.WebApi.Cors": {
+            "target": "Package",
+            "version": "[5.2.7, )"
+          },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
-            "version": "[3.1.8, )"
+            "version": "[3.1.9, )"
           },
           "MongoDB.Driver": {
             "target": "Package",
-            "version": "[2.11.2, )"
+            "version": "[2.11.3, )"
           },
           "WindowsAzure.Storage": {
             "target": "Package",
@@ -5814,5 +5950,37 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"Microsoft.AspNet.Cors 5.2.7\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\" en lugar de la plataforma de destino del proyecto \".NETCoreApp,Version=v3.1\". Puede que el paquete no sea totalmente compatible con el proyecto.",
+      "libraryId": "Microsoft.AspNet.Cors",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"Microsoft.AspNet.WebApi.Core 5.2.7\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\" en lugar de la plataforma de destino del proyecto \".NETCoreApp,Version=v3.1\". Puede que el paquete no sea totalmente compatible con el proyecto.",
+      "libraryId": "Microsoft.AspNet.WebApi.Core",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"Microsoft.AspNet.WebApi.Cors 5.2.7\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\" en lugar de la plataforma de destino del proyecto \".NETCoreApp,Version=v3.1\". Puede que el paquete no sea totalmente compatible con el proyecto.",
+      "libraryId": "Microsoft.AspNet.WebApi.Cors",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

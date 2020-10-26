@@ -41,13 +41,17 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Microsoft.AspNet.WebApi.Cors": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[3.1.8, )"
+              "version": "[3.1.9, )"
             },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[2.11.2, )"
+              "version": "[2.11.3, )"
             },
             "WindowsAzure.Storage": {
               "target": "Package",
