@@ -54,6 +54,7 @@ namespace SISDOMI.DTOs
 
     public class UsuarioDTOR
     {
+        
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
         public string usuario { get; set; }

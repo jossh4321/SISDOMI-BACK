@@ -12,11 +12,13 @@ namespace SISDOMI.Services
     public class UsuarioService
     {
         private readonly IMongoCollection<Usuario> _usuarios;
+        private readonly IMongoCollection<Rol> _roles;
         public UsuarioService(ISysdomiDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _usuarios = database.GetCollection<Usuario>("usuarios");
+            _roles = database.GetCollection<Rol>("roles");
         }
 
         public List<Usuario> GetAll()
@@ -65,6 +67,20 @@ namespace SISDOMI.Services
             });
             return usuario;
         }
+
+        public Usuario ModifyState(string id, string nuevoestado)
+        {
+            Usuario usuario = new Usuario();
+            var filter = Builders<Usuario>.Filter.Eq("id", id);
+            var update = Builders<Usuario>.Update
+                .Set("estado", nuevoestado);
+            usuario = _usuarios.FindOneAndUpdate<Usuario>(filter, update, new FindOneAndUpdateOptions<Usuario>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
+            return usuario;
+        }
+
         public async Task<UsuarioDTO_UnwindRol> ObtenerUsuarioRol(string id)
         {
             var match = new BsonDocument("$match",
@@ -232,7 +248,7 @@ namespace SISDOMI.Services
                             { "rol",
                     new BsonDocument
                             {
-                                { "id", "$rol.id" },
+                                { "_id", "$rol.id" },
                                 { "descripcion", "$rol.descripcion" },
                                 { "area", "$rol.area" },
                                 { "permisos","$permisos" }
@@ -336,7 +352,8 @@ namespace SISDOMI.Services
                             { "rol",
                     new BsonDocument
                             {
-                                { "id", "$rol.id" },
+                                { "_id", "$rol._id" },
+                                { "nombre","$rol.nombre"},
                                 { "descripcion", "$rol.descripcion" },
                                 { "area", "$rol.area" },
                                 { "permisos","$permisos" }
@@ -358,6 +375,10 @@ namespace SISDOMI.Services
                 .SingleOrDefaultAsync();
             return usuario;
 
+        }
+        public async Task<List<Rol>> obtenerRolesSistema()
+        {
+            return await _roles.Find(x => true).ToListAsync();
         }
 
         public async Task DeleteUser(string id)
