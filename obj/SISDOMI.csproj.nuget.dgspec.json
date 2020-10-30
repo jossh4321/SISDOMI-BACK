@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj": {}
+    "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj": {
+    "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
+        "projectUniqueName": "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
         "projectName": "SISDOMI",
-        "projectPath": "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
-        "packagesPath": "C:\\Users\\V330\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\obj\\",
+        "projectPath": "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
+        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\V330\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -73,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
