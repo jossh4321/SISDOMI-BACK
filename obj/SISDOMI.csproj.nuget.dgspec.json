@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj": {}
+    "C:\\Universidad\\8\\SISDOMI-BACK\\SISDOMI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj": {
+    "C:\\Universidad\\8\\SISDOMI-BACK\\SISDOMI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
+        "projectUniqueName": "C:\\Universidad\\8\\SISDOMI-BACK\\SISDOMI.csproj",
         "projectName": "SISDOMI",
-        "projectPath": "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
+        "projectPath": "C:\\Universidad\\8\\SISDOMI-BACK\\SISDOMI.csproj",
         "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\obj\\",
+        "outputPath": "C:\\Universidad\\8\\SISDOMI-BACK\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -65,6 +65,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.2, 3.1.2]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -73,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
         }
       }
     }
