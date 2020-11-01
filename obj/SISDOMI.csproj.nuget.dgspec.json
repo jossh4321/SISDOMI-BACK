@@ -1,18 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj": {}
+    "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\SISDOMI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj": {
+    "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\SISDOMI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
+        "projectUniqueName": "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\SISDOMI.csproj",
         "projectName": "SISDOMI",
-        "projectPath": "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
+        "projectPath": "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\SISDOMI.csproj",
         "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Usuario\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\obj\\",
+        "outputPath": "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
           "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -50,6 +53,10 @@
               "target": "Package",
               "version": "[2.11.3, )"
             },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[5.6.3, )"
+            },
             "WindowsAzure.Storage": {
               "target": "Package",
               "version": "[9.3.3, )"
@@ -73,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

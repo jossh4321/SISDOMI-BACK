@@ -15,6 +15,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SISDOMI.Helpers;
 using SISDOMI.Services;
+using Microsoft.OpenApi.Models;
 
 namespace SISDOMI
 {
@@ -69,6 +70,26 @@ namespace SISDOMI
                   ClockSkew = TimeSpan.Zero
               });
 
+            // Se encarga de registrar el generador del swagger
+            services.AddSwaggerGen(g =>
+            {
+                g.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "versión 1.0",
+                    Title = "SISCAR API",
+                    Description = "Aplicación que contiene la descripción y uso de las APIS del SISCAR"
+                });
+
+                g.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Autorización para la entradas a las apis que generan la cabecera",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +104,14 @@ namespace SISDOMI
 
             app.UseCors(PolizaCORSSISCAR);
 
+            //Habilita el uso del swagger
+            app.UseSwagger();
+
+            //Habilita el uso de la interfaz del swagger
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "SISCAR API V1.0");
+            });
 
 
             app.UseAuthentication();
