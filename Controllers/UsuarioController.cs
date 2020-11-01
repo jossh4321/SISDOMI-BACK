@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 
 namespace SISDOMI.Controllers
 {
@@ -25,13 +26,13 @@ namespace SISDOMI.Controllers
         }
 
         [HttpGet("all")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<List<Usuario>> GetAll()
         {
             return _usuarioservice.GetAll();
         }
 
-        [HttpGet("byid")]
+        [HttpGet("id")]
         public ActionResult<Usuario> Get([FromQuery] string id)
         {
             return _usuarioservice.GetById(id);
@@ -50,17 +51,23 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("")]
-        public async Task<ActionResult<Usuario>> ModificarUsuario(Usuario usuario)
+        public async Task<ActionResult<Usuario>> ModificarUsuario([FromQuery] string tipo, [FromQuery] string modificado, Usuario usuario)
         {
             Usuario usuariobd = new Usuario();
             usuariobd = _usuarioservice.GetById(usuario.id);
 
-            if (!string.IsNullOrWhiteSpace(usuario.datos.imagen))
+            if (!string.IsNullOrWhiteSpace(usuario.datos.imagen) && tipo != "url")
             {
                 var profileimg = Convert.FromBase64String(usuario.datos.imagen);
                 usuario.datos.imagen = await _fileStorage.EditFile(profileimg, "jpg", "usuarios",usuariobd.datos.imagen);
             }
             Usuario objetousuario = _usuarioservice.ModifyUser(usuario);
+            return objetousuario;
+        }
+        [HttpPut("estado")]
+        public ActionResult<Usuario> ModificarEstadoUsuario([FromQuery] string id,[FromQuery] string nuevoestado)
+        {
+            Usuario objetousuario =  _usuarioservice.ModifyState(id, nuevoestado);
             return objetousuario;
         }
 
@@ -72,18 +79,39 @@ namespace SISDOMI.Controllers
         }
 
 
+        [HttpGet("rol/permiso")]
+        [AllowAnonymous]
+        public async Task<ActionResult<UsuarioDTOR>> ObtenerUsuarioRolPermiso([FromQuery]string id)
+        {
+           return await _usuarioservice.ObtenerUsuarioRolPermiso(id);
+        }
+
+        [HttpGet("roles/permisos")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<UsuarioDTOR>>> ObtenerUsuariosRolesPermisos()
+        {
+            return await _usuarioservice.ObtenerUsuariosRolesPermisos();
+        }
+
         [HttpGet("rol")]
         [AllowAnonymous]
-        public async Task<ActionResult<UsuarioDTOR>> ObtenerUsuarioDTO([FromQuery]string id)
+        public async Task<ActionResult<UsuarioDTO_UnwindRol>> ObtenerUsuarioRol([FromQuery]string id)
         {
-           return await _usuarioservice.ObtenerUsuarioRol(id);
+            return await _usuarioservice.ObtenerUsuarioRol(id);
         }
 
         [HttpGet("roles")]
         [AllowAnonymous]
-        public async Task<ActionResult<List<UsuarioDTOR>>> ObtenerUsuariosDTOs()
+        public async Task<ActionResult<List<UsuarioDTO_UnwindRol>>> ObtenerUsuariosRoles()
         {
             return await _usuarioservice.ObtenerUsuariosRoles();
+        }
+
+        [HttpGet("sistema/rol")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<Rol>>> ObtenerRolesSistema()
+        {
+            return await _usuarioservice.obtenerRolesSistema();
         }
 
     }

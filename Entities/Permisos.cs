@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace SISDOMI.Entities
 {
-    public class Rol
+    public class Permisos
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
+
         [BsonElement("nombre")]
         public string nombre { get; set; }
-        [BsonElement("descripcion")]
-        public string descripcion { get; set; }
-        [BsonElement("area")]
-        public string area { get; set; }
-        [BsonElement("permisos")]
-        public List<string> permisos { get; set; }
+
+        [BsonElement("label")]
+        public string label { get; set; }
+
+        [BsonElement("url")]
+        public string url { get; set; }
+
     }
 }

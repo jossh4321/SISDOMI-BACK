@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj": {}
+    "C:\\Universidad\\8\\SISDOMI-BACK\\SISDOMI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj": {
+    "C:\\Universidad\\8\\SISDOMI-BACK\\SISDOMI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
+        "projectUniqueName": "C:\\Universidad\\8\\SISDOMI-BACK\\SISDOMI.csproj",
         "projectName": "SISDOMI",
-        "projectPath": "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
-        "packagesPath": "C:\\Users\\V330\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\V330\\Source\\Repos\\jossh4321\\SISDOMI-BACK\\obj\\",
+        "projectPath": "C:\\Universidad\\8\\SISDOMI-BACK\\SISDOMI.csproj",
+        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+        "outputPath": "C:\\Universidad\\8\\SISDOMI-BACK\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\V330\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -38,13 +38,17 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Microsoft.AspNet.WebApi.Cors": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[3.1.8, )"
+              "version": "[3.1.9, )"
             },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[2.11.2, )"
+              "version": "[2.11.3, )"
             },
             "WindowsAzure.Storage": {
               "target": "Package",
@@ -61,6 +65,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.2, 3.1.2]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -69,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

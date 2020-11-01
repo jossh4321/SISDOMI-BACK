@@ -21,8 +21,10 @@ namespace SISDOMI
     public class Startup
     {
         private readonly IConfiguration Configuration;
+        readonly string PolizaCORSSISCAR = "_polizaCORSSISCAR";
         public Startup(IConfiguration configuration)
         {
+
             Configuration = configuration;
         }
 
@@ -31,9 +33,21 @@ namespace SISDOMI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: PolizaCORSSISCAR,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:8080")
+                                                .AllowAnyMethod()
+                                                .AllowAnyHeader();
+                                  });
+            });
             services.AddControllers();
             services.Configure<SysdomiDatabaseSettings>(
                 Configuration.GetSection(nameof(SysdomiDatabaseSettings)));
+            services.AddCors();
             services.AddSingleton<ISysdomiDatabaseSettings>(sp =>
                sp.GetRequiredService<IOptions<SysdomiDatabaseSettings>>().Value);
             services.AddScoped<UsuarioService>();
@@ -54,6 +68,7 @@ namespace SISDOMI
                  Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
                   ClockSkew = TimeSpan.Zero
               });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +80,11 @@ namespace SISDOMI
             }
 
             app.UseRouting();
+
+            app.UseCors(PolizaCORSSISCAR);
+
+
+
             app.UseAuthentication();
             app.UseAuthorization();
 
