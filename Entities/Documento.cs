@@ -12,7 +12,8 @@ namespace SISDOMI.Entities
     [BsonKnownTypes(
        typeof(InformeEducativoInicial),
        typeof(InformeEducativoEvolutivo),
-       typeof(InformeSocialInicial))]
+       typeof(InformeSocialInicial),
+       typeof(InformeSocialEvolutivo))]
     public class Documento
     {
         [BsonId]
@@ -62,8 +63,14 @@ namespace SISDOMI.Entities
     public class ContenidoInformeSocialInicial
     {
         public string antecedentes { get; set; }
+        public List<Familiar> familiares { get; set; }
+        public string situacionfamiliar { get; set; }
+        public string situacionvivienda { get; set; }
+        public string situacioneconomica { get; set; }
+        public string situacionsalud { get; set; }
+        public string educacion { get; set; }
         public string situacionactual { get; set; }
-        public string logroalcanzado { get; set; }
+        public string diagnosticosocial { get; set; }
         public string recomendaciones { get; set; }
         public List<string> anexos { get; set; }
         public List<Firma> firmas { get; set; }
@@ -71,6 +78,19 @@ namespace SISDOMI.Entities
     public class InformeSocialInicial : Documento
     {
         public ContenidoInformeSocialInicial contenido { get; set; } = new ContenidoInformeSocialInicial();
+    }
+    public class ContenidoInformeSocialEvolutivo
+    {
+        public string antecedentes { get; set; }
+        public string situacionactual { get; set; }
+        public string diagnosticosocial { get; set; }
+        public string recomendaciones { get; set; }
+        public List<string> anexos { get; set; }
+        public List<Firma> firmas { get; set; }
+    }
+    public class InformeSocialEvolutivo : Documento
+    {
+        public ContenidoInformeSocialEvolutivo contenido { get; set; } = new ContenidoInformeSocialEvolutivo();
     }
 
 }
