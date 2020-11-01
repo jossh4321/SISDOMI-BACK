@@ -25,5 +25,11 @@ namespace SISDOMI.Controllers
         {
             return _planIntervencionService.GetAll();
         }
+        [HttpPut("")]
+        public ActionResult<PlanIntervencionIndividual> ModificarPlanIntervencion(PlanIntervencionIndividual planIntervencion)
+        {
+            PlanIntervencionIndividual objetoplan = _planIntervencionService.ModifyIndividualInterventionPlan(planIntervencion);
+            return objetoplan;
+        }
     }
 }
