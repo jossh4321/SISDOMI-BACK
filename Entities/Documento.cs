@@ -12,7 +12,8 @@ namespace SISDOMI.Entities
     [BsonKnownTypes(
        typeof(InformeEducativoInicial),
        typeof(InformeEducativoEvolutivo),
-       typeof(InformeSocialInicial))]
+       typeof(InformeSocialInicial),
+       typeof(PlanIntervencionIndividual))]
     public class Documento
     {
         [BsonId]
@@ -71,6 +72,25 @@ namespace SISDOMI.Entities
     public class InformeSocialInicial : Documento
     {
         public ContenidoInformeSocialInicial contenido { get; set; } = new ContenidoInformeSocialInicial();
+    }
+
+    public class ContenidoPlanIntervencionIndividual
+    {
+        public String car { get; set; }
+        public String trimestre { get; set; }
+        public String objetivogeneral { get; set; }
+        public List<String> objetivosespecificos { get; set; }
+        public List<String> aspectosintervencion { get; set; }
+        public List<String> estrategias { get; set; }
+        public List<String> indicadores { get; set; }
+        public List<String> metas { get; set; }
+        public List<Firma> firmas { get; set; }
+        public String titulo { get; set; }
+    }
+
+    public class PlanIntervencionIndividual : Documento
+    {
+        public ContenidoPlanIntervencionIndividual contenido { get; set; } = new ContenidoPlanIntervencionIndividual();
     }
 
 }
