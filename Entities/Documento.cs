@@ -13,6 +13,8 @@ namespace SISDOMI.Entities
        typeof(InformeEducativoInicial),
        typeof(InformeEducativoEvolutivo),
        typeof(InformeSocialInicial),
+       typeof(InformeSocialEvolutivo),
+       typeof(InformePsicologicoEvolutivo),
        typeof(PlanIntervencionIndividual))]
     public class Documento
     {
@@ -37,8 +39,8 @@ namespace SISDOMI.Entities
         public string situacionacademica { get; set; }
         public string analisisacademico { get; set; }
         public List<string> conclusiones { get; set; }
-        public List<string> anexos  { get; set; }
-        public List<Firma> firmas { get; set; }        
+        public List<string> anexos { get; set; }
+        public List<Firma> firmas { get; set; }
     }
 
     public class InformeEducativoInicial : Documento
@@ -63,8 +65,14 @@ namespace SISDOMI.Entities
     public class ContenidoInformeSocialInicial
     {
         public string antecedentes { get; set; }
+        public List<Familiar> familiares { get; set; }
+        public string situacionfamiliar { get; set; }
+        public string situacionvivienda { get; set; }
+        public string situacioneconomica { get; set; }
+        public string situacionsalud { get; set; }
+        public string educacion { get; set; }
         public string situacionactual { get; set; }
-        public string logroalcanzado { get; set; }
+        public string diagnosticosocial { get; set; }
         public string recomendaciones { get; set; }
         public List<string> anexos { get; set; }
         public List<Firma> firmas { get; set; }
@@ -72,6 +80,34 @@ namespace SISDOMI.Entities
     public class InformeSocialInicial : Documento
     {
         public ContenidoInformeSocialInicial contenido { get; set; } = new ContenidoInformeSocialInicial();
+    }
+    public class ContenidoInformeSocialEvolutivo
+    {
+        public string antecedentes { get; set; }
+        public string situacionactual { get; set; }
+        public string diagnosticosocial { get; set; }
+        public string recomendaciones { get; set; }
+        public List<string> anexos { get; set; }
+        public List<Firma> firmas { get; set; }
+    }
+    public class InformeSocialEvolutivo : Documento
+    {
+        public ContenidoInformeSocialEvolutivo contenido { get; set; } = new ContenidoInformeSocialEvolutivo();
+    }
+    public class ContenidoInformePsicologicoEvolutivo
+    {
+        public string motivoingreso { get; set; }
+        public string observacionesgenerales { get; set; }
+        public List<string> pruebasaplicadas { get; set; }
+        public string interpretacionresultados { get; set; }
+        public List<string> conclusiones { get; set; }
+        public string diagnostico { get; set; }
+        public List<string> recomendaciones { get; set; }
+        public List<Firma> firmas { get; set; }
+    }
+    public class InformePsicologicoEvolutivo : Documento
+    {
+        public ContenidoInformePsicologicoEvolutivo contenido { get; set; } = new ContenidoInformePsicologicoEvolutivo();
     }
 
     public class ContenidoPlanIntervencionIndividual
