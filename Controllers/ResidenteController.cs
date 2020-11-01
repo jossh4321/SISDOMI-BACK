@@ -1,47 +1,60 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SISDOMI.DTOs;
+using SISDOMI.Entities;
+using SISDOMI.Helpers;
+using SISDOMI.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using System.Web.Http.Cors;
 
 
 namespace SISDOMI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    
+
     public class ResidenteController : ControllerBase
     {
-        // GET: api/<ResidenteController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly ResidenteService _residenteservice;
+
+        public ResidenteController(ResidenteService residenteservice)
         {
-            return new string[] { "value1", "value2" };
+
+            _residenteservice = residenteservice;
         }
 
-        // GET api/<ResidenteController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("all")]
+        public ActionResult<List<Residentes>> GetAll()
         {
-            return "value";
+            return _residenteservice.GetAll();
         }
 
-        // POST api/<ResidenteController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+
+        [HttpGet("id")]
+        public ActionResult<Residentes> Get([FromQuery] string id)
         {
+            return _residenteservice.GetById(id);
         }
 
-        // PUT api/<ResidenteController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+
+        [HttpPost("")]
+        public ActionResult<Residentes> CrearResidente(Residentes residente)
         {
+            Residentes objetoresidente = _residenteservice.CreateUser(residente);
+            return objetoresidente;
         }
 
-        // DELETE api/<ResidenteController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPut("")]
+        public ActionResult<Residentes> ModificarResidente(Residentes residente)
         {
+            Residentes objetoresidente = _residenteservice.ModifyUser(residente);
+            return objetoresidente;
         }
+
+
     }
 }
