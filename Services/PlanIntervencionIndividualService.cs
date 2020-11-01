@@ -22,7 +22,11 @@ namespace SISDOMI.Services
         //Sebastian
         public List<PlanIntervencionIndividual> GetAll()
         {
-            return new List<PlanIntervencionIndividual>();
+            List<PlanIntervencionIndividual> listPlanIntervencionIndividuals = new List<PlanIntervencionIndividual>();
+
+            listPlanIntervencionIndividuals =_documentos.AsQueryable().OfType<PlanIntervencionIndividual>().ToList();
+
+            return listPlanIntervencionIndividuals;
         }
 
         //Jaime
