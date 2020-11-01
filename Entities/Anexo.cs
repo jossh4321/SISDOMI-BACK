@@ -10,6 +10,7 @@ namespace SISDOMI.Entities
     //Comentario para probar    
     //Comentario para probar  x2
     //Comentario para probar x3
+	//Comentario solo en la rama de desarrollo
     public class Anexo
     {
         [BsonId]
