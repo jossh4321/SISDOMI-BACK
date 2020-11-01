@@ -1,18 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Universidad\\8\\SISDOMI-BACK\\SISDOMI.csproj": {}
+    "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\SISDOMI.csproj": {}
   },
   "projects": {
-    "C:\\Universidad\\8\\SISDOMI-BACK\\SISDOMI.csproj": {
+    "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\SISDOMI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Universidad\\8\\SISDOMI-BACK\\SISDOMI.csproj",
+        "projectUniqueName": "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\SISDOMI.csproj",
         "projectName": "SISDOMI",
-        "projectPath": "C:\\Universidad\\8\\SISDOMI-BACK\\SISDOMI.csproj",
+        "projectPath": "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\SISDOMI.csproj",
         "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\Universidad\\8\\SISDOMI-BACK\\obj\\",
+        "outputPath": "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
           "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -65,12 +68,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[3.1.2, 3.1.2]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
