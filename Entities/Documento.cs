@@ -13,7 +13,7 @@ namespace SISDOMI.Entities
        typeof(InformeEducativoInicial),
        typeof(InformeEducativoEvolutivo),
        typeof(InformeSocialInicial),
-       typeof(InformeSocialEvolutivo))]
+       typeof(PlanIntervencionIndividual))]
     public class Documento
     {
         [BsonId]
@@ -63,14 +63,8 @@ namespace SISDOMI.Entities
     public class ContenidoInformeSocialInicial
     {
         public string antecedentes { get; set; }
-        public List<Familiar> familiares { get; set; }
-        public string situacionfamiliar { get; set; }
-        public string situacionvivienda { get; set; }
-        public string situacioneconomica { get; set; }
-        public string situacionsalud { get; set; }
-        public string educacion { get; set; }
         public string situacionactual { get; set; }
-        public string diagnosticosocial { get; set; }
+        public string logroalcanzado { get; set; }
         public string recomendaciones { get; set; }
         public List<string> anexos { get; set; }
         public List<Firma> firmas { get; set; }
@@ -79,18 +73,24 @@ namespace SISDOMI.Entities
     {
         public ContenidoInformeSocialInicial contenido { get; set; } = new ContenidoInformeSocialInicial();
     }
-    public class ContenidoInformeSocialEvolutivo
+
+    public class ContenidoPlanIntervencionIndividual
     {
-        public string antecedentes { get; set; }
-        public string situacionactual { get; set; }
-        public string diagnosticosocial { get; set; }
-        public string recomendaciones { get; set; }
-        public List<string> anexos { get; set; }
+        public String car { get; set; }
+        public String trimestre { get; set; }
+        public String objetivogeneral { get; set; }
+        public List<String> objetivosespecificos { get; set; }
+        public List<String> aspectosintervencion { get; set; }
+        public List<String> estrategias { get; set; }
+        public List<String> indicadores { get; set; }
+        public List<String> metas { get; set; }
         public List<Firma> firmas { get; set; }
+        public String titulo { get; set; }
     }
-    public class InformeSocialEvolutivo : Documento
+
+    public class PlanIntervencionIndividual : Documento
     {
-        public ContenidoInformeSocialEvolutivo contenido { get; set; } = new ContenidoInformeSocialEvolutivo();
+        public ContenidoPlanIntervencionIndividual contenido { get; set; } = new ContenidoPlanIntervencionIndividual();
     }
 
 }
