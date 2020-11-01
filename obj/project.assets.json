@@ -6054,24 +6054,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Usuario\\.nuget\\packages\\": {},
+    "C:\\Users\\acholado.LOLIMSA\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\SISDOMI.csproj",
+      "projectUniqueName": "C:\\Users\\acholado.LOLIMSA\\Desktop\\TP\\SISDOMI-BACK\\SISDOMI.csproj",
       "projectName": "SISDOMI",
-      "projectPath": "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\SISDOMI.csproj",
-      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\obj\\",
+      "projectPath": "C:\\Users\\acholado.LOLIMSA\\Desktop\\TP\\SISDOMI-BACK\\SISDOMI.csproj",
+      "packagesPath": "C:\\Users\\acholado.LOLIMSA\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\acholado.LOLIMSA\\Desktop\\TP\\SISDOMI-BACK\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\acholado.LOLIMSA\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"

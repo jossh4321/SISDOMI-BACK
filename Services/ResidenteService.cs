@@ -10,13 +10,13 @@ namespace SISDOMI.Services
     public class ResidenteService
     {
         private readonly IMongoCollection<Residentes> _residente;
-        
-        public  ResidenteService(ISysdomiDatabaseSettings settings)
+
+        public ResidenteService(ISysdomiDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _residente = database.GetCollection<Residentes>("residentes");
-            
+
         }
         public List<Residentes> GetAll()
         {
@@ -42,19 +42,19 @@ namespace SISDOMI.Services
             var filter = Builders<Residentes>.Filter.Eq("id", residente.id);
             var update = Builders<Residentes>.Update
                 .Set("nombre", residente.nombre)
-                .Set("apellido",residente.apellido)
+                .Set("apellido", residente.apellido)
                 .Set("tipodocumento", residente.tipodocumento)
                 .Set("numerodocumento", residente.numerodocumento)
-                .Set("lugarnacimiento",residente.lugarnacimiento)
-                .Set("ubigeo",residente.ubigeo)
-                .Set("juzgadoprocedencia",residente.juzgadoprocedencia)
-                .Set("fechanacimiento",residente.fechanacimiento)
-                .Set("sexo",residente.sexo)
-                /////////////////////////
-                .Set("fechaingreso",residente.fechaingreso)
-                .Set("motivoingreso",residente.motivoingreso)
-                ////////////////////////
-                .Set("estado",residente.estado);
+                .Set("lugarnacimiento", residente.lugarnacimiento)
+                .Set("ubigeo", residente.ubigeo)
+                .Set("juzgadoprocedencia", residente.juzgadoprocedencia)
+                .Set("fechanacimiento", residente.fechanacimiento)
+                .Set("sexo", residente.sexo)
+                .Set("telefonosreferencias", residente.telefonosreferencia)
+                .Set("fechaingreso", residente.fechaingreso)
+                .Set("motivoingreso", residente.motivoingreso)
+                .Set("progreso", residente.progreso)
+                .Set("estado", residente.estado);
             residente = _residente.FindOneAndUpdate<Residentes>(filter, update, new FindOneAndUpdateOptions<Residentes>
             {
                 ReturnDocument = ReturnDocument.After
