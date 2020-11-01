@@ -6054,19 +6054,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\V330\\.nuget\\packages\\": {}
+    "C:\\Users\\Usuario\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\V330\\source\\repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
+      "projectUniqueName": "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\SISDOMI.csproj",
       "projectName": "SISDOMI",
-      "projectPath": "C:\\Users\\V330\\source\\repos\\jossh4321\\SISDOMI-BACK\\SISDOMI.csproj",
-      "packagesPath": "C:\\Users\\V330\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\V330\\source\\repos\\jossh4321\\SISDOMI-BACK\\obj\\",
+      "projectPath": "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\SISDOMI.csproj",
+      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+      "outputPath": "D:\\8vo Ciclo\\TP4\\SISCAR REPOSITORIOS\\SICAR BACK 1.0\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\V330\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6129,7 +6133,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
       }
     }
   },
