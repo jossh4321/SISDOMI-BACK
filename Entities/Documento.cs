@@ -78,8 +78,9 @@ namespace SISDOMI.Entities
     {
         public String car { get; set; }
         public String trimestre { get; set; }
+        public String edad { get; set; }
         public String objetivogeneral { get; set; }
-        public List<String> objetivosespecificos { get; set; }
+        public List<String> objetivoespecificos { get; set; }
         public List<String> aspectosintervencion { get; set; }
         public List<String> estrategias { get; set; }
         public List<String> indicadores { get; set; }
