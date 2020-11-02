@@ -30,7 +30,7 @@ namespace SISDOMI.Entities
         public DateTime fechanacimiento { get; set; }
         [BsonElement("sexo")]
         public string sexo { get; set; }
-        [BsonElement("telefonosreferencia")]
+        [BsonElement("telefonosreferencias")]
         public List<Telefono>telefonosreferencia { get; set; }
         [BsonElement("fechaingreso")]
         public DateTime fechaingreso { get; set; }
