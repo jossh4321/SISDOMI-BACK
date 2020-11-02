@@ -53,6 +53,7 @@ namespace SISDOMI
                sp.GetRequiredService<IOptions<SysdomiDatabaseSettings>>().Value);
             services.AddScoped<UsuarioService>();
             services.AddScoped<PlanIntervencionIndividualService>();
+            services.AddScoped<InformeService>();
             services.AddScoped<IFileStorage, AzureFileStorage>();
             //need default token provider
             services.AddAuthentication(JwtBearerDefaults
