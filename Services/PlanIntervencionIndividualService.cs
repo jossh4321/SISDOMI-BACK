@@ -36,9 +36,11 @@ namespace SISDOMI.Services
         }
 
         //Sebastian
-        public PlanIntervencionIndividual CreaterIndividualInterventionPlan(PlanIntervencionIndividual planIntervencionIndividual)
+        public async Task<PlanIntervencionIndividual> CreateIndividualInterventionPlan(PlanIntervencionIndividual planIntervencionIndividual)
         {
-            return new PlanIntervencionIndividual();
+            await _documentos.InsertOneAsync(planIntervencionIndividual);
+
+            return planIntervencionIndividual;
         }
 
         //Fede

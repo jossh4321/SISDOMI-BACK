@@ -26,6 +26,13 @@ namespace SISDOMI.Controllers
             return _planIntervencionService.GetAll();
         }
 
+        [HttpPost("")]
+        public async Task<ActionResult<PlanIntervencionIndividual>> CreateIndividualInterventionPlan(PlanIntervencionIndividual planIntervencionIndividual)
+        {
+            return await _planIntervencionService.CreateIndividualInterventionPlan(planIntervencionIndividual);
+        }
+
+
         [HttpPut("")]
         public ActionResult<PlanIntervencionIndividual> ModificarPlanIntervencion(PlanIntervencionIndividual planIntervencion)
         {
