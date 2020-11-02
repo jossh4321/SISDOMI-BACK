@@ -33,6 +33,7 @@ namespace SISDOMI.Controllers
             return await _informeService.GetById(id);
         }
 
+        //POST
         [HttpPost("informeei")]
         public async Task<ActionResult<InformeEducativoInicial>> CrearInformeEI(InformeEducativoInicial informe)
         {
@@ -60,5 +61,31 @@ namespace SISDOMI.Controllers
             return await _informeService.RegistrarInformePE(informe);
         }
 
+        //PUT
+        [HttpPut("informeei")]
+        public ActionResult<InformeEducativoInicial> ModificarInformeEI(InformeEducativoInicial informe)
+        {
+            return _informeService.ModificarInformeEI(informe);
+        }
+        [HttpPut("informeee")]
+        public ActionResult<InformeEducativoEvolutivo> ModificarInformeEE(InformeEducativoEvolutivo informe)
+        {
+            return _informeService.ModificarInformeEE(informe);
+        }
+        [HttpPut("informesi")]
+        public ActionResult<InformeSocialInicial> ModificarInformeSI(InformeSocialInicial informe)
+        {
+            return _informeService.ModificarInformeSI(informe);
+        }
+        [HttpPut("informese")]
+        public ActionResult<InformeSocialEvolutivo> ModificarInformeSE(InformeSocialEvolutivo informe)
+        {
+            return _informeService.ModificarInformeSE(informe);
+        }
+        [HttpPut("informepe")]
+        public ActionResult<InformePsicologicoEvolutivo> ModificarInformePE(InformePsicologicoEvolutivo informe)
+        {
+            return _informeService.ModificarInformePE(informe);
+        }
     }
 }

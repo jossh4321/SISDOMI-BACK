@@ -164,5 +164,77 @@ namespace SISDOMI.Services
             _expedientes.FindOneAndUpdate(x => x.idresidente == informe.contenido.idresidente, updateExpediente);
             return informe;
         }
+
+        //Modificar Informes
+        public InformeEducativoInicial ModificarInformeEI(InformeEducativoInicial informe)
+        {
+            var filter = Builders<Documento>.Filter.Eq("id", informe.id);
+            var update = Builders<Documento>.Update
+                .Set("historialcontenido", informe.historialcontenido)
+                .Set("creadordocumento", informe.creadordocumento)
+                .Set("fechacreacion", informe.fechacreacion)
+                .Set("area", informe.area)
+                .Set("fase", informe.fase)
+                .Set("contenido", informe.contenido);
+
+            _documentos.UpdateOne(filter, update);
+            return informe;
+        }
+        public InformeEducativoEvolutivo ModificarInformeEE(InformeEducativoEvolutivo informe)
+        {
+            var filter = Builders<Documento>.Filter.Eq("id", informe.id);
+            var update = Builders<Documento>.Update
+                .Set("historialcontenido", informe.historialcontenido)
+                .Set("creadordocumento", informe.creadordocumento)
+                .Set("fechacreacion", informe.fechacreacion)
+                .Set("area", informe.area)
+                .Set("fase", informe.fase)
+                .Set("contenido", informe.contenido);
+
+            _documentos.UpdateOne(filter, update);
+            return informe;
+        }
+        public InformeSocialInicial ModificarInformeSI(InformeSocialInicial informe)
+        {
+            var filter = Builders<Documento>.Filter.Eq("id", informe.id);
+            var update = Builders<Documento>.Update
+                .Set("historialcontenido", informe.historialcontenido)
+                .Set("creadordocumento", informe.creadordocumento)
+                .Set("fechacreacion", informe.fechacreacion)
+                .Set("area", informe.area)
+                .Set("fase", informe.fase)
+                .Set("contenido", informe.contenido);
+
+            _documentos.UpdateOne(filter, update);
+            return informe;
+        }
+        public InformeSocialEvolutivo ModificarInformeSE(InformeSocialEvolutivo informe)
+        {
+            var filter = Builders<Documento>.Filter.Eq("id", informe.id);
+            var update = Builders<Documento>.Update
+                .Set("historialcontenido", informe.historialcontenido)
+                .Set("creadordocumento", informe.creadordocumento)
+                .Set("fechacreacion", informe.fechacreacion)
+                .Set("area", informe.area)
+                .Set("fase", informe.fase)
+                .Set("contenido", informe.contenido);
+
+            _documentos.UpdateOne(filter, update);
+            return informe;
+        }
+        public InformePsicologicoEvolutivo ModificarInformePE(InformePsicologicoEvolutivo informe)
+        {
+            var filter = Builders<Documento>.Filter.Eq("id", informe.id);
+            var update = Builders<Documento>.Update
+                .Set("historialcontenido", informe.historialcontenido)
+                .Set("creadordocumento", informe.creadordocumento)
+                .Set("fechacreacion", informe.fechacreacion)
+                .Set("area", informe.area)
+                .Set("fase", informe.fase)
+                .Set("contenido", informe.contenido);
+
+            _documentos.UpdateOne(filter, update);
+            return informe;
+        }
     }
 }
