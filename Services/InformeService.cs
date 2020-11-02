@@ -12,6 +12,7 @@ namespace SISDOMI.Services
     public class InformeService
     {
         private readonly IMongoCollection<Documento> _documentos;
+        private readonly IMongoCollection<Expediente> _expedientes;
 
         public InformeService(ISysdomiDatabaseSettings settings)
         {
@@ -19,6 +20,7 @@ namespace SISDOMI.Services
             var database = client.GetDatabase(settings.DatabaseName);
 
             _documentos = database.GetCollection<Documento>("documentos");
+            _expedientes = database.GetCollection<Expediente>("expedientes");
         }
 
         public async Task<List<InformeDTO>> GetAllReportsDTO()
@@ -82,6 +84,85 @@ namespace SISDOMI.Services
                             .AppendStage<InformeDTO>(project)
                             .ToListAsync();
             return listainformes;
+        }
+
+        //Este metodo puede ser usado para traeer cualquier tipo de documento con su contenido
+        public async Task<DocumentoDTO> GetById(string id)
+        {
+            var match = new BsonDocument("$match",
+                        new BsonDocument("_id",
+                        new ObjectId(id)));
+
+            DocumentoDTO documento = new DocumentoDTO();
+            documento = await _documentos.Aggregate()
+                            .AppendStage<DocumentoDTO>(match)
+                            .FirstAsync();
+            return documento;
+        }
+
+        //Todos los registrar Informes
+
+        public async Task<InformeEducativoInicial> RegistrarInformeEI(InformeEducativoInicial informe)
+        {
+            await _documentos.InsertOneAsync(informe);
+            DocumentoExpediente docexpe = new DocumentoExpediente()
+            {
+                tipo = informe.tipo,
+                iddocumento = informe.id
+            };
+            UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.contenido.idresidente, updateExpediente);
+            return informe;
+        }
+        public async Task<InformeEducativoEvolutivo> RegistrarInformeEE(InformeEducativoEvolutivo informe)
+        {
+            await _documentos.InsertOneAsync(informe);
+            DocumentoExpediente docexpe = new DocumentoExpediente()
+            {
+                tipo = informe.tipo,
+                iddocumento = informe.id
+            };
+            UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.contenido.idresidente, updateExpediente);
+            return informe;
+        }
+        public async Task<InformeSocialInicial> RegistrarInformeSI(InformeSocialInicial informe)
+        {
+            await _documentos.InsertOneAsync(informe);
+            DocumentoExpediente docexpe = new DocumentoExpediente()
+            {
+                tipo = informe.tipo,
+                iddocumento = informe.id
+            };
+            UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.contenido.idresidente, updateExpediente);
+            return informe;
+        }
+        public async Task<InformeSocialEvolutivo> RegistrarInformeSE(InformeSocialEvolutivo informe)
+        {
+            await _documentos.InsertOneAsync(informe);
+            DocumentoExpediente docexpe = new DocumentoExpediente()
+            {
+                tipo = informe.tipo,
+                iddocumento = informe.id
+            };
+            UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.contenido.idresidente, updateExpediente);
+            return informe;
+        }
+
+        //falta el PsicologicoInicial
+        public async Task<InformePsicologicoEvolutivo> RegistrarInformePE(InformePsicologicoEvolutivo informe)
+        {
+            await _documentos.InsertOneAsync(informe);
+            DocumentoExpediente docexpe = new DocumentoExpediente()
+            {
+                tipo = informe.tipo,
+                iddocumento = informe.id
+            };
+            UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.contenido.idresidente, updateExpediente);
+            return informe;
         }
     }
 }

@@ -26,5 +26,39 @@ namespace SISDOMI.Controllers
         {
             return await _informeService.GetAllReportsDTO();
         }
+
+        [HttpGet("id")]
+        public async Task<ActionResult<DocumentoDTO>> GetById(string id)
+        {
+            return await _informeService.GetById(id);
+        }
+
+        [HttpPost("informeei")]
+        public async Task<ActionResult<InformeEducativoInicial>> CrearInformeEI(InformeEducativoInicial informe)
+        {
+            return await _informeService.RegistrarInformeEI(informe);
+        }
+        [HttpPost("informeee")]
+        public async Task<ActionResult<InformeEducativoEvolutivo>> CrearInformeEE(InformeEducativoEvolutivo informe)
+        {
+            return await _informeService.RegistrarInformeEE(informe);
+        }
+        [HttpPost("informesi")]
+        public async Task<ActionResult<InformeSocialInicial>> CrearInformeSI(InformeSocialInicial informe)
+        {
+            return await _informeService.RegistrarInformeSI(informe);
+        }
+        [HttpPost("informese")]
+        public async Task<ActionResult<InformeSocialEvolutivo>> CrearInformeSE(InformeSocialEvolutivo informe)
+        {
+            return await _informeService.RegistrarInformeSE(informe);
+        }
+        //falta el psicologico inicial 0-0
+        [HttpPost("informepe")]
+        public async Task<ActionResult<InformePsicologicoEvolutivo>> CrearInformePE(InformePsicologicoEvolutivo informe)
+        {
+            return await _informeService.RegistrarInformePE(informe);
+        }
+
     }
 }
