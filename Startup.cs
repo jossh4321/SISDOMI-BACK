@@ -90,6 +90,20 @@ namespace SISDOMI
                     Type = SecuritySchemeType.ApiKey
                 });
 
+                g.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                  {  new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] {}
+                   }
+                });
+
             });
 
         }
