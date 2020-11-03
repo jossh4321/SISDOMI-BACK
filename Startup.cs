@@ -54,7 +54,11 @@ namespace SISDOMI
             services.AddScoped<UsuarioService>();
             services.AddScoped<PlanIntervencionIndividualService>();
             services.AddScoped<InformeService>();
+            services.AddScoped<ExpedienteService>();
+
             services.AddScoped<IFileStorage, AzureFileStorage>();
+            services.AddScoped<IDocument, Document>();
+
             //need default token provider
             services.AddAuthentication(JwtBearerDefaults
              .AuthenticationScheme)

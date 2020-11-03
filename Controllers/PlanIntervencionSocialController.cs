@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SISDOMI.Entities;
+using SISDOMI.Models;
 using SISDOMI.Services;
 using System;
 using System.Collections.Generic;
@@ -27,14 +28,14 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPost("")]
-        public async Task<ActionResult<PlanIntervencionIndividual>> CreateIndividualInterventionPlan(PlanIntervencionIndividual planIntervencionIndividual)
+        public async Task<ActionResult<PlanIntervencionIndividual>> Post(PlanResidente planIntervencionIndividual)
         {
             return await _planIntervencionService.CreateIndividualInterventionPlan(planIntervencionIndividual);
         }
 
 
         [HttpPut("")]
-        public ActionResult<PlanIntervencionIndividual> ModificarPlanIntervencion(PlanIntervencionIndividual planIntervencion)
+        public ActionResult<PlanIntervencionIndividual> Put(PlanIntervencionIndividual planIntervencion)
         {
             PlanIntervencionIndividual objetoplan = _planIntervencionService.ModifyIndividualInterventionPlan(planIntervencion);
             return objetoplan;

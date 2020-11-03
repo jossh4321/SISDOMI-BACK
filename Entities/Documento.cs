@@ -133,6 +133,7 @@ namespace SISDOMI.Entities
         public List<String> metas { get; set; }
         public List<Firma> firmas { get; set; }
         public String titulo { get; set; }
+        public String codigodocumento { get; set; }
     }
 
     public class PlanIntervencionIndividual : Documento
