@@ -36,7 +36,7 @@ namespace SISDOMI.Services
             return listPlanIntervencionIndividuals;
         }
 
-        //Jaime
+        //Angello
         public PlanIntervencionIndividual GetById(String id)
         {
             return new PlanIntervencionIndividual();
@@ -83,7 +83,7 @@ namespace SISDOMI.Services
             return planIntervencionIndividual;
         }
 
-        // Angello
+        // Jaime
         public PlanIntervencionIndividual ModifyIndividualInterventionPlanState(PlanIntervencionIndividual planIntervencionIndividual)
         {
             return new PlanIntervencionIndividual();
