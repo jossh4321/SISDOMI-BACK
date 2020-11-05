@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization.Attributes;
+using SISDOMI.Services;
 
 namespace SISDOMI.Entities
 {
@@ -14,6 +15,8 @@ namespace SISDOMI.Entities
        typeof(InformeEducativoEvolutivo),
        typeof(InformeSocialInicial),
        typeof(InformeSocialEvolutivo),
+        typeof (FichaIngresoSocial),
+       typeof(FichaIngresoEducativa),
        typeof(InformePsicologicoEvolutivo),
        typeof(PlanIntervencionIndividual))]
     public class Documento
@@ -124,10 +127,42 @@ namespace SISDOMI.Entities
         public List<Firma> firmas { get; set; }
         public String titulo { get; set; }
     }
+    public class ContenidoFichaIngresoEducativo {
+        public List<Procedencia> ieprocedencia { get; set; }
+        public List<String> observaciones { get; set; }
+        public List<Firma> firmas { get; set; }
 
+
+
+    }
+    public class ContenidoFichaIngresoSocial
+    {
+        public List<FamiliarIngreso> familiar { get; set; }
+        public List<Vivienda> vivienda { get; set; }
+        public List<Economico> economico { get; set; }
+        public String salud { get; set; }
+        public List<String> legal { get; set; }
+        public String diagnosticosocial { get; set; }
+        public String planintervencion { get; set; }
+        
+        public List<Firma> firmas { get; set; }
+
+
+
+    }
+   
     public class PlanIntervencionIndividual : Documento
     {
         public ContenidoPlanIntervencionIndividual contenido { get; set; } = new ContenidoPlanIntervencionIndividual();
     }
+    public class FichaIngresoEducativa : Documento
+    {
+        public ContenidoFichaIngresoEducativo contenido { get; set; } = new ContenidoFichaIngresoEducativo();
+    }
+    public class FichaIngresoSocial : Documento
+    {
+        public ContenidoFichaIngresoSocial contenido { get; set; } = new ContenidoFichaIngresoSocial();
+    }
+    
 
 }
