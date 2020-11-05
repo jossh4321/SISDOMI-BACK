@@ -22,24 +22,25 @@ namespace SISDOMI.Controllers
             _fichaIngresoEducativoService = fichaIngresoEducativoService;
         }
       
-        [HttpGet("all")]
+        [HttpGet("all/fichaingresosocial")]
 
-        public ActionResult<List<FichaIngresoSocial>> GetAll()
+        public ActionResult<List<FichaIngresoSocial>> GetAllFichaIngresoSocial()
         {
             return _fichaIngresoSocialService.GetAll();
         }
-        [HttpGet("FichaIngresoSocial")]
-        public ActionResult<List<FichaIngresoEducativa>> GetAllEducativa()
+        [HttpGet("all/fichaingresoeducativa")]
+        public ActionResult<List<FichaIngresoEducativa>> GetAllFichaIngresoEducativa()
        {
            return _fichaIngresoEducativoService.GetAll();
        }
-        [HttpGet("FichaIngresoEducativa")]
+
+        [HttpPut("fichaingresosocial")]
         public ActionResult<FichaIngresoSocial> ModificarFichaIngresoSocial(FichaIngresoSocial fichaIngresoSocial)
         {
             FichaIngresoSocial objetofichaSocial = _fichaIngresoSocialService.ModifyFichaIngresoSocial(fichaIngresoSocial);
             return objetofichaSocial;
         }
-        [HttpPut("ActualizarFichaIngresoSocial")]
+        [HttpPut("fichaingresoeducativa")]
         public ActionResult<FichaIngresoEducativa> ModificarFichaIngresoEducativa(FichaIngresoEducativa fichaIngresoEducativa)
         {
             FichaIngresoEducativa objetofichaEducativa = _fichaIngresoEducativoService.ModifyFichaIngresoEducativa(fichaIngresoEducativa);

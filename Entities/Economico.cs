@@ -9,8 +9,8 @@ namespace SISDOMI.Entities
     {
         public string condicionlaboral { get; set; }
         public string ocupacion { get; set; }
-        List<String> ingresos { get; set; }
-        List<String> egresos { get; set; }
+        public List<String> ingresos { get; set; } = new List<String>();
+        public List<String> egresos { get; set; } = new List<String>();
         public string observacion { get; set; }
 
     }

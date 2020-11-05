@@ -15,7 +15,7 @@ namespace SISDOMI.Entities
        typeof(InformeEducativoEvolutivo),
        typeof(InformeSocialInicial),
        typeof(InformeSocialEvolutivo),
-        typeof (FichaIngresoSocial),
+       typeof(FichaIngresoSocial),
        typeof(FichaIngresoEducativa),
        typeof(InformePsicologicoEvolutivo),
        typeof(PlanIntervencionIndividual))]
@@ -128,24 +128,25 @@ namespace SISDOMI.Entities
         public String titulo { get; set; }
     }
     public class ContenidoFichaIngresoEducativo {
-        public List<Procedencia> ieprocedencia { get; set; }
-        public List<String> observaciones { get; set; }
-        public List<Firma> firmas { get; set; }
+        public Procedencia ieprocedencia { get; set; } = new Procedencia();
+        public String responsableturno { get; set; }
+        public List<String> observaciones { get; set; } = new List<String>();
+        public List<Firma> firmas { get; set; } = new List<Firma>();
 
 
 
     }
     public class ContenidoFichaIngresoSocial
     {
-        public List<FamiliarIngreso> familiar { get; set; }
-        public List<Vivienda> vivienda { get; set; }
-        public List<Economico> economico { get; set; }
+        public FamiliarIngreso familiar { get; set; } = new FamiliarIngreso();
+        public Vivienda vivienda { get; set; } = new Vivienda();
+        public Economico economico { get; set; } = new Economico();
         public String salud { get; set; }
-        public List<String> legal { get; set; }
+        public Legal legal { get; set; } = new Legal();
         public String diagnosticosocial { get; set; }
         public String planintervencion { get; set; }
-        
-        public List<Firma> firmas { get; set; }
+        public String idresidente { get; set; }
+        public List<Firma> firmas { get; set; } = new List<Firma>();
 
 
 
