@@ -35,21 +35,27 @@ namespace SISDOMI.Controllers
 
 
         [HttpGet("id")]
-        public ActionResult<Residentes> Get([FromQuery] string id)
+        public ActionResult<Residentes> Get([FromQuery] string id) //obtiene un residente segun su id
         {
             return _residenteservice.GetById(id);
         }
+        [HttpGet("id")]
 
+        [HttpPost("idDoc")]
 
-        [HttpPost("")]
-        public ActionResult<Residentes> CrearResidente(Residentes residente)
+        public ActionResult<Documento> GetDocumento([FromQuery] string id) //obtiene un documento segun el id del residente
+
+        {
+            return _residenteservice.GetByIdDoc(id);
+        }    
+        public ActionResult<Residentes> PostResidente(Residentes residente) //CREAR RESIDENTE
         {
             Residentes objetoresidente = _residenteservice.CreateUser(residente);
             return objetoresidente;
         }
 
         [HttpPut("")]
-        public ActionResult<Residentes> ModificarResidente(Residentes residente)
+        public ActionResult<Residentes> PutResidente(Residentes residente)  //MODIFICAR RESIDENTE
         {
             Residentes objetoresidente = _residenteservice.ModifyUser(residente);
             return objetoresidente;

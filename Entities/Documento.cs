@@ -36,6 +36,10 @@ namespace SISDOMI.Entities
         public string area { get; set; }
         [BsonElement("fase")]
         public string fase { get; set; }
+        [BsonElement("idresidente")]
+        public string idresidente { get; set; }
+        [BsonElement("estado")]
+        public string estado { get; set; }
     }
     public class ContenidoInformeEducativoInicial
     {
@@ -132,8 +136,7 @@ namespace SISDOMI.Entities
         public String responsableturno { get; set; }
         public List<String> observaciones { get; set; } = new List<String>();
         public List<Firma> firmas { get; set; } = new List<Firma>();
-
-
+        
 
     }
     public class ContenidoFichaIngresoSocial

@@ -17,25 +17,25 @@ namespace SISDOMI.Entities
         [BsonElement("apellido")]
         public string apellido { get; set; }
         [BsonElement("tipodocumento")]
-        public string tipodocumento  { get; set; }
+        public string tipoDocumento  { get; set; }
         [BsonElement("numerodocumento")]
-        public string numerodocumento { get; set; }
+        public string numeroDocumento { get; set; }
         [BsonElement("lugarnacimiento")]
-        public string lugarnacimiento  { get; set; }
+        public string lugarNacimiento  { get; set; }
         [BsonElement("ubigeo")]
         public string ubigeo { get; set; }
         [BsonElement("juzgadoprocedencia")]
-        public string juzgadoprocedencia  { get; set; }
+        public string juzgadoProcedencia  { get; set; }
         [BsonElement("fechanacimiento")]
-        public DateTime fechanacimiento { get; set; }
+        public DateTime fechaNacimiento { get; set; }
         [BsonElement("sexo")]
         public string sexo { get; set; }
         [BsonElement("telefonosreferencias")]
-        public List<Telefono>telefonosreferencia { get; set; }
+        public List<Telefono>telefonosReferencia { get; set; }
         [BsonElement("fechaingreso")]
-        public DateTime fechaingreso { get; set; }
+        public DateTime fechaIngreso { get; set; }
         [BsonElement("motivoingreso")]
-        public string motivoingreso { get; set; }
+        public string motivoIngreso { get; set; }
         [BsonElement("progreso")]
         public List<Progreso> progreso { get; set; }
         [BsonElement("estado")]
@@ -46,7 +46,7 @@ namespace SISDOMI.Entities
     public class Telefono
     {
         public string numero { get; set; }
-        public string referentefamiliar { get; set; }
+        public string referenteFamiliar { get; set; }
     }
 }
 
