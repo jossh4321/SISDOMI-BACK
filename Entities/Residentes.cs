@@ -46,7 +46,7 @@ namespace SISDOMI.Entities
     public class Telefono
     {
         public string numero { get; set; }
-        public string referenteFamiliar { get; set; }
+        public string referentefamiliar { get; set; }
     }
 }
 
