@@ -39,7 +39,9 @@ namespace SISDOMI.Services
         //Angello xd
         public PlanIntervencionIndividual GetById(String id)
         {
-            return new PlanIntervencionIndividual();
+            PlanIntervencionIndividual planesI = new PlanIntervencionIndividual();
+            planesI = _documentos.AsQueryable().OfType<PlanIntervencionIndividual>().ToList().Find(planesI => planesI.id == id);
+            return planesI;
         }
 
         //Sebastian
