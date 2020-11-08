@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization.Attributes;
+using SISDOMI.Services;
 
 namespace SISDOMI.Entities
 {
@@ -14,6 +15,8 @@ namespace SISDOMI.Entities
        typeof(InformeEducativoEvolutivo),
        typeof(InformeSocialInicial),
        typeof(InformeSocialEvolutivo),
+       typeof(FichaIngresoSocial),
+       typeof(FichaIngresoEducativa),
        typeof(InformePsicologicoEvolutivo),
        typeof(PlanIntervencionIndividual))]
     public class Documento
@@ -33,6 +36,10 @@ namespace SISDOMI.Entities
         public string area { get; set; }
         [BsonElement("fase")]
         public string fase { get; set; }
+        [BsonElement("idresidente")]
+        public string idresidente { get; set; }
+        [BsonElement("estado")]
+        public string estado { get; set; }
     }
     public class ContenidoInformeEducativoInicial
     {
@@ -135,11 +142,44 @@ namespace SISDOMI.Entities
         public String titulo { get; set; }
         public String codigodocumento { get; set; }
     }
+    public class ContenidoFichaIngresoEducativo {
+        public Procedencia ieprocedencia { get; set; } = new Procedencia();
+        public String responsableturno { get; set; }
+        public List<String> observaciones { get; set; } = new List<String>();
+        public List<Firma> firmas { get; set; } = new List<Firma>();
+        
 
+    }
+    public class ContenidoFichaIngresoSocial
+    {
+        public FamiliarIngreso familiar { get; set; } = new FamiliarIngreso();
+        public Vivienda vivienda { get; set; } = new Vivienda();
+        public Economico economico { get; set; } = new Economico();
+        public String salud { get; set; }
+        public Legal legal { get; set; } = new Legal();
+        public String diagnosticosocial { get; set; }
+        public String planintervencion { get; set; }
+        public String idresidente { get; set; }
+        public List<Firma> firmas { get; set; } = new List<Firma>();
+
+
+
+    }
+   
     public class PlanIntervencionIndividual : Documento
     {
         public ContenidoPlanIntervencionIndividual contenido { get; set; } = new ContenidoPlanIntervencionIndividual();
     }
+    public class FichaIngresoEducativa : Documento
+    {
+        public ContenidoFichaIngresoEducativo contenido { get; set; } = new ContenidoFichaIngresoEducativo();
+    }
+    public class FichaIngresoSocial : Documento
+    {
+        public ContenidoFichaIngresoSocial contenido { get; set; } = new ContenidoFichaIngresoSocial();
+    }
+    
+
     public class AnexosDocumento
     {
         public string idanexo { get; set; }
