@@ -11,12 +11,12 @@ namespace SISDOMI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DocumentosController
+    public class DocumentoController
     {
         private readonly FichaIngresoSocialService _fichaIngresoSocialService;
         private readonly FichaIngresoEducativoService _fichaIngresoEducativoService;
 
-        public DocumentosController(FichaIngresoSocialService fichaIngresoSocialService, FichaIngresoEducativoService fichaIngresoEducativoService)
+        public DocumentoController(FichaIngresoSocialService fichaIngresoSocialService, FichaIngresoEducativoService fichaIngresoEducativoService)
         {
             _fichaIngresoSocialService = fichaIngresoSocialService;
             _fichaIngresoEducativoService = fichaIngresoEducativoService;
@@ -24,28 +24,35 @@ namespace SISDOMI.Controllers
       
         [HttpGet("all/fichaingresosocial")]
 
-        public ActionResult<List<FichaIngresoSocial>> GetAllFichaIngresoSocial()
+        public ActionResult<List<Documento>> GetAllFichaIngresoSocial()
         {
             return _fichaIngresoSocialService.GetAll();
         }
         [HttpGet("all/fichaingresoeducativa")]
-        public ActionResult<List<FichaIngresoEducativa>> GetAllFichaIngresoEducativa()
+        public ActionResult<List<Documento>> GetAllFichaIngresoEducativa()
        {
            return _fichaIngresoEducativoService.GetAll();
        }
 
         [HttpPut("fichaingresosocial")]
-        public ActionResult<FichaIngresoSocial> ModificarFichaIngresoSocial(FichaIngresoSocial fichaIngresoSocial)
+        public ActionResult<Documento> PutFichaIngresoEducativa(Documento documento) 
         {
-            FichaIngresoSocial objetofichaSocial = _fichaIngresoSocialService.ModifyFichaIngresoSocial(fichaIngresoSocial);
-            return objetofichaSocial;
-        }
-        [HttpPut("fichaingresoeducativa")]
-        public ActionResult<FichaIngresoEducativa> ModificarFichaIngresoEducativa(FichaIngresoEducativa fichaIngresoEducativa)
-        {
-            FichaIngresoEducativa objetofichaEducativa = _fichaIngresoEducativoService.ModifyFichaIngresoEducativa(fichaIngresoEducativa);
+            Documento objetofichaEducativa = _fichaIngresoEducativoService.ModifyFichaIngresoEducativa(documento);
             return objetofichaEducativa;
         }
-      
+
+
+        public ActionResult<Documento> PostFichaIngresoEducativa(Documento documento) {
+
+            Documento  objetofichaEducativa = _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);
+            return objetofichaEducativa;
+        }
+        [HttpPut("fichaingresoeducativa")]
+        public ActionResult<Documento> PuttFichaIngresoEducativa(Documento documento)
+        {
+
+          Documento objetofichaEducativa = _fichaIngresoEducativoService.ModifyFichaIngresoEducativa(documento);
+            return objetofichaEducativa;
+        }
     }
 }

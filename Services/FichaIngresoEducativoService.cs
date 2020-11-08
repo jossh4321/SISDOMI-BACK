@@ -10,7 +10,8 @@ namespace SISDOMI.Services
     public class FichaIngresoEducativoService
     {
         private readonly IMongoCollection<Documento> _documentos;
-
+        private readonly IMongoCollection<Documento> _residente;
+        //private readonly IMongoCollection<Residentes> _residente;
         public FichaIngresoEducativoService(ISysdomiDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
@@ -18,11 +19,11 @@ namespace SISDOMI.Services
 
             _documentos = database.GetCollection<Documento>("documentos");
         }
-        public List<FichaIngresoEducativa> GetAll()
+        public List<Documento> GetAll()
         {
-            List<FichaIngresoEducativa> listFichaIngresoEducativa = new List<FichaIngresoEducativa>();
+            List<Documento> listFichaIngresoEducativa = new List<Documento>();
 
-            listFichaIngresoEducativa = _documentos.AsQueryable().OfType<FichaIngresoEducativa>().ToList();
+            listFichaIngresoEducativa = _documentos.AsQueryable().OfType<Documento>().ToList();
 
             return listFichaIngresoEducativa;
         }
@@ -37,22 +38,24 @@ namespace SISDOMI.Services
             documento = _documentos.Find(documento => documento.id == id).FirstOrDefault();
             return documento;
         }
-        public FichaIngresoEducativa ModifyFichaIngresoEducativa(FichaIngresoEducativa fichaIngresoEducativa)
+        public Documento ModifyFichaIngresoEducativa(Documento documento)
         {
-            var filter = Builders<Documento>.Filter.Eq("id", fichaIngresoEducativa.id);
+            var filter = Builders<Documento>.Filter.Eq("id", documento.id);
             var update = Builders<Documento>.Update
-                .Set("historialcontenido", fichaIngresoEducativa.historialcontenido)
-                .Set("creadordocumento", fichaIngresoEducativa.creadordocumento)
-                .Set("fechacreacion", fichaIngresoEducativa.fechacreacion)
-                .Set("area", fichaIngresoEducativa.area)
-                 .Set("fase", fichaIngresoEducativa.fase)
-                .Set("contenido", fichaIngresoEducativa.contenido);
+                .Set("tipo", documento.tipo)
+                .Set("historialcontenido", documento.historialcontenido)
+                .Set("creadordocumento", documento.creadordocumento)
+                .Set("fechacreacion", documento.fechacreacion)
+                .Set("area", documento.area)
+                 .Set("fase", documento.fase)
+                .Set("estado", documento.estado);
+                
             var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
             {
                 ReturnDocument = ReturnDocument.After
             });
-            fichaIngresoEducativa = doc as FichaIngresoEducativa;
-            return fichaIngresoEducativa;
+            documento = doc as FichaIngresoEducativa;
+            return documento;
         }
 
 

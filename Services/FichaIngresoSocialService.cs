@@ -18,11 +18,11 @@ namespace SISDOMI.Services
 
             _documentos = database.GetCollection<Documento>("documentos");
         }
-        public List<FichaIngresoSocial> GetAll()
+        public List<Documento> GetAll()
         {
-            List<FichaIngresoSocial> listFichaIngresoSocial = new List<FichaIngresoSocial>();
+            List<Documento> listFichaIngresoSocial = new List<Documento>();
 
-            listFichaIngresoSocial = _documentos.AsQueryable().OfType<FichaIngresoSocial>().ToList();
+            listFichaIngresoSocial = _documentos.AsQueryable().OfType<Documento>().ToList();
 
             return listFichaIngresoSocial;
         }
@@ -37,22 +37,24 @@ namespace SISDOMI.Services
             documento = _documentos.Find(documento => documento.id == id).FirstOrDefault();
             return documento;
         }
-        public FichaIngresoSocial ModifyFichaIngresoSocial(FichaIngresoSocial fichaIngresoSocial)
+        public Documento  ModifyFichaIngresoSocial(Documento documento)
         {
-            var filter = Builders<Documento>.Filter.Eq("id", fichaIngresoSocial.id);
+            var filter = Builders<Documento>.Filter.Eq("id", documento.id);
             var update = Builders<Documento>.Update
-                .Set("historialcontenido", fichaIngresoSocial.historialcontenido)
-                .Set("creadordocumento", fichaIngresoSocial.creadordocumento)
-                .Set("fechacreacion", fichaIngresoSocial.fechacreacion)
-                .Set("area", fichaIngresoSocial.area)
-                 .Set("fase", fichaIngresoSocial.fase)
-                .Set("contenido", fichaIngresoSocial.contenido);
+                .Set("tipo", documento.tipo)
+                .Set("historialcontenido", documento.historialcontenido)
+                .Set("creadordocumento", documento.creadordocumento)
+                .Set("fechacreacion", documento.fechacreacion)
+                .Set("area", documento.area)
+                .Set("fase", documento.fase)
+                .Set("estado", documento.estado);
+               
             var doc =_documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
             {
                 ReturnDocument = ReturnDocument.After
             });
-            fichaIngresoSocial = doc as FichaIngresoSocial;
-            return fichaIngresoSocial;
+            documento = doc as FichaIngresoSocial;
+            return documento;
         }
 
 
