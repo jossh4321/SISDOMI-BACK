@@ -159,7 +159,6 @@ namespace SISDOMI.Entities
         public Legal legal { get; set; } = new Legal();
         public String diagnosticosocial { get; set; }
         public String planintervencion { get; set; }
-        public String idresidente { get; set; }
         public List<Firma> firmas { get; set; } = new List<Firma>();
 
 
