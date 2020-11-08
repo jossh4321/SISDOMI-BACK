@@ -56,7 +56,7 @@ namespace SISDOMI.Controllers
             return objetofichaEducativa;
         }
        [HttpGet("all/fichaingresoresidente")]
-       public async Task<ActionResult<FichaIngresoDTO>> GetFichaIngresoResidente()
+       public async Task<ActionResult<List<FichaIngresoDTO>>> GetFichaIngresoResidente()
            {
            return await _fichaIngresoSocialService.obtenerResidientesFichaIngreso();
            }

@@ -58,7 +58,7 @@ namespace SISDOMI.Services
             return documento;
         }
 
-        public async Task<FichaIngresoDTO> obtenerResidientesFichaIngreso()
+        public async Task<List<FichaIngresoDTO>> obtenerResidientesFichaIngreso()
         {
             var match = new BsonDocument("$match",
                                       new BsonDocument("tipo",
@@ -114,10 +114,10 @@ namespace SISDOMI.Services
                                               }) }
                               });
 
-            FichaIngresoDTO fichaIngreso = await _documentos.Aggregate()
+            List<FichaIngresoDTO> fichaIngreso = await _documentos.Aggregate()
                 .AppendStage<dynamic>(match)
                 .AppendStage<dynamic>(lookup_fichaIngreso)
-                .AppendStage<dynamic>(project).SingleAsync();
+                .AppendStage<FichaIngresoDTO>(project).ToListAsync();
             return fichaIngreso;
 
         } }
