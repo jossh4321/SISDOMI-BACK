@@ -43,8 +43,8 @@ namespace SISDOMI.Services
             var addfield = new BsonDocument("$addFields",
                            new BsonDocument
                            {
-                                { "idresidente",
-                                new BsonDocument("$toObjectId", "$contenido.idresidente") },
+                                { "idresidentepro",
+                                new BsonDocument("$toObjectId", "$idresidente") },
                                 { "codigodocumento", "$contenido.codigodocumento" }
                            });
 
@@ -52,7 +52,7 @@ namespace SISDOMI.Services
                          new BsonDocument
                          {
                         { "from", "residentes" },
-                        { "localField", "idresidente" },
+                        { "localField", "idresidentepro" },
                         { "foreignField", "_id" },
                         { "as", "datosresidente" }
                          });
