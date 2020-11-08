@@ -10,6 +10,7 @@ namespace SISDOMI.Services
     public class ResidenteService
     {
         private readonly IMongoCollection<Residentes> _residente;
+        private readonly IMongoCollection<Documento> _documento;
 
         public ResidenteService(ISysdomiDatabaseSettings settings)
         {
@@ -30,7 +31,12 @@ namespace SISDOMI.Services
             residente = _residente.Find(residente => residente.id == id).FirstOrDefault();
             return residente;
         }
-
+        public Documento  GetByIdDoc(string id)
+        {
+            Documento documento = new Documento();
+            documento = _documento.Find(documento => documento.idresidente == id).FirstOrDefault();
+            return documento;
+        }
         public Residentes CreateUser(Residentes residente)
         {
             _residente.InsertOne(residente);
@@ -43,16 +49,16 @@ namespace SISDOMI.Services
             var update = Builders<Residentes>.Update
                 .Set("nombre", residente.nombre)
                 .Set("apellido", residente.apellido)
-                .Set("tipodocumento", residente.tipodocumento)
-                .Set("numerodocumento", residente.numerodocumento)
-                .Set("lugarnacimiento", residente.lugarnacimiento)
+                .Set("tipodocumento", residente.tipoDocumento)
+                .Set("numerodocumento", residente.numeroDocumento)
+                .Set("lugarnacimiento", residente.lugarNacimiento)
                 .Set("ubigeo", residente.ubigeo)
-                .Set("juzgadoprocedencia", residente.juzgadoprocedencia)
-                .Set("fechanacimiento", residente.fechanacimiento)
+                .Set("juzgadoprocedencia", residente.juzgadoProcedencia)
+                .Set("fechanacimiento", residente.fechaNacimiento)
                 .Set("sexo", residente.sexo)
-                .Set("telefonosreferencias", residente.telefonosreferencia)
-                .Set("fechaingreso", residente.fechaingreso)
-                .Set("motivoingreso", residente.motivoingreso)
+                .Set("telefonosreferencia", residente.telefonosReferencia)
+                .Set("fechaingreso", residente.fechaIngreso)
+                .Set("motivoingreso", residente.motivoIngreso)
                 .Set("progreso", residente.progreso)
                 .Set("estado", residente.estado);
             residente = _residente.FindOneAndUpdate<Residentes>(filter, update, new FindOneAndUpdateOptions<Residentes>
