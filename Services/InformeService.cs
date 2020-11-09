@@ -70,8 +70,14 @@ namespace SISDOMI.Services
                                { "tipo", 1 },
                                { "fechacreacion", 1 },
                                { "codigodocumento", 1 },
-                               { "datosresidente.nombre", 1 },
-                               {"datosresidente.apellido", 1 }
+                               { "nombrecompleto",
+                                    new BsonDocument("$concat",
+                                        new BsonArray
+                                        {
+                                            "$datosresidente.nombre",
+                                            " ",
+                                            "$datosresidente.apellido"
+                                        }) }
                           });
 
             List<InformeDTO> listainformes = new List<InformeDTO>();

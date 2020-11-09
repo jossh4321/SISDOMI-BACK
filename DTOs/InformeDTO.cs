@@ -15,11 +15,6 @@ namespace SISDOMI.DTOs
         public string tipo { get; set; }
         public DateTime fechacreacion { get; set; }
         public string codigodocumento { get; set; }
-        public DatosResidenteDTO datosresidente { get; set; }
-    }
-    public class DatosResidenteDTO
-    {
-        public string nombre { get; set; }
-        public string apellido { get; set; }
+        public string nombrecompleto { get; set; }
     }
 }
