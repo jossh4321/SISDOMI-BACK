@@ -387,5 +387,12 @@ namespace SISDOMI.Services
             await _usuarios.DeleteOneAsync(filtro);
         }
 
+        public Usuario GetByRol(string idrol)
+        {
+            Usuario usuario = new Usuario();
+            usuario = _usuarios.Find(usuario => usuario.rol == idrol).FirstOrDefault();
+            return usuario;
+        }
+
     }
 }

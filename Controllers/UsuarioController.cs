@@ -114,5 +114,11 @@ namespace SISDOMI.Controllers
             return await _usuarioservice.obtenerRolesSistema();
         }
 
+        [HttpGet("idrol")]
+        public ActionResult<Usuario> GetUsuarioxRol([FromQuery] string idRol)
+        {
+            return _usuarioservice.GetByRol(idRol);
+        }
+
     }
 }
