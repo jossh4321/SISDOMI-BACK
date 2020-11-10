@@ -51,7 +51,7 @@ namespace SISDOMI.Services
 
             Expediente expediente =await expedienteService.GetByResident(planIntervencionIndividual.idresidente);
 
-            planIntervencionIndividual.planintervencionindividual.contenido.codigodocumento = document.CreateCodeDocument(DateNow, planIntervencionIndividual.planintervencionindividual.tipo, expediente.documentos.Count + 1);
+            planIntervencionIndividual.planintervencionindividual.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, planIntervencionIndividual.planintervencionindividual.tipo, expediente.documentos.Count + 1);
 
             await _documentos.InsertOneAsync(planIntervencionIndividual.planintervencionindividual);
 

@@ -129,18 +129,30 @@ namespace SISDOMI.Entities
 
     public class ContenidoPlanIntervencionIndividual
     {
+        [BsonElement("car")]
         public String car { get; set; }
+        [BsonElement("trimestre")]
         public String trimestre { get; set; }
+        [BsonElement("edad")]
         public String edad { get; set; }
-        public String objetivogeneral { get; set; }
-        public List<String> objetivoespecificos { get; set; }
-        public List<String> aspectosintervencion { get; set; }
+        [BsonElement("objetivogeneral")]
+        public String objetivoGeneral { get; set; }
+        [BsonElement("objetivoespecificos")]
+        public List<String> objetivoEspecificos { get; set; }
+        [BsonElement("aspectosintervencion")]
+        public List<String> aspectosIntervencion { get; set; }
+        [BsonElement("estrategias")]
         public List<String> estrategias { get; set; }
+        [BsonElement("indicadores")]
         public List<String> indicadores { get; set; }
+        [BsonElement("metas")]
         public List<String> metas { get; set; }
+        [BsonElement("firmas")]
         public List<Firma> firmas { get; set; }
+        [BsonElement("titulo")]
         public String titulo { get; set; }
-        public String codigodocumento { get; set; }
+        [BsonElement("codigodocumento")]
+        public String codigoDocumento { get; set; }
     }
     public class ContenidoFichaIngresoEducativo {
         public Procedencia ieprocedencia { get; set; } = new Procedencia();
