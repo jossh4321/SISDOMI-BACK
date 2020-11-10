@@ -88,6 +88,19 @@ namespace SISDOMI.Services
         // Jaime xd
         public PlanIntervencionIndividual ModifyIndividualInterventionPlanState(PlanIntervencionIndividual planIntervencionIndividual)
         {
+            var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
+            var update = Builders<Documento>.Update
+                .Set("area", planIntervencionIndividual.area)
+                .Set("creadordocumento", planIntervencionIndividual.creadordocumento)
+                .Set("fase", planIntervencionIndividual.fase)
+                .Set("fechacreacion", planIntervencionIndividual.fechacreacion)
+                .Set("contenido", planIntervencionIndividual.contenido)
+                .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
+            var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
+            planIntervencionIndividual = doc as PlanIntervencionIndividual;
             return new PlanIntervencionIndividual();
         }
 
