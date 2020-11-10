@@ -90,7 +90,7 @@ namespace SISDOMI.Services
             return listPlanIntervencionIndividuals;
         }
 
-        //Angello xd
+        //Angello xdd
         public PlanIntervencionIndividual GetById(String id)
         {
             PlanIntervencionIndividual planesI = new PlanIntervencionIndividual();
