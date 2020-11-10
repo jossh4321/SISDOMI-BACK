@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SISDOMI.DTOs;
 using SISDOMI.Entities;
 using SISDOMI.Models;
 using SISDOMI.Services;
@@ -22,9 +23,9 @@ namespace SISDOMI.Controllers
         }
 
         [HttpGet("all")]
-        public ActionResult<List<PlanIntervencionIndividual>> GetAll()
+        public async Task<ActionResult<List<PlanIntervencionDTO>>> GetAll()
         {
-            return _planIntervencionService.GetAll();
+            return  await _planIntervencionService.GetAll();
         }
 
         [HttpPost("")]
