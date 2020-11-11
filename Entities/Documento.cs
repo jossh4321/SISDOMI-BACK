@@ -48,8 +48,7 @@ namespace SISDOMI.Entities
         public string analisisacademico { get; set; }
         public List<string> conclusiones { get; set; }
         public List<string> anexos { get; set; }
-        public List<Firma> firmas { get; set; }
-        public string idresidente { get; set; }
+        public List<Firma> firmas { get; set; }        
         public string codigodocumento { get; set; }
     }
 
@@ -67,7 +66,7 @@ namespace SISDOMI.Entities
         public InstitucionEducativa iereinsersion { get; set; }
         public List<string> anexos { get; set; }
         public List<Firma> firmas { get; set; }
-        public string idresidente { get; set; }
+        
         public string codigodocumento { get; set; }
     }
     public class InformeEducativoEvolutivo : Documento

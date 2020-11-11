@@ -117,7 +117,7 @@ namespace SISDOMI.Services
                 iddocumento = informe.id
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
-            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.contenido.idresidente, updateExpediente);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
             return informe;
         }
         public async Task<InformeEducativoEvolutivo> RegistrarInformeEE(InformeEducativoEvolutivo informe)
@@ -129,7 +129,7 @@ namespace SISDOMI.Services
                 iddocumento = informe.id
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
-            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.contenido.idresidente, updateExpediente);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
             return informe;
         }
         public async Task<InformeSocialInicial> RegistrarInformeSI(InformeSocialInicial informe)
@@ -141,7 +141,7 @@ namespace SISDOMI.Services
                 iddocumento = informe.id
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
-            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.contenido.idresidente, updateExpediente);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
             return informe;
         }
         public async Task<InformeSocialEvolutivo> RegistrarInformeSE(InformeSocialEvolutivo informe)
@@ -153,7 +153,7 @@ namespace SISDOMI.Services
                 iddocumento = informe.id
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
-            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.contenido.idresidente, updateExpediente);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
             return informe;
         }
 
@@ -167,7 +167,7 @@ namespace SISDOMI.Services
                 iddocumento = informe.id
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
-            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.contenido.idresidente, updateExpediente);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
             return informe;
         }
 
@@ -177,6 +177,7 @@ namespace SISDOMI.Services
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
                 .Set("historialcontenido", informe.historialcontenido)
+                .Set("idresidente", informe.idresidente)
                 .Set("creadordocumento", informe.creadordocumento)
                 .Set("fechacreacion", informe.fechacreacion)
                 .Set("area", informe.area)
@@ -192,6 +193,7 @@ namespace SISDOMI.Services
             var update = Builders<Documento>.Update
                 .Set("historialcontenido", informe.historialcontenido)
                 .Set("creadordocumento", informe.creadordocumento)
+                .Set("idresidente", informe.idresidente)
                 .Set("fechacreacion", informe.fechacreacion)
                 .Set("area", informe.area)
                 .Set("fase", informe.fase)
@@ -205,6 +207,7 @@ namespace SISDOMI.Services
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
                 .Set("historialcontenido", informe.historialcontenido)
+                .Set("idresidente", informe.idresidente)
                 .Set("creadordocumento", informe.creadordocumento)
                 .Set("fechacreacion", informe.fechacreacion)
                 .Set("area", informe.area)
@@ -220,6 +223,7 @@ namespace SISDOMI.Services
             var update = Builders<Documento>.Update
                 .Set("historialcontenido", informe.historialcontenido)
                 .Set("creadordocumento", informe.creadordocumento)
+                .Set("idresidente", informe.idresidente)
                 .Set("fechacreacion", informe.fechacreacion)
                 .Set("area", informe.area)
                 .Set("fase", informe.fase)
@@ -233,6 +237,7 @@ namespace SISDOMI.Services
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
                 .Set("historialcontenido", informe.historialcontenido)
+                .Set("idresidente", informe.idresidente)
                 .Set("creadordocumento", informe.creadordocumento)
                 .Set("fechacreacion", informe.fechacreacion)
                 .Set("area", informe.area)

@@ -115,7 +115,7 @@ namespace SISDOMI.Controllers
         }
 
         [HttpGet("idrol")]
-        public ActionResult<Usuario> GetUsuarioxRol([FromQuery] string idRol)
+        public ActionResult<List<Usuario>> GetUsuarioxRol([FromQuery] string idRol)
         {
             return _usuarioservice.GetByRol(idRol);
         }
