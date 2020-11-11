@@ -50,6 +50,7 @@ namespace SISDOMI.Entities
         public List<string> anexos { get; set; }
         public List<Firma> firmas { get; set; }        
         public string codigodocumento { get; set; }
+        public string lugarevaluacion { get; set; }
     }
 
     public class InformeEducativoInicial : Documento
