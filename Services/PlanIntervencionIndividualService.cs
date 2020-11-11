@@ -144,17 +144,11 @@ namespace SISDOMI.Services
         {
             var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
             var update = Builders<Documento>.Update
-                .Set("area", planIntervencionIndividual.area)
-                .Set("creadordocumento", planIntervencionIndividual.creadordocumento)
-                .Set("fase", planIntervencionIndividual.fase)
-                .Set("fechacreacion", planIntervencionIndividual.fechacreacion)
-                .Set("contenido", planIntervencionIndividual.contenido)
-                .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
-            var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
-            {
-                ReturnDocument = ReturnDocument.After
-            });
-            planIntervencionIndividual = doc as PlanIntervencionIndividual;
+               .Set("estado", planIntervencionIndividual.estado);
+                
+                
+
+            _documentos.UpdateOne(filter, update);
             return new PlanIntervencionIndividual();
         }
 
