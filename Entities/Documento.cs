@@ -132,9 +132,9 @@ namespace SISDOMI.Entities
         [BsonElement("car")]
         public String car { get; set; }
         [BsonElement("trimestre")]
-        public String trimestre { get; set; }
+        public int trimestre { get; set; }
         [BsonElement("edad")]
-        public String edad { get; set; }
+        public int edad { get; set; }
         [BsonElement("objetivogeneral")]
         public String objetivoGeneral { get; set; }
         [BsonElement("objetivoespecificos")]
