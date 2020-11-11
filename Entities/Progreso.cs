@@ -7,7 +7,8 @@ namespace SISDOMI.Entities
 {
     public class Progreso
     {
-        public string fase { get; set; }
+        public int fase { get; set; }
+        public string nombre { get; set; }
         public DateTime fechaingreso { get; set; }
         public DateTime fechafinalizacion { get; set; }
         public string estado { get; set; }        
