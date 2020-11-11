@@ -66,7 +66,8 @@ namespace SISDOMI.Services
                                       new BsonArray
                   {
                     "FichaEducativaIngreso",
-                    "FichaSocialIngreso"
+                    "FichaSocialIngreso",
+                    "FichaPsicologicaIngreso"
                   })));
             // lookup para fichas ingreso 
             var subpipeline_fichaIngreso = new BsonArray

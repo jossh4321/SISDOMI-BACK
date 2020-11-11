@@ -17,6 +17,7 @@ namespace SISDOMI.Entities
        typeof(InformeSocialEvolutivo),
        typeof(FichaIngresoSocial),
        typeof(FichaIngresoEducativa),
+       typeof(FichaIngresoPsicologica),
        typeof(InformePsicologicoEvolutivo),
        typeof(PlanIntervencionIndividual))]
     public class Documento
@@ -172,11 +173,26 @@ namespace SISDOMI.Entities
         public String diagnosticosocial { get; set; }
         public String planintervencion { get; set; }
         public List<Firma> firmas { get; set; } = new List<Firma>();
-
+    }
+    public class ContenidoFichaIngresoPsicologica
+    {
+        public List<Firma> firmas { get; set; } = new List<Firma>();
+        public String responsableturno { get; set; }
+        public List<PadresFichaIngreso> padres { get; set; } = new List<PadresFichaIngreso>();
+        public List<HermanosFichaIngreso> hermanos { get; set; } = new List<HermanosFichaIngreso>();
+        public Escolaridad  escolaridad { get; set; } = new Escolaridad ();
+        public List<Maltrato> maltrato { get; set; } = new List<Maltrato>();
+        public AbusoSexual abuso { get; set; } = new AbusoSexual ();
+        public Adiccion adicciones { get; set; } = new Adiccion();
+        public List<conductaRiesgo > conductaRiesgos  { get; set; } = new List<conductaRiesgo>();
+        public List<ConductaEmocional > conductaemocionales { get; set; } = new List<ConductaEmocional>();
+        public DesarrolloSexual  desarrollosexual  { get; set; } = new DesarrolloSexual ();
+        public ExplotacionSexual  explotacionsexual { get; set; } = new ExplotacionSexual();
+        public Actividades actividades  { get; set; } = new Actividades();
+        public String observaciones { get; set; }
 
 
     }
-   
     public class PlanIntervencionIndividual : Documento
     {
         public ContenidoPlanIntervencionIndividual contenido { get; set; } = new ContenidoPlanIntervencionIndividual();
@@ -189,7 +205,11 @@ namespace SISDOMI.Entities
     {
         public ContenidoFichaIngresoSocial contenido { get; set; } = new ContenidoFichaIngresoSocial();
     }
-    
+    public class FichaIngresoPsicologica : Documento
+    {
+        public ContenidoFichaIngresoPsicologica contenido { get; set; } = new ContenidoFichaIngresoPsicologica();
+    }
+
 
     public class AnexosDocumento
     {
