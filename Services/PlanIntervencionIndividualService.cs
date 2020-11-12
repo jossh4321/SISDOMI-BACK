@@ -98,6 +98,13 @@ namespace SISDOMI.Services
             return planesI;
         }
 
+        public PlanIntervencionIndividualEducativo GetEducationalIndividualInterventionPlanById(String id)
+        {
+            PlanIntervencionIndividualEducativo planesI = new PlanIntervencionIndividualEducativo();
+            planesI = _documentos.AsQueryable().OfType<PlanIntervencionIndividualEducativo>().ToList().Find(planesI => planesI.id == id);
+            return planesI;
+        }
+
         //Sebastian
         public async Task<PlanIntervencionIndividualEducativo> CreateIndividualInterventionPlan(PlanResidente planIntervencionIndividual)
         {
@@ -190,6 +197,12 @@ namespace SISDOMI.Services
 
 
         //Plan Intervencion Social
+        public PlanIntervencionIndividualSocial GetSocialIndividualInterventionPlanById(String id)
+        {
+            PlanIntervencionIndividualSocial planesI = new PlanIntervencionIndividualSocial();
+            planesI = _documentos.AsQueryable().OfType<PlanIntervencionIndividualSocial>().ToList().Find(planesI => planesI.id == id);
+            return planesI;
+        }
         public async Task<PlanIntervencionIndividualSocial> CreateSocialInterventionPlan(PlanResidenteSocial planResidenteSocial)
         {
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);

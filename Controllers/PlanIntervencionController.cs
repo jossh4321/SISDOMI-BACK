@@ -28,6 +28,13 @@ namespace SISDOMI.Controllers
             return await _planIntervencionService.GetAll();
         }
 
+        [HttpGet("educativobyid")]
+        public ActionResult<PlanIntervencionIndividualEducativo> GetPlanEducativo([FromQuery] string id)
+        {
+            return _planIntervencionService.GetEducationalIndividualInterventionPlanById(id);
+
+        }
+
         [HttpPost("educativo")]
         public async Task<ActionResult<PlanIntervencionIndividualEducativo>> PostPlanEducativo(PlanResidente planIntervencionIndividual)
         {
@@ -42,7 +49,6 @@ namespace SISDOMI.Controllers
             }
             
         }
-
 
         [HttpPut("educativo")]
         public ActionResult<PlanIntervencionIndividualEducativo> Put(PlanIntervencionIndividualEducativo planIntervencion)
@@ -68,6 +74,13 @@ namespace SISDOMI.Controllers
 
 
         // Plan Social
+        [HttpGet("socialbyid")]
+        public ActionResult<PlanIntervencionIndividualSocial> GetPlanSocial([FromQuery] string id)
+        {
+            return _planIntervencionService.GetSocialIndividualInterventionPlanById(id);
+
+        }
+
         [HttpPost("social")]
         public async Task<ActionResult<PlanIntervencionIndividualSocial>> PostPlanSocial(PlanResidenteSocial planResidenteSocial)
         {
