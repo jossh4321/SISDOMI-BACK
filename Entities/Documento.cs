@@ -216,8 +216,8 @@ namespace SISDOMI.Entities
     {
         [BsonElement("descripcion")]
         public String descripcion { get; set; }
-        [BsonElement("obtivoespecificos")]
-        public List<String> objetivosEspecificos { get; set; }
+        [BsonElement("objetivoespecificos")]
+        public List<String> objetivoEspecificos { get; set; }
         [BsonElement("tecnicas")]
         public List<String> tecnicas { get; set; }
         [BsonElement("metas")]
