@@ -19,26 +19,27 @@ namespace SISDOMI.Services
 
             _documentos = database.GetCollection<Documento>("documentos");
         }
-        public List<Documento> GetAll()
+        public List<FichaIngresoSocial> GetAll()
         {
-            List<Documento> listFichaIngresoSocial = new List<Documento>();
+            List<FichaIngresoSocial> listFichaIngresoSocial = new List<FichaIngresoSocial>();
 
-            listFichaIngresoSocial = _documentos.AsQueryable().OfType<Documento>().ToList();
+            listFichaIngresoSocial = _documentos.AsQueryable().OfType<FichaIngresoSocial>().ToList();
 
             return listFichaIngresoSocial;
         }
-        public Documento CreateFichaIngresoSocial(Documento documento)
+        //
+        public FichaIngresoSocial CreateFichaIngresoSocial(FichaIngresoSocial documento)
         {
             _documentos.InsertOne(documento);
             return documento;
         }
-        public Documento GetById(string id)
+        public FichaIngresoSocial GetById(string id)
         {
-            Documento documento = new Documento();
-            documento = _documentos.Find(documento => documento.id == id).FirstOrDefault();
+            FichaIngresoSocial documento = new FichaIngresoSocial();
+            documento = _documentos.AsQueryable().OfType<FichaIngresoSocial>().ToList().Find(documento => documento.id == id);
             return documento;
         }
-        public Documento ModifyFichaIngresoSocial(Documento documento)
+        public FichaIngresoSocial ModifyFichaIngresoSocial(FichaIngresoSocial documento)
         {
             var filter = Builders<Documento>.Filter.Eq("id", documento.id);
             var update = Builders<Documento>.Update
@@ -48,8 +49,8 @@ namespace SISDOMI.Services
                 .Set("fechacreacion", documento.fechacreacion)
                 .Set("area", documento.area)
                 .Set("fase", documento.fase)
-                .Set("estado", documento.estado);
-
+                .Set("estado", documento.estado)
+                .Set("contenido", documento.contenido);
             var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
             {
                 ReturnDocument = ReturnDocument.After
@@ -66,7 +67,8 @@ namespace SISDOMI.Services
                                       new BsonArray
                   {
                     "FichaEducativaIngreso",
-                    "FichaSocialIngreso"
+                    "FichaSocialIngreso",
+                    "FichaPsicologicaIngreso"
                   })));
             // lookup para fichas ingreso 
             var subpipeline_fichaIngreso = new BsonArray

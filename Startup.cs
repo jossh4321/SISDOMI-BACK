@@ -58,6 +58,8 @@ namespace SISDOMI
             services.AddScoped<ExpedienteService>();
             services.AddScoped<InformeService>();
             services.AddScoped<FichaIngresoSocialService>();
+            services.AddScoped<FichaIngresoPsicologicaService>();
+            services.AddScoped<MediaService>();
             services.AddScoped<IFileStorage, AzureFileStorage>();
             services.AddScoped<IDocument, Document>();
 

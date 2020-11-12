@@ -387,10 +387,10 @@ namespace SISDOMI.Services
             await _usuarios.DeleteOneAsync(filtro);
         }
 
-        public Usuario GetByRol(string idrol)
+        public List<Usuario> GetByRol(string idrol)
         {
-            Usuario usuario = new Usuario();
-            usuario = _usuarios.Find(usuario => usuario.rol == idrol).FirstOrDefault();
+            List<Usuario> usuario = new List<Usuario>();
+            usuario = _usuarios.Find(usuario => usuario.rol == idrol).ToList();
             return usuario;
         }
 

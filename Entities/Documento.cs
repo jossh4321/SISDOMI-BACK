@@ -17,8 +17,11 @@ namespace SISDOMI.Entities
        typeof(InformeSocialEvolutivo),
        typeof(FichaIngresoSocial),
        typeof(FichaIngresoEducativa),
+       typeof(FichaIngresoPsicologica),
        typeof(InformePsicologicoEvolutivo),
-       typeof(PlanIntervencionIndividual))]
+       typeof(PlanIntervencionIndividualEducativo),
+       typeof(PlanIntervencionIndividualPsicologico),
+       typeof(PlanIntervencionIndividualSocial))]
     public class Documento
     {
         [BsonId]
@@ -47,9 +50,9 @@ namespace SISDOMI.Entities
         public string analisisacademico { get; set; }
         public List<string> conclusiones { get; set; }
         public List<string> anexos { get; set; }
-        public List<Firma> firmas { get; set; }
-        public string idresidente { get; set; }
+        public List<Firma> firmas { get; set; }        
         public string codigodocumento { get; set; }
+        public string lugarevaluacion { get; set; }
     }
 
     public class InformeEducativoInicial : Documento
@@ -61,12 +64,12 @@ namespace SISDOMI.Entities
     {
         public string antecedentes { get; set; }
         public string situacionactual { get; set; }
-        public string logroalcanzado { get; set; }
-        public string recomendaciones { get; set; }
+        public List<string> logroalcanzado { get; set; }
+        public List<string> recomendaciones { get; set; }
         public InstitucionEducativa iereinsersion { get; set; }
         public List<string> anexos { get; set; }
         public List<Firma> firmas { get; set; }
-        public string idresidente { get; set; }
+        
         public string codigodocumento { get; set; }
     }
     public class InformeEducativoEvolutivo : Documento
@@ -127,14 +130,14 @@ namespace SISDOMI.Entities
         public ContenidoInformePsicologicoEvolutivo contenido { get; set; } = new ContenidoInformePsicologicoEvolutivo();
     }
 
-    public class ContenidoPlanIntervencionIndividual
+    public class ContenidoPlanIntervencionIndividualEducativo
     {
         [BsonElement("car")]
         public String car { get; set; }
         [BsonElement("trimestre")]
-        public String trimestre { get; set; }
+        public int trimestre { get; set; }
         [BsonElement("edad")]
-        public String edad { get; set; }
+        public int edad { get; set; }
         [BsonElement("objetivogeneral")]
         public String objetivoGeneral { get; set; }
         [BsonElement("objetivoespecificos")]
@@ -172,14 +175,29 @@ namespace SISDOMI.Entities
         public String diagnosticosocial { get; set; }
         public String planintervencion { get; set; }
         public List<Firma> firmas { get; set; } = new List<Firma>();
-
+    }
+    public class ContenidoFichaIngresoPsicologica
+    {
+        public List<Firma> firmas { get; set; } = new List<Firma>();
+        public String responsableturno { get; set; }
+        public List<PadresFichaIngreso> padres { get; set; } = new List<PadresFichaIngreso>();
+        public List<HermanosFichaIngreso> hermanos { get; set; } = new List<HermanosFichaIngreso>();
+        public Escolaridad  escolaridad { get; set; } = new Escolaridad ();
+        public List<Maltrato> maltrato { get; set; } = new List<Maltrato>();
+        public AbusoSexual abuso { get; set; } = new AbusoSexual ();
+        public Adiccion adicciones { get; set; } = new Adiccion();
+        public List<conductaRiesgo > conductaRiesgos  { get; set; } = new List<conductaRiesgo>();
+        public List<ConductaEmocional > conductaemocionales { get; set; } = new List<ConductaEmocional>();
+        public DesarrolloSexual  desarrollosexual  { get; set; } = new DesarrolloSexual ();
+        public ExplotacionSexual  explotacionsexual { get; set; } = new ExplotacionSexual();
+        public Actividades actividades  { get; set; } = new Actividades();
+        public String observaciones { get; set; }
 
 
     }
-   
-    public class PlanIntervencionIndividual : Documento
+    public class PlanIntervencionIndividualEducativo : Documento
     {
-        public ContenidoPlanIntervencionIndividual contenido { get; set; } = new ContenidoPlanIntervencionIndividual();
+        public ContenidoPlanIntervencionIndividualEducativo contenido { get; set; } = new ContenidoPlanIntervencionIndividualEducativo();
     }
     public class FichaIngresoEducativa : Documento
     {
@@ -189,7 +207,69 @@ namespace SISDOMI.Entities
     {
         public ContenidoFichaIngresoSocial contenido { get; set; } = new ContenidoFichaIngresoSocial();
     }
-    
+    public class FichaIngresoPsicologica : Documento
+    {
+        public ContenidoFichaIngresoPsicologica contenido { get; set; } = new ContenidoFichaIngresoPsicologica();
+    }
+
+    public class ContenidoPlanIntervencionPsicologica
+    {
+        [BsonElement("descripcion")]
+        public String descripcion { get; set; }
+        [BsonElement("obtivoespecificos")]
+        public List<String> objetivosEspecificos { get; set; }
+        [BsonElement("tecnicas")]
+        public List<String> tecnicas { get; set; }
+        [BsonElement("metas")]
+        public List<String> metas { get; set; }
+        [BsonElement("indicadores")]
+        public List<String> indicadores { get; set; }
+        [BsonElement("frecuenciasesion")]
+        public String frecuenciaSesion { get; set; }
+        [BsonElement("numerosesion")]
+        public Int32 numeroSesion { get; set; }
+        [BsonElement("requerimientos")]
+        public List<String> requerimientos { get; set; }
+        [BsonElement("codigodocumento")]
+        public String codigoDocumento { get; set; }
+        [BsonElement("titulo")]
+        public String titulo { get; set; }
+        [BsonElement("firmas")]
+        public List<Firma> firmas { get; set; }
+
+    }
+
+    public class PlanIntervencionIndividualPsicologico : Documento
+    {
+        public ContenidoPlanIntervencionPsicologica contenido { get; set; } = new ContenidoPlanIntervencionPsicologica();
+    }
+
+    public class ContenidoPlanIntervencionSocial
+    {//
+        [BsonElement("diagnostico")]
+        public String diagnostico { get; set; }
+        [BsonElement("objetivos")]
+        public List<String> objetivos { get; set; }
+        [BsonElement("avances")]
+        public List<String> avances { get; set; }
+        [BsonElement("estrategias")]
+        public List<String> estrategias { get; set; }
+        [BsonElement("indicadores")]
+        public List<String> indicadores { get; set; }
+        [BsonElement("metas")]
+        public List<String> metas { get; set; }
+        [BsonElement("firmas")]
+        public List<Firma> firmas { get; set; }
+        [BsonElement("codigodocumento")]
+        public String codigoDocumento { get; set; }
+        [BsonElement("titulo")]
+        public String titulo { get; set; }
+    }
+
+    public class PlanIntervencionIndividualSocial: Documento
+    {
+        public ContenidoPlanIntervencionSocial contenido { get; set; } = new ContenidoPlanIntervencionSocial();
+    }
 
     public class AnexosDocumento
     {

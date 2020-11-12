@@ -3,20 +3,18 @@ using MongoDB.Driver;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
 using SISDOMI.Helpers;
-using SISDOMI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 namespace SISDOMI.Services
 {
-    public class FichaIngresoEducativoService
+    public class FichaIngresoPsicologicaService
     {
         private readonly IMongoCollection<Documento> _documentos;
         private readonly ExpedienteService expedienteService;
         private readonly IDocument document;
-
-        public FichaIngresoEducativoService(ISysdomiDatabaseSettings settings, ExpedienteService expedienteService, IDocument document)
+        public FichaIngresoPsicologicaService(ISysdomiDatabaseSettings settings, ExpedienteService expedienteService, IDocument document)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -26,28 +24,28 @@ namespace SISDOMI.Services
             this.expedienteService = expedienteService;
             this.document = document;
         }
-        public List<FichaIngresoEducativa> GetAll()
+        public List<FichaIngresoPsicologica> GetAll()
         {
-            List<FichaIngresoEducativa> listFichaIngresoEducativa = new List<FichaIngresoEducativa>();
+            List<FichaIngresoPsicologica> listFichaIngresoPsicologica = new List<FichaIngresoPsicologica>();
 
-            listFichaIngresoEducativa = _documentos.AsQueryable().OfType<FichaIngresoEducativa>().ToList();
+            listFichaIngresoPsicologica = _documentos.AsQueryable().OfType<FichaIngresoPsicologica>().ToList();
 
-            return listFichaIngresoEducativa;
+            return listFichaIngresoPsicologica;
         }
-        public FichaIngresoEducativa CreateFichaIngresoEducativo(FichaIngresoEducativa documento)
+        public FichaIngresoPsicologica CreateFichaIngresoPsicologica(FichaIngresoPsicologica documento)
         {
             _documentos.InsertOne(documento);
             return documento;
         }
-        public FichaIngresoEducativa GetById(string id)
+        public FichaIngresoPsicologica GetById(string id)
         {
-            FichaIngresoEducativa documento = new FichaIngresoEducativa();
-            documento = _documentos.AsQueryable().OfType<FichaIngresoEducativa>().ToList().Find(documento  => documento.id == id);
+            FichaIngresoPsicologica documento = new FichaIngresoPsicologica();
+            documento = _documentos.AsQueryable().OfType<FichaIngresoPsicologica>().ToList().Find(documento => documento.id == id);
             return documento;
-          
         }
-        public FichaIngresoEducativa ModifyFichaIngresoEducativa(FichaIngresoEducativa documento)
+        public FichaIngresoPsicologica  ModifyFichaIngresoPsicologica(FichaIngresoPsicologica documento)
         {
+            
             var filter = Builders<Documento>.Filter.Eq("id", documento.id);
             var update = Builders<Documento>.Update
                 .Set("tipo", documento.tipo)
@@ -57,16 +55,13 @@ namespace SISDOMI.Services
                 .Set("area", documento.area)
                  .Set("fase", documento.fase)
                 .Set("estado", documento.estado)
-            .Set("contenido", documento.contenido);
-                
+               .Set("contenido", documento.contenido);
             var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
             {
                 ReturnDocument = ReturnDocument.After
             });
-            documento = doc as FichaIngresoEducativa;
+            documento = doc as FichaIngresoPsicologica;
             return documento;
         }
-
-
     }
 }
