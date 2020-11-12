@@ -7,9 +7,9 @@ namespace SISDOMI.Entities
 {
     public class DesarrolloSexual
     {
-        public bool  mestruacion { get; set; }
+        public bool menstruacion { get; set; }
         public DateTime menarquia { get; set; }
-        public List<Relaciones> relaciones { get; set; }
+        public Relaciones relaciones { get; set; }
     }
     public class Relaciones
     {

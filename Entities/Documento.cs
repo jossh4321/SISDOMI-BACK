@@ -183,11 +183,12 @@ namespace SISDOMI.Entities
         public List<PadresFichaIngreso> padres { get; set; } = new List<PadresFichaIngreso>();
         public List<HermanosFichaIngreso> hermanos { get; set; } = new List<HermanosFichaIngreso>();
         public Escolaridad  escolaridad { get; set; } = new Escolaridad ();
+        public Discapacidad discapacidad { get; set; } = new Discapacidad();
         public List<Maltrato> maltrato { get; set; } = new List<Maltrato>();
-        public AbusoSexual abuso { get; set; } = new AbusoSexual ();
+        public AbusoSexual abusosexual   { get; set; } = new AbusoSexual ();
         public Adiccion adicciones { get; set; } = new Adiccion();
-        public List<conductaRiesgo > conductaRiesgos  { get; set; } = new List<conductaRiesgo>();
-        public List<ConductaEmocional > conductaemocionales { get; set; } = new List<ConductaEmocional>();
+        public List<conductaRiesgo> conductasriesgo  { get; set; } = new List<conductaRiesgo>();
+        public List<ConductaEmocional> conductasemocionales { get; set; } = new List<ConductaEmocional>();
         public DesarrolloSexual  desarrollosexual  { get; set; } = new DesarrolloSexual ();
         public ExplotacionSexual  explotacionsexual { get; set; } = new ExplotacionSexual();
         public Actividades actividades  { get; set; } = new Actividades();
