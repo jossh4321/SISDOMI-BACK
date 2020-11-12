@@ -26,58 +26,57 @@ namespace SISDOMI.Controllers
 
         [HttpGet("all/fichaingresosocial")]
 
-        public ActionResult<List<Documento>> GetAllFichaIngresoSocial()
+        public ActionResult<List<FichaIngresoSocial>> GetAllFichaIngresoSocial()
         {
             return _fichaIngresoSocialService.GetAll();
         }
         [HttpGet("all/fichaingresoeducativa")]
-        public ActionResult<List<Documento>> GetAllFichaIngresoEducativa()
+        public ActionResult<List<FichaIngresoEducativa>> GetAllFichaIngresoEducativa()
         {
             return _fichaIngresoEducativoService.GetAll();
         }
         [HttpGet("all/fichaingresopsicologica")]
-        public ActionResult<List<Documento>> GetAllFichaIngresoPsicologica()
+        public ActionResult<List<FichaIngresoPsicologica>> GetAllFichaIngresoPsicologica()
         {
             return _fichaIngresoPsicologicaService.GetAll();
         }
         [HttpPut("fichaingresosocial")]
-        public ActionResult<Documento> PutFichaIngresoSocial(Documento documento)
+        public ActionResult<FichaIngresoSocial> PutFichaIngresoSocial(FichaIngresoSocial  documento)
         {
-            Documento objetofichaEducativa = _fichaIngresoSocialService.ModifyFichaIngresoSocial(documento);
-            return objetofichaEducativa;
+            FichaIngresoSocial  objetofichaSocial= _fichaIngresoSocialService.ModifyFichaIngresoSocial(documento);
+            return objetofichaSocial;
         }
         [HttpPut("fichaingresoeducativa")]
-        public ActionResult<Documento> PutFichaIngresoEducativa(Documento documento)
+        public ActionResult<FichaIngresoEducativa> PutFichaIngresoEducativa(FichaIngresoEducativa documento)
         {
 
-            Documento objetofichaEducativa = _fichaIngresoEducativoService.ModifyFichaIngresoEducativa(documento);
+            FichaIngresoEducativa objetofichaEducativa = _fichaIngresoEducativoService.ModifyFichaIngresoEducativa(documento);
             return objetofichaEducativa;
         }
         [HttpPut("fichaingresopsicologica")]
-        public ActionResult<Documento> PutFichaIngresoPsicologica(Documento documento)
+        public ActionResult<FichaIngresoPsicologica> PutFichaIngresoPsicologica(FichaIngresoPsicologica  documento)
         {
 
-            Documento objetofichaPsicologica= _fichaIngresoPsicologicaService.ModifyFichaIngresoPsicologica(documento);
+            FichaIngresoPsicologica objetofichaPsicologica = _fichaIngresoPsicologicaService.ModifyFichaIngresoPsicologica(documento);
             return objetofichaPsicologica;
         }
         [HttpPost("all/fichaingresoeducativacrear")]
-        public ActionResult<Documento> PostFichaIngresoEducativa(Documento documento) {
+        public ActionResult<FichaIngresoEducativa> PostFichaIngresoEducativa(FichaIngresoEducativa  documento) {
 
-            Documento objetofichaEducativa = _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);
+           FichaIngresoEducativa  objetofichaEducativa = _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);
             return objetofichaEducativa;
         }
         [HttpPost("all/fichaingresosocialcrear")]
-        public ActionResult<Documento> PostFichaIngresoSocial(Documento documento)
+        public ActionResult<FichaIngresoSocial> PostFichaIngresoSocial(FichaIngresoSocial documento)
         {
-
-            Documento objetofichaSocial = _fichaIngresoSocialService.CreateFichaIngresoSocial(documento);
+            FichaIngresoSocial objetofichaSocial = _fichaIngresoSocialService.CreateFichaIngresoSocial(documento);
             return objetofichaSocial;
+             
         }
         [HttpPost("all/fichaingresopsicologicacrear")]
-        public ActionResult<Documento> PostFichaIngresoPsicologica(Documento documento)
+        public ActionResult<FichaIngresoPsicologica> PostFichaIngresoPsicologica(FichaIngresoPsicologica  documento)
         {
-
-            Documento objetofichaPsicologica = _fichaIngresoPsicologicaService.CreateFichaIngresoPsicologica(documento);
+          FichaIngresoPsicologica  objetofichaPsicologica =_fichaIngresoPsicologicaService.CreateFichaIngresoPsicologica(documento);
             return objetofichaPsicologica;
         }
         [HttpGet("all/fichaingresoresidente")]
