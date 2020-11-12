@@ -36,6 +36,25 @@ namespace SISDOMI.Controllers
 
             return imageUrl;
         }
+        [HttpPost("archivos/pdf")]
+        public async Task<ActionResult<String>> PostFilePdf(IFormFile file)
+        {
+            String imageUrl;
+
+            try
+            {
+                imageUrl = await mediaService.CrearListaArchivos(file);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+
+            return imageUrl;
+        }
+
+
     }
 
 }
