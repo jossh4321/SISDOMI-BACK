@@ -64,8 +64,8 @@ namespace SISDOMI.Entities
     {
         public string antecedentes { get; set; }
         public string situacionactual { get; set; }
-        public string logroalcanzado { get; set; }
-        public string recomendaciones { get; set; }
+        public List<string> logroalcanzado { get; set; }
+        public List<string> recomendaciones { get; set; }
         public InstitucionEducativa iereinsersion { get; set; }
         public List<string> anexos { get; set; }
         public List<Firma> firmas { get; set; }
