@@ -27,7 +27,7 @@ namespace SISDOMI.Controllers
             return await _planIntervencionService.GetAll();
         }
 
-        [HttpPost("/educativo")]
+        [HttpPost("educativo")]
         public async Task<ActionResult<PlanIntervencionIndividualEducativo>> PostPlanEducativo(PlanResidente planIntervencionIndividual)
         {
             try
@@ -43,7 +43,7 @@ namespace SISDOMI.Controllers
         }
 
 
-        [HttpPut("/educativo")]
+        [HttpPut("educativo")]
         public ActionResult<PlanIntervencionIndividualEducativo> Put(PlanIntervencionIndividualEducativo planIntervencion)
         {
             PlanIntervencionIndividualEducativo objetoplan = _planIntervencionService.ModifyIndividualInterventionPlan(planIntervencion);
@@ -51,7 +51,7 @@ namespace SISDOMI.Controllers
         }
 
         // Plan Psicologico
-        [HttpPost("/psicologico")]
+        [HttpPost("psicologico")]
         public async Task<ActionResult<PlanIntervencionIndividualPsicologico>> PostPlanPsicologico(PlanResidentePsicologico planResidentePsicologico)
         {
             try
@@ -66,7 +66,7 @@ namespace SISDOMI.Controllers
         }
 
         // Plan Social
-        [HttpPost("/social")]
+        [HttpPost("social")]
         public async Task<ActionResult<PlanIntervencionIndividualSocial>> PostPlanSocial(PlanResidenteSocial planResidenteSocial)
         {
             try
