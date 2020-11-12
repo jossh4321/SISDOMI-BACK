@@ -245,7 +245,7 @@ namespace SISDOMI.Entities
     }
 
     public class ContenidoPlanIntervencionSocial
-    {
+    {//
         [BsonElement("diagnostico")]
         public String diagnostico { get; set; }
         [BsonElement("objetivos")]
