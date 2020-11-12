@@ -31,7 +31,7 @@ namespace SISDOMI.Controllers
         }
 
         [HttpGet("id")]
-        public async Task<ActionResult<DocumentoDTO>> GetById(string id)
+        public async Task<ActionResult<DocumentoDTO>> GetById([FromQuery] string id)
         {
             return await _informeService.GetById(id);
         }
@@ -53,6 +53,14 @@ namespace SISDOMI.Controllers
         [HttpPost("informeee")]
         public async Task<ActionResult<InformeEducativoEvolutivo>> CrearInformeEE(InformeEducativoEvolutivo informe)
         {
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
             return await _informeService.RegistrarInformeEE(informe);
         }
         [HttpPost("informesi")]
