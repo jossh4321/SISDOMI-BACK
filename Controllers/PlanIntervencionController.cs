@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
 using SISDOMI.Models;
@@ -37,7 +38,7 @@ namespace SISDOMI.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
             
         }
@@ -61,7 +62,7 @@ namespace SISDOMI.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
 
@@ -76,7 +77,7 @@ namespace SISDOMI.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
     }
