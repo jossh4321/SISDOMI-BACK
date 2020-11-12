@@ -20,13 +20,13 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPost("")]
-        public async Task<ActionResult<List<String>>> PostImage(List<IFormFile> files)
+        public async Task<ActionResult<String>> PostImage(IFormFile file)
         {
-            List<String> images;
+            String imageUrl;
 
             try
             {
-                images = await mediaService.CrearListaFirmas(files);
+                imageUrl = await mediaService.CrearListaFirmas(file);
             }
             catch (Exception ex)
             {
@@ -34,7 +34,7 @@ namespace SISDOMI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
 
-            return images;
+            return imageUrl;
         }
     }
 

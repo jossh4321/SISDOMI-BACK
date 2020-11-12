@@ -20,23 +20,19 @@ namespace SISDOMI.Services
             this.fileStorage = fileStorage;
         }
 
-        public async Task<List<String>> CrearListaFirmas(List<IFormFile> mediaInfos)
+        public async Task<String> CrearListaFirmas(IFormFile mediaInfo)
         {
-            List<String> imageUrls = new List<string>();
+            String urlImage = "";
 
-            foreach (var medio in mediaInfos)
+            using (var stream = new MemoryStream())
             {
-                using (var stream = new MemoryStream())
-                {
-                    await medio.CopyToAsync(stream);
+                await mediaInfo.CopyToAsync(stream);
 
-                    String urlImage = await fileStorage.SaveFile(stream.ToArray(), "jpg", "planes");
+                urlImage = await fileStorage.SaveFile(stream.ToArray(), "jpg", "planes");
 
-                    imageUrls.Add(urlImage);
-                }
             }
 
-            return imageUrls;
+            return urlImage;
         } 
     }
 }
