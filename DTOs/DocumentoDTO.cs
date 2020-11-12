@@ -19,6 +19,8 @@ namespace SISDOMI.DTOs
         public DateTime fechacreacion { get; set; }
         public string area { get; set; }
         public string fase { get; set; }
+        public string idresidente { get; set; }
+        public string estado { get; set; }
         public Object contenido { get; set; }
     }
 }
