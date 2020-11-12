@@ -1,44 +1,52 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using SISDOMI.DTOs;
 using SISDOMI.Entities;
+using SISDOMI.Helpers;
+using SISDOMI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace SISDOMI.Services
 {
     public class FichaIngresoEducativoService
     {
         private readonly IMongoCollection<Documento> _documentos;
-        private readonly IMongoCollection<Documento> _residente;
-        //private readonly IMongoCollection<Residentes> _residente;
-        public FichaIngresoEducativoService(ISysdomiDatabaseSettings settings)
+        private readonly ExpedienteService expedienteService;
+        private readonly IDocument document;
+
+        public FichaIngresoEducativoService(ISysdomiDatabaseSettings settings, ExpedienteService expedienteService, IDocument document)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _documentos = database.GetCollection<Documento>("documentos");
-        }
-        public List<Documento> GetAll()
-        {
-            List<Documento> listFichaIngresoEducativa = new List<Documento>();
 
-            listFichaIngresoEducativa = _documentos.AsQueryable().OfType<Documento>().ToList();
+            this.expedienteService = expedienteService;
+            this.document = document;
+        }
+        public List<FichaIngresoEducativa> GetAll()
+        {
+            List<FichaIngresoEducativa> listFichaIngresoEducativa = new List<FichaIngresoEducativa>();
+
+            listFichaIngresoEducativa = _documentos.AsQueryable().OfType<FichaIngresoEducativa>().ToList();
 
             return listFichaIngresoEducativa;
         }
-        public Documento CreateFichaIngresoEducativo(Documento documento)
+        public FichaIngresoEducativa CreateFichaIngresoEducativo(FichaIngresoEducativa documento)
         {
             _documentos.InsertOne(documento);
             return documento;
         }
-        public Documento GetById(string id)
+        public FichaIngresoEducativa GetById(string id)
         {
-            Documento documento = new Documento();
-            documento = _documentos.Find(documento => documento.id == id).FirstOrDefault();
+            FichaIngresoEducativa documento = new FichaIngresoEducativa();
+            documento = _documentos.AsQueryable().OfType<FichaIngresoEducativa>().ToList().Find(documento  => documento.id == id);
             return documento;
+          
         }
-        public Documento ModifyFichaIngresoEducativa(Documento documento)
+        public FichaIngresoEducativa ModifyFichaIngresoEducativa(FichaIngresoEducativa documento)
         {
             var filter = Builders<Documento>.Filter.Eq("id", documento.id);
             var update = Builders<Documento>.Update
@@ -48,7 +56,8 @@ namespace SISDOMI.Services
                 .Set("fechacreacion", documento.fechacreacion)
                 .Set("area", documento.area)
                  .Set("fase", documento.fase)
-                .Set("estado", documento.estado);
+                .Set("estado", documento.estado)
+            .Set("contenido", documento.contenido);
                 
             var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
             {
