@@ -29,16 +29,16 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPost("")]
-        public async Task<ActionResult<PlanIntervencionIndividual>> Post(PlanResidente planIntervencionIndividual)
+        public async Task<ActionResult<PlanIntervencionIndividualEducativo>> Post(PlanResidente planIntervencionIndividual)
         {
             return await _planIntervencionService.CreateIndividualInterventionPlan(planIntervencionIndividual);
         }
 
 
         [HttpPut("")]
-        public ActionResult<PlanIntervencionIndividual> Put(PlanIntervencionIndividual planIntervencion)
+        public ActionResult<PlanIntervencionIndividualEducativo> Put(PlanIntervencionIndividualEducativo planIntervencion)
         {
-            PlanIntervencionIndividual objetoplan = _planIntervencionService.ModifyIndividualInterventionPlan(planIntervencion);
+            PlanIntervencionIndividualEducativo objetoplan = _planIntervencionService.ModifyIndividualInterventionPlan(planIntervencion);
             return objetoplan;
         }
     }
