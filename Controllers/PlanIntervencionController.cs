@@ -101,5 +101,20 @@ namespace SISDOMI.Controllers
             PlanIntervencionIndividualSocial objetoplan = _planIntervencionService.ModifySocialIndividualInterventionPlan(planIntervencion);
             return objetoplan;
         }
+
+        //General
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PlanIntervencionConsultaDTO>> GetPlanById(String id)
+        {
+            try
+            {
+                return await _planIntervencionService.GetPlanById(id);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
     }
 }
