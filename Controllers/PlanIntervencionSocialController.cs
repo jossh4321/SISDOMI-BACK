@@ -35,7 +35,7 @@ namespace SISDOMI.Controllers
         }
 
         [HttpGet("id")]
-        public ActionResult<PlanIntervencionIndividual> Get([FromQuery] string id)
+        public ActionResult<PlanIntervencionIndividualEducativo> Get([FromQuery] string id)
         {
             return _planIntervencionService.GetById(id);
                
