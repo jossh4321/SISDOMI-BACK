@@ -48,5 +48,12 @@ namespace SISDOMI.Controllers
             PlanIntervencionIndividualEducativo objetoplan = _planIntervencionService.ModifyIndividualInterventionPlan(planIntervencion);
             return objetoplan;
         }
+
+        [HttpPut("State")]
+        public ActionResult<PlanIntervencionIndividualEducativo> PutS(PlanIntervencionIndividualEducativo planIntervencion)
+        {
+            PlanIntervencionIndividualEducativo objetoplan = _planIntervencionService.ModifyIndividualInterventionPlanState(planIntervencion);
+            return objetoplan;
+        }
     }
 }
