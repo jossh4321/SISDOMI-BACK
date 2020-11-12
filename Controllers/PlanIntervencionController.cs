@@ -66,6 +66,7 @@ namespace SISDOMI.Controllers
             }
         }
 
+
         // Plan Social
         [HttpPost("social")]
         public async Task<ActionResult<PlanIntervencionIndividualSocial>> PostPlanSocial(PlanResidenteSocial planResidenteSocial)
@@ -79,6 +80,13 @@ namespace SISDOMI.Controllers
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
+        }
+
+        [HttpPut("social")]
+        public ActionResult<PlanIntervencionIndividualSocial> PutPlanSocial(PlanIntervencionIndividualSocial planIntervencion)
+        {
+            PlanIntervencionIndividualSocial objetoplan = _planIntervencionService.ModifySocialIndividualInterventionPlan(planIntervencion);
+            return objetoplan;
         }
     }
 }
