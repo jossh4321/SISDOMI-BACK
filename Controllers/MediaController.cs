@@ -31,7 +31,7 @@ namespace SISDOMI.Controllers
             catch (Exception ex)
             {
 
-                throw ex;
+                return BadRequest(ex);
             }
 
             return images;

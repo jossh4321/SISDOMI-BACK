@@ -91,15 +91,15 @@ namespace SISDOMI.Services
         }
 
         //Angello xdd
-        public PlanIntervencionIndividual GetById(String id)
+        public PlanIntervencionIndividualEducativo GetById(String id)
         {
-            PlanIntervencionIndividual planesI = new PlanIntervencionIndividual();
-            planesI = _documentos.AsQueryable().OfType<PlanIntervencionIndividual>().ToList().Find(planesI => planesI.id == id);
+            PlanIntervencionIndividualEducativo planesI = new PlanIntervencionIndividualEducativo();
+            planesI = _documentos.AsQueryable().OfType<PlanIntervencionIndividualEducativo>().ToList().Find(planesI => planesI.id == id);
             return planesI;
         }
 
         //Sebastian
-        public async Task<PlanIntervencionIndividual> CreateIndividualInterventionPlan(PlanResidente planIntervencionIndividual)
+        public async Task<PlanIntervencionIndividualEducativo> CreateIndividualInterventionPlan(PlanResidente planIntervencionIndividual)
         {
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
 
@@ -121,7 +121,7 @@ namespace SISDOMI.Services
         }
 
         //Fede
-        public PlanIntervencionIndividual ModifyIndividualInterventionPlan(PlanIntervencionIndividual planIntervencionIndividual)
+        public PlanIntervencionIndividualEducativo ModifyIndividualInterventionPlan(PlanIntervencionIndividualEducativo planIntervencionIndividual)
         {
             var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
             var update = Builders<Documento>.Update
@@ -135,12 +135,12 @@ namespace SISDOMI.Services
             {
                 ReturnDocument = ReturnDocument.After
             });
-            planIntervencionIndividual = doc as PlanIntervencionIndividual;
+            planIntervencionIndividual = doc as PlanIntervencionIndividualSocial;
             return planIntervencionIndividual;
         }
 
         // Jaime xd
-        public PlanIntervencionIndividual ModifyIndividualInterventionPlanState(PlanIntervencionIndividual planIntervencionIndividual)
+        public PlanIntervencionIndividualEducativo ModifyIndividualInterventionPlanState(PlanIntervencionIndividualEducativo planIntervencionIndividual)
         {
             var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
             var update = Builders<Documento>.Update
@@ -149,10 +149,52 @@ namespace SISDOMI.Services
                 
 
             _documentos.UpdateOne(filter, update);
-            return new PlanIntervencionIndividual();
+            return new PlanIntervencionIndividualSocial();
+        }
+
+        //Plan Intervencion Psicologica
+        public async Task<PlanIntervencionIndividualPsicologico> CreatePsycologicalInterventionPlan(PlanResidentePsicologico planResidentePsicologico)
+        {
+            DateTime DateNow = DateTime.UtcNow.AddHours(-5);
+
+            Expediente expediente = await expedienteService.GetByResident(planResidentePsicologico.idresidente);
+
+            planResidentePsicologico.planIntervencionIndividualPsicologico.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, planResidentePsicologico.planIntervencionIndividualPsicologico.tipo, expediente.documentos.Count);
+
+            await _documentos.InsertOneAsync(planResidentePsicologico.planIntervencionIndividualPsicologico);
+
+            DocumentoExpediente documentoExpediente = new DocumentoExpediente
+            {
+                iddocumento = planResidentePsicologico.planIntervencionIndividualPsicologico.id,
+                tipo = planResidentePsicologico.planIntervencionIndividualPsicologico.tipo
+            };
+
+            await expedienteService.UpdateDocuments(documentoExpediente, expediente.id);
+
+            return planResidentePsicologico.planIntervencionIndividualPsicologico;
         }
 
 
+        //Plan Intervencion Social
+        public async Task<PlanIntervencionIndividualSocial> CreateSocialInterventionPlan(PlanResidenteSocial planResidenteSocial)
+        {
+            DateTime DateNow = DateTime.UtcNow.AddHours(-5);
 
+            Expediente expediente = await expedienteService.GetByResident(planResidenteSocial.idresidente);
+
+            planResidenteSocial.planIntervencionIndividualSocial.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, planResidenteSocial.planIntervencionIndividualSocial.tipo, expediente.documentos.Count);
+
+            await _documentos.InsertOneAsync(planResidenteSocial.planIntervencionIndividualSocial);
+
+            DocumentoExpediente documentoExpediente = new DocumentoExpediente
+            {
+                iddocumento = planResidenteSocial.planIntervencionIndividualSocial.id,
+                tipo = planResidenteSocial.planIntervencionIndividualSocial.tipo
+            };
+
+            await expedienteService.UpdateDocuments(documentoExpediente, expediente.id);
+
+            return planResidenteSocial.planIntervencionIndividualSocial;
+        }
     }
 }
