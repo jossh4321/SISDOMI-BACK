@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
+using SISDOMI.Helpers;
 using SISDOMI.Services;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace SISDOMI.Controllers
     public class InformeController
     {
         private readonly InformeService _informeService;
+        private readonly IFileStorage _fileStorage;
 
-        public InformeController(InformeService informeService)
+        public InformeController(InformeService informeService, IFileStorage fileStorage)
         {
             _informeService = informeService;
+            _fileStorage = fileStorage;
         }
 
         [HttpGet("all")]
@@ -35,8 +38,16 @@ namespace SISDOMI.Controllers
 
         //POST
         [HttpPost("informeei")]
-        public async Task<ActionResult<InformeEducativoInicial>> CrearInformeEI(InformeEducativoInicial informe)
+        public async Task<ActionResult<InformeEducativoInicial>> CrearInformeEI(InformeEducativoInicial informe)        
         {
+            foreach(var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }            
             return await _informeService.RegistrarInformeEI(informe);
         }
         [HttpPost("informeee")]

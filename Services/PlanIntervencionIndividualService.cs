@@ -98,6 +98,13 @@ namespace SISDOMI.Services
             return planesI;
         }
 
+        public PlanIntervencionIndividualEducativo GetEducationalIndividualInterventionPlanById(String id)
+        {
+            PlanIntervencionIndividualEducativo planesI = new PlanIntervencionIndividualEducativo();
+            planesI = _documentos.AsQueryable().OfType<PlanIntervencionIndividualEducativo>().ToList().Find(planesI => planesI.id == id);
+            return planesI;
+        }
+
         //Sebastian
         public async Task<PlanIntervencionIndividualEducativo> CreateIndividualInterventionPlan(PlanResidente planIntervencionIndividual)
         {
@@ -125,10 +132,7 @@ namespace SISDOMI.Services
         {
             var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
             var update = Builders<Documento>.Update
-                .Set("area", planIntervencionIndividual.area)
-                .Set("creadordocumento", planIntervencionIndividual.creadordocumento)
                 .Set("fase", planIntervencionIndividual.fase)
-                .Set("fechacreacion", planIntervencionIndividual.fechacreacion)
                 .Set("contenido", planIntervencionIndividual.contenido)
                 .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
             var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
@@ -137,6 +141,22 @@ namespace SISDOMI.Services
             });
 
             planIntervencionIndividual = doc as PlanIntervencionIndividualEducativo;
+            return planIntervencionIndividual;
+        }
+
+        public PlanIntervencionIndividualSocial ModifySocialIndividualInterventionPlan(PlanIntervencionIndividualSocial planIntervencionIndividual)
+        {
+            var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
+            var update = Builders<Documento>.Update
+                .Set("fase", planIntervencionIndividual.fase)
+                .Set("contenido", planIntervencionIndividual.contenido)
+                .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
+            var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
+
+            planIntervencionIndividual = doc as PlanIntervencionIndividualSocial;
             return planIntervencionIndividual;
         }
 
@@ -177,6 +197,12 @@ namespace SISDOMI.Services
 
 
         //Plan Intervencion Social
+        public PlanIntervencionIndividualSocial GetSocialIndividualInterventionPlanById(String id)
+        {
+            PlanIntervencionIndividualSocial planesI = new PlanIntervencionIndividualSocial();
+            planesI = _documentos.AsQueryable().OfType<PlanIntervencionIndividualSocial>().ToList().Find(planesI => planesI.id == id);
+            return planesI;
+        }
         public async Task<PlanIntervencionIndividualSocial> CreateSocialInterventionPlan(PlanResidenteSocial planResidenteSocial)
         {
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
