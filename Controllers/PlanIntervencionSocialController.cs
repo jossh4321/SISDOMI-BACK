@@ -34,6 +34,12 @@ namespace SISDOMI.Controllers
             return await _planIntervencionService.CreateIndividualInterventionPlan(planIntervencionIndividual);
         }
 
+        [HttpGet("id")]
+        public ActionResult<PlanIntervencionIndividual> Get([FromQuery] string id)
+        {
+            return  _planIntervencionService.GetById(id);
+        }
+
 
         [HttpPut("")]
         public ActionResult<PlanIntervencionIndividual> Put(PlanIntervencionIndividual planIntervencion)
