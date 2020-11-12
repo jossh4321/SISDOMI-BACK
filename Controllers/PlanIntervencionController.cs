@@ -58,6 +58,13 @@ namespace SISDOMI.Controllers
         }
 
         // Plan Psicologico
+        [HttpGet("psicologicobyid")]
+        public ActionResult<PlanIntervencionIndividualPsicologico> GetPlanPsicologico([FromQuery] string id)
+        {
+            return _planIntervencionService.GetPsychologicalIndividualInterventionPlanById(id);
+
+        }
+
         [HttpPost("psicologico")]
         public async Task<ActionResult<PlanIntervencionIndividualPsicologico>> PostPlanPsicologico(PlanResidentePsicologico planResidentePsicologico)
         {
@@ -72,6 +79,12 @@ namespace SISDOMI.Controllers
             }
         }
 
+        [HttpPut("psicologico")]
+        public ActionResult<PlanIntervencionIndividualPsicologico> Put(PlanIntervencionIndividualPsicologico planIntervencion)
+        {
+            PlanIntervencionIndividualPsicologico objetoplan = _planIntervencionService.ModifyPsycologicalIndividualInterventionPlan(planIntervencion);
+            return objetoplan;
+        }
 
         // Plan Social
         [HttpGet("socialbyid")]

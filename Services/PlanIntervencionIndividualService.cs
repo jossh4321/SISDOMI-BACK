@@ -264,6 +264,22 @@ namespace SISDOMI.Services
             return planIntervencionIndividual;
         }
 
+        public PlanIntervencionIndividualPsicologico ModifyPsycologicalIndividualInterventionPlan(PlanIntervencionIndividualPsicologico planIntervencionIndividual)
+        {
+            var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
+            var update = Builders<Documento>.Update
+                .Set("fase", planIntervencionIndividual.fase)
+                .Set("contenido", planIntervencionIndividual.contenido)
+                .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
+            var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
+
+            planIntervencionIndividual = doc as PlanIntervencionIndividualPsicologico;
+            return planIntervencionIndividual;
+        }
+
         // Jaime xd
         public PlanIntervencionIndividualEducativo ModifyIndividualInterventionPlanState(PlanIntervencionIndividualEducativo planIntervencionIndividual)
         {
@@ -278,6 +294,12 @@ namespace SISDOMI.Services
         }
 
         //Plan Intervencion Psicologica
+        public PlanIntervencionIndividualPsicologico GetPsychologicalIndividualInterventionPlanById(String id)
+        {
+            PlanIntervencionIndividualPsicologico planesI = new PlanIntervencionIndividualPsicologico();
+            planesI = _documentos.AsQueryable().OfType<PlanIntervencionIndividualPsicologico>().ToList().Find(planesI => planesI.id == id);
+            return planesI;
+        }
         public async Task<PlanIntervencionIndividualPsicologico> CreatePsycologicalInterventionPlan(PlanResidentePsicologico planResidentePsicologico)
         {
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
