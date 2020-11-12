@@ -135,7 +135,8 @@ namespace SISDOMI.Services
             {
                 ReturnDocument = ReturnDocument.After
             });
-            planIntervencionIndividual = doc as PlanIntervencionIndividualSocial;
+
+            planIntervencionIndividual = doc as PlanIntervencionIndividualEducativo;
             return planIntervencionIndividual;
         }
 
@@ -149,7 +150,7 @@ namespace SISDOMI.Services
                 
 
             _documentos.UpdateOne(filter, update);
-            return new PlanIntervencionIndividualSocial();
+            return new PlanIntervencionIndividualEducativo();
         }
 
         //Plan Intervencion Psicologica
