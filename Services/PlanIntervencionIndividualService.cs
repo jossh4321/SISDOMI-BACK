@@ -185,6 +185,15 @@ namespace SISDOMI.Services
             return planIntervencionConsultaDTO;
         }
 
+        public async Task UpdatePlanState(PlanState planState)
+        {
+            var filter = Builders<Documento>.Filter.Eq("id", planState.idDocumento);
+
+            var update = Builders<Documento>.Update.Set("estado", planState.estado);
+
+            await _documentos.FindOneAndUpdateAsync<Documento>(filter, update);
+        }
+
         //Angello xdd
         public PlanIntervencionIndividualEducativo GetById(String id)
         {

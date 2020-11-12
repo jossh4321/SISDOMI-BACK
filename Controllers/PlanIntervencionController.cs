@@ -116,5 +116,20 @@ namespace SISDOMI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
+        [HttpPut("state")]
+        public async Task<ActionResult> UpdatePlanState(PlanState planState)
+        {
+            try
+            {
+                await _planIntervencionService.UpdatePlanState(planState);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
     }
 }
