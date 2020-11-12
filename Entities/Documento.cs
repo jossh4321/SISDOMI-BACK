@@ -263,7 +263,7 @@ namespace SISDOMI.Entities
         [BsonElement("codigodocumento")]
         public String codigoDocumento { get; set; }
         [BsonElement("titulo")]
-        public String titutlo { get; set; }
+        public String titulo { get; set; }
     }
 
     public class PlanIntervencionIndividualSocial: Documento
