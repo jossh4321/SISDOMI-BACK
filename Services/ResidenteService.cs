@@ -88,7 +88,7 @@ namespace SISDOMI.Services
                 .Set("juzgadoprocedencia", residente.juzgadoProcedencia)
                 .Set("fechanacimiento", residente.fechaNacimiento)
                 .Set("sexo", residente.sexo)
-                .Set("telefonosreferencia", residente.telefonosReferencia)
+                .Set("telefonosreferencias", residente.telefonosReferencia)
                 .Set("fechaingreso", residente.fechaIngreso)
                 .Set("motivoingreso", residente.motivoIngreso)
                 .Set("progreso", residente.progreso)

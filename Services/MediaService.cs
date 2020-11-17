@@ -33,6 +33,21 @@ namespace SISDOMI.Services
             }
 
             return urlImage;
-        } 
+        }
+
+        public async Task<String> CrearListaArchivos(IFormFile mediaInfo)
+        {
+            String urlImage = "";
+
+            using (var stream = new MemoryStream())
+            {
+                await mediaInfo.CopyToAsync(stream);
+
+                urlImage = await fileStorage.SaveDoc(stream.ToArray(), "pdf", "archivos");
+
+            }
+
+            return urlImage;
+        }
     }
 }

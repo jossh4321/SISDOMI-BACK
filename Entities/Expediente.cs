@@ -26,7 +26,7 @@ namespace SISDOMI.Entities
         public DateTime? fechafin { get; set; }
 
         [BsonElement("documentos")]
-        public List<DocumentoExpediente> documentos { get; set; }
+        public List<DocumentoExpediente> documentos { get; set; } = new List<DocumentoExpediente>();
 
     }
 

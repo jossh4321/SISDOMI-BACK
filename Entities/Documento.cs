@@ -217,8 +217,8 @@ namespace SISDOMI.Entities
     {
         [BsonElement("descripcion")]
         public String descripcion { get; set; }
-        [BsonElement("obtivoespecificos")]
-        public List<String> objetivosEspecificos { get; set; }
+        [BsonElement("objetivoespecificos")]
+        public List<String> objetivoEspecificos { get; set; }
         [BsonElement("tecnicas")]
         public List<String> tecnicas { get; set; }
         [BsonElement("metas")]
@@ -247,6 +247,8 @@ namespace SISDOMI.Entities
 
     public class ContenidoPlanIntervencionSocial
     {//
+        [BsonElement("edad")]
+        public int edad { get; set; }
         [BsonElement("diagnostico")]
         public String diagnostico { get; set; }
         [BsonElement("objetivos")]
