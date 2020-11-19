@@ -322,4 +322,5 @@ namespace SISDOMI.Entities
     {
         public ContenidoInformeSeguimientoEducativo contenido { get; set; } = new ContenidoInformeSeguimientoEducativo();
     }
-}
+    ///FIN SEGUIMIENTO EDUCATIVO
+}    
