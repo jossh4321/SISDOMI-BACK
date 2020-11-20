@@ -28,7 +28,7 @@ namespace SISDOMI.Controllers
 
         [HttpGet("all")]
         
-        public async Task<ActionResult<List<InformeDTO>>> GetAll()
+        public async Task<ActionResult<List<SeguimientoDTO>>> GetAll()
         {
             return await _seguimientoeducativoservice.GetAll();
         }

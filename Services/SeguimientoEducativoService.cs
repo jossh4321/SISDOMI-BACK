@@ -21,7 +21,7 @@ namespace SISDOMI.Services
             _documentos = database.GetCollection<Documento>("documentos");
             _expedientes = database.GetCollection<Expediente>("expedientes");
         }
-        public async Task<List<InformeDTO>> GetAll()
+        public async Task<List<SeguimientoDTO>> GetAll()
         {
             var match = new BsonDocument("$match",
                        new BsonDocument("tipo",
@@ -59,7 +59,12 @@ namespace SISDOMI.Services
                                { "_t", 1 },
                                { "tipo", 1 },
                                { "fechacreacion", 1 },
-                               { "codigodocumento", 1 },
+                               { "estado", new BsonDocument("$concat",
+                                        new BsonArray
+                                        {"$datosresidente.estado"
+                                        }
+                                        ) },
+                               { "codigodocumento",1},
                                { "nombrecompleto",
                                     new BsonDocument("$concat",
                                         new BsonArray
@@ -70,14 +75,14 @@ namespace SISDOMI.Services
                                         }) }
                           });
 
-            List<InformeDTO> listainformes = new List<InformeDTO>();
+            List<SeguimientoDTO> listainformes = new List<SeguimientoDTO>();
 
             listainformes = await _documentos.Aggregate()
                             .AppendStage<dynamic>(match)
                             .AppendStage<dynamic>(addfield)
                             .AppendStage<dynamic>(lookup)
                             .AppendStage<dynamic>(unwind)
-                            .AppendStage<InformeDTO>(project)
+                            .AppendStage<SeguimientoDTO>(project)
                             .ToListAsync();
             return listainformes;
         }
