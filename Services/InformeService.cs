@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
+using SISDOMI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,18 @@ namespace SISDOMI.Services
     {
         private readonly IMongoCollection<Documento> _documentos;
         private readonly IMongoCollection<Expediente> _expedientes;
+        private readonly ExpedienteService expedienteService;
+        private readonly IDocument document;
 
-        public InformeService(ISysdomiDatabaseSettings settings)
+        public InformeService(ISysdomiDatabaseSettings settings, IDocument document, ExpedienteService expedienteService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _documentos = database.GetCollection<Documento>("documentos");
             _expedientes = database.GetCollection<Expediente>("expedientes");
+            this.expedienteService = expedienteService;
+            this.document = document;
         }
 
         public async Task<List<InformeDTO>> GetAllReportsDTO()
@@ -122,14 +127,16 @@ namespace SISDOMI.Services
         }
         public async Task<InformeEducativoEvolutivo> RegistrarInformeEE(InformeEducativoEvolutivo informe)
         {
+            DateTime DateNow = DateTime.UtcNow.AddHours(-5);
+            Expediente expediente = await expedienteService.GetByResident(informe.idresidente);
+            informe.contenido.codigodocumento = document.CreateCodeDocument(DateNow, informe.tipo, expediente.documentos.Count + 1);
             await _documentos.InsertOneAsync(informe);
             DocumentoExpediente docexpe = new DocumentoExpediente()
             {
                 tipo = informe.tipo,
                 iddocumento = informe.id
             };
-            UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
-            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+            await expedienteService.UpdateDocuments(docexpe, expediente.id);
             return informe;
         }
         public async Task<InformeSocialInicial> RegistrarInformeSI(InformeSocialInicial informe)
