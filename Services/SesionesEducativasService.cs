@@ -12,7 +12,6 @@ namespace SISDOMI.Services
 {
     public class SesionesEducativasService
     {
-        //mapear sesiones
         private readonly IMongoCollection<SesionEducativa> _sesioneducativa;
 
         public List<SesionEducativa> GetAll()

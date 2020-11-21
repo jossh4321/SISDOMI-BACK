@@ -11,46 +11,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
 
-
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace SISDOMI.Controllers
 {
     [Route("api/[controller]")]
     public class SesionesEducativasController : Controller
     {
-        private readonly SesionesEducativasService _sesioneducativa;
+        private readonly SesionesEducativasService _sesionducativaService;
+        private readonly IFileStorage _fileStorage;
+
+        public SesionesEducativasController(SesionesEducativasService sesionducativaService, IFileStorage fileStorage)
+        {
+            _sesionducativaService = sesionducativaService;
+            _fileStorage = fileStorage;
+        }
 
         [HttpGet("all")]
         public ActionResult<List<SesionEducativa>> GetAll()
         {
-            return _sesioneducativa.GetAll();
-        }
-
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return _sesionducativaService.GetAll();
         }
     }
 }
