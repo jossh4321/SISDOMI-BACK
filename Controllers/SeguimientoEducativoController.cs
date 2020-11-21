@@ -41,14 +41,6 @@ namespace SISDOMI.Controllers
         [HttpPost("informese")]
         public async Task<ActionResult<InformeSeguimientoEducativo>> CrearInformeSE(InformeSeguimientoEducativo informe)
         {
-            foreach (var item in informe.contenido.firmas)
-            {
-                if (!string.IsNullOrWhiteSpace(item.urlfirma))
-                {
-                    var imgfirma = Convert.FromBase64String(item.urlfirma);
-                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
-                }
-            }
             return await _seguimientoeducativoservice.RegistrarInformeSE(informe);
         }
         [HttpPut("informese")]
