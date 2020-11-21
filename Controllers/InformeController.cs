@@ -82,9 +82,17 @@ namespace SISDOMI.Controllers
 
         //PUT
         [HttpPut("informeei")]
-        public ActionResult<InformeEducativoInicial> ModificarInformeEI(InformeEducativoInicial informe)
+        public async Task<ActionResult<InformeEducativoInicial>> ModificarInformeEI(InformeEducativoInicial informe)
         {
-            return _informeService.ModificarInformeEI(informe);
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma) && !item.urlfirma.Contains("http"))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
+            return await _informeService.ModificarInformeEI(informe);
         }
         [HttpPut("informeee")]
         public ActionResult<InformeEducativoEvolutivo> ModificarInformeEE(InformeEducativoEvolutivo informe)

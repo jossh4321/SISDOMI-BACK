@@ -191,7 +191,7 @@ namespace SISDOMI.Services
         }
 
         //Modificar Informes
-        public InformeEducativoInicial ModificarInformeEI(InformeEducativoInicial informe)
+        public async Task<InformeEducativoInicial> ModificarInformeEI(InformeEducativoInicial informe)
         {
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
