@@ -22,6 +22,8 @@ namespace SISDOMI.Entities
         public string area { get; set; }
         [BsonElement("contenido")]
         public ContenidoSesionEducativa contenido { get; set; }
+        [BsonElement("tipo")]
+        public string tipo { get; set; }
     }
 
     public class ContenidoSesionEducativa
