@@ -37,5 +37,13 @@ namespace SISDOMI.Services
 
             return sesionEducativa;
         }
+
+        //Trae una sesion educativas segun su id
+        public SesionEducativa GetById(string id)
+        {
+            SesionEducativa sesionedu = new SesionEducativa();
+            sesionedu = _sesioneducativa.Find(sesionedu => sesionedu.id == id).FirstOrDefault();
+            return sesionedu;
+        }
     }
 }
