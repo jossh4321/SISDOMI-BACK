@@ -30,5 +30,11 @@ namespace SISDOMI.Controllers
         {
             return await _sesionducativaService.GetAll();
         }
+
+        [HttpGet("id")]
+        public ActionResult<SesionEducativa> Get([FromQuery] string id) //obtiene una sesion educativa segun su id
+        {
+            return _sesionducativaService.GetById(id);
+        }
     }
 }
