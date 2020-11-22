@@ -144,6 +144,7 @@ namespace SISDOMI.Services
         }
         public async Task<InformeSocialInicial> RegistrarInformeSI(InformeSocialInicial informe)
         {
+            ///un comentario para saber que cambios hice
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
             Expediente expediente = await expedienteService.GetByResident(informe.idresidente);
             informe.contenido.codigodocumento = document.CreateCodeDocument(DateNow, informe.tipo, expediente.documentos.Count + 1);
