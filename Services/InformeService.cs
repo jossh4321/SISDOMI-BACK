@@ -144,6 +144,7 @@ namespace SISDOMI.Services
         }
         public async Task<InformeSocialInicial> RegistrarInformeSI(InformeSocialInicial informe)
         {
+            ///un comentario para saber que cambios hice
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
             Expediente expediente = await expedienteService.GetByResident(informe.idresidente);
             informe.contenido.codigodocumento = document.CreateCodeDocument(DateNow, informe.tipo, expediente.documentos.Count + 1);
@@ -206,7 +207,7 @@ namespace SISDOMI.Services
             _documentos.UpdateOne(filter, update);
             return informe;
         }
-        public InformeEducativoEvolutivo ModificarInformeEE(InformeEducativoEvolutivo informe)
+        public async Task<InformeEducativoEvolutivo> ModificarInformeEE(InformeEducativoEvolutivo informe)
         {
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
