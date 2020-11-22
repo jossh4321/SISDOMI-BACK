@@ -350,5 +350,6 @@ namespace SISDOMI.Services
             return planResidenteSocial.planIntervencionIndividualSocial;
         }
 
+
     }
 }

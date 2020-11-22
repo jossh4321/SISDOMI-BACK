@@ -297,6 +297,8 @@ namespace SISDOMI.Entities
         public List<Trimestre> trimestre { get; set; }
         [BsonElement("firmas")]
         public List<Firmas> firmas { get; set; }
+        [BsonElement("codigodocumento")]
+        public String codigoDocumento { get; set; }
           
     }
     public class Trimestre
