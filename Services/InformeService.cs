@@ -206,7 +206,7 @@ namespace SISDOMI.Services
             _documentos.UpdateOne(filter, update);
             return informe;
         }
-        public InformeEducativoEvolutivo ModificarInformeEE(InformeEducativoEvolutivo informe)
+        public async Task<InformeEducativoEvolutivo> ModificarInformeEE(InformeEducativoEvolutivo informe)
         {
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
