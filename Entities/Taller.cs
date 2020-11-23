@@ -1,25 +1,32 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using SISDOMI.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SISDOMI.DTOs
+namespace SISDOMI.Entities
 {
-    public class TallerEscuelaPadres
+    public class Taller
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public String id { get; set; }
+        [BsonElement("fechacreacion")]
         public DateTime fechacreacion { get; set; }
-        public DateTime fechainicio { get; set; }
-        public DateTime fechafin { get; set; }
+        [BsonElement("titulo")]
         public String titulo { get; set; }
+        [BsonElement("tipo")]
         public String tipo { get; set; }
+        [BsonElement("descripcion")]
         public String descripcion { get; set; }
+        [BsonElement("creadordocumento")]
         public String creadordocumento { get; set; }
-        public List<Tutor> tutores { get; set; }
+        [BsonElement("area")]
+        public String area { get; set; }
+        [BsonElement("fase")]
+        public String fase { get; set; }
+        [BsonElement("contenido")]
+        public Object contenido { get; set; }
     }
 }
