@@ -39,15 +39,15 @@ namespace SISDOMI.Controllers
 
         [HttpPost("")]
 
-        public async Task<ActionResult<SesionEducativa>> PostSesionesEducativas(SesionEducativa sesioneseducativas)
+        public async Task<ActionResult<SesionEducativa>> PostSesionesEducativas( [FromBody] SesionEducativa sesioneseducativas)
         {
 
-            SesionEducativa objetosesioneducativa = await _sesionducativaService.CreateSesionEducativa(sesioneseducativas);
+            SesionEducativa objetosesioneducativa = _sesionducativaService.CreateSesionEducativa(sesioneseducativas);
             return objetosesioneducativa;
         }
 
         [HttpPut("")]
-        public ActionResult<SesionEducativa> PutSesionesEducativas(SesionEducativa sesioneseducativas)
+        public async Task<ActionResult<SesionEducativa>> PutSesionesEducativas([FromBody] SesionEducativa sesioneseducativas)
         {
             SesionEducativa objetosesioneducativa = _sesionducativaService.ModifySesionEducativa(sesioneseducativas);
             return objetosesioneducativa;

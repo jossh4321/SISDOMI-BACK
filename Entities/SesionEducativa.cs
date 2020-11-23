@@ -12,24 +12,30 @@ namespace SISDOMI.Entities
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
+
         [BsonElement("titulo")]
         public string titulo { get; set; }
         [BsonElement("idcreador")]
         public string idCreador { get; set; }
+
         [BsonElement("fechacreacion")]
         public DateTime fechaCreacion { get; set; }
+
         [BsonElement("area")]
         public string area { get; set; }
-        [BsonElement("contenido")]
+
+        [BsonElement("contenido")] 
         public ContenidoSesionEducativa contenido { get; set; }
+        //public List<ContenidoSesionEducativa> contenido { get; set; }
         [BsonElement("tipo")]
         public string tipo { get; set; }
     }
 
-    public class ContenidoSesionEducativa
+    public class ContenidoSesionEducativa 
     {
         public List<Participante> participantes { get; set; }
     }
+
     public class Participante
     {
         public string idparticipante { get; set; }

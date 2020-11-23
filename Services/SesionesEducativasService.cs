@@ -46,10 +46,10 @@ namespace SISDOMI.Services
             return sesionedu;
         }
 
-        public async Task<SesionEducativa> CreateSesionEducativa(SesionEducativa sesioneducativa)
+        public SesionEducativa CreateSesionEducativa(SesionEducativa sesioneducativa)
         {
            
-             await _sesioneducativa.InsertOneAsync(sesioneducativa);
+             _sesioneducativa.InsertOne(sesioneducativa);
             return sesioneducativa;
         }
 
