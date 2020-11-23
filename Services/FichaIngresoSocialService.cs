@@ -71,28 +71,32 @@ namespace SISDOMI.Services
                     "FichaPsicologicaIngreso"
                   })));
             // lookup para fichas ingreso 
-            var subpipeline_fichaIngreso = new BsonArray
-                                          {
-                                              new BsonDocument("$match",
-                                              new BsonDocument("$expr",
-                                              new BsonDocument("$eq",
-                                              new BsonArray
-                                                          {
-                                                              "$_id",
-                                                              new BsonDocument("$toObjectId", "$$idres")
-                                                          })))
-                                          };
+             var subpipeline_fichaIngreso = new BsonArray
+                                           {
+                                               new BsonDocument("$match",
+                                               new BsonDocument("$expr",
+                                               new BsonDocument("$eq",
+                                               new BsonArray
+                                                           {
+                                                               "$_id",
+                                                               new BsonDocument("$toObjectId", "$$idres")
+                                                           })))
+                                           };
 
             var lookup_fichaIngreso = new BsonDocument("$lookup",
-                                new BsonDocument
-                                    {
+                              new BsonDocument
+                                  {
                                           { "from", "residentes" },
                                           { "let",
                                   new BsonDocument("idres", "$idresidente") },
                                           { "pipeline",subpipeline_fichaIngreso
                                       },
                                              { "as", "residenteresultado" }
-                                    });
+                                  });
+
+            // 
+            var unwindFicha = new BsonDocument("$unwind", new BsonDocument("path", "$residenteresultado"));
+
             //Proyeccion de cada documentos 
             var project = new BsonDocument("$project",
                           new BsonDocument
@@ -106,21 +110,24 @@ namespace SISDOMI.Services
                                           { "area", 1 },
                                           { "fase", 1 },
                                           { "estado", 1 },
-                                          { "contenido", 1 },
-                                          { "idresidente",
-                                  new BsonDocument("$arrayElemAt",
+                                          { "codigodocumento", "$contenido.codigodocumento" },
+                                          { "residenteresultado",
+                                  new BsonDocument("$concat",
                                   new BsonArray
                                               {
-                                                  "$residenteresultado",
-                                                  0
+                                                   "$residenteresultado.nombre",
+                                                     " ",
+                                                   "$residenteresultado.apellido"
                                               }) }
                               });
-
             List<FichaIngresoDTO> fichaIngreso = await _documentos.Aggregate()
-                .AppendStage<dynamic>(match)
-                .AppendStage<dynamic>(lookup_fichaIngreso)
-                .AppendStage<FichaIngresoDTO>(project).ToListAsync();
-            return fichaIngreso;
+                 .AppendStage<dynamic>(match)
+                 .AppendStage<dynamic>(lookup_fichaIngreso)
+                   .AppendStage<dynamic>(unwindFicha)
+                 .AppendStage<FichaIngresoDTO>(project).ToListAsync();
 
+
+
+            return fichaIngreso;
         } }
 }
