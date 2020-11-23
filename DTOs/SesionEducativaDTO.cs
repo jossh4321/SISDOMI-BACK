@@ -14,21 +14,38 @@ namespace SISDOMI.DTOs
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
         public string titulo { get; set; }
+        public string idcreador { get; set; }
         public DateTime fechacreacion { get; set; }
         public string area { get; set; }
-
-        public DatosResidente datosresidente { get; set; }
+        public ContenidoSesionEducativaDTO contenido { get; set; }
+        public string tipo { get; set; }
+    }
+    public class ContenidoSesionEducativaDTO
+    {
+        public List<ParticipanteDTO> participantes { get; set; }
     }
 
-    public class DatosResidente
+    public class ParticipanteDTO
+    {
+        public string idparticipante { get; set; }
+        public string grado { get; set; }
+        public DateTime fecha { get; set; }
+        public string firma { get; set; }
+        public string observaciones { get; set; }
+        public DatosResidenteDTO datosresidente { get; set; }
+    }
+    public class DatosResidenteDTO
     {
         public string nombre { get; set; }
         public string apellido { get; set; }
-        public string nombrecompleto { get; set; }
         public string tipodocumento { get; set; }
         public string numerodocumento { get; set; }
-        public string sexo { get; set; }
-        public int faseactual { get; set; }
-        public int acogida { get; set; }
+        public ProgresoActualDTO progresoactual { get; set; }
+    }
+    public class ProgresoActualDTO
+    {
+        public int fase { get; set; }
+        public string nombre { get; set; }
+
     }
 }
