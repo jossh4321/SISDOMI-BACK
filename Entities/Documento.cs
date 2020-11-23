@@ -103,7 +103,7 @@ namespace SISDOMI.Entities
         public string antecedentes { get; set; }
         public string situacionactual { get; set; }
         public string diagnosticosocial { get; set; }
-        public string recomendaciones { get; set; }
+        public List<string> recomendaciones { get; set; }
         public List<AnexosDocumento> anexos { get; set; }
         public List<Firma> firmas { get; set; }
         public string idresidente { get; set; }
@@ -280,8 +280,8 @@ namespace SISDOMI.Entities
 
     public class AnexosDocumento
     {
-        public string idanexo { get; set; }
-        public string tipo { get; set; }
+        public string url { get; set; }
+        public string titulo { get; set; }
     }
 
     //Contenido Seguimiento Educativo
