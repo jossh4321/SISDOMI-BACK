@@ -37,15 +37,15 @@ namespace SISDOMI.Services
 
             return sesionEducativa;
         }
-        //Trae la lista de sesiones educativas de la bd (DTI)
-        public async Task<List<SesionEducativaDTO>> GetListSesionEducativaDTO()
+        //Trae una sesion educativa de la bd segun id con datos de residente (DTO)
+        public async Task<SesionEducativaDTO> GetSesionEducativaDTO(string id)
         {
             //Observem, a la Gran Teresa
-            List<SesionEducativaDTO> sesionEducativaDTO = new List<SesionEducativaDTO>();
+            SesionEducativaDTO sesionEducativaDTO = new SesionEducativaDTO();
 
             var match = new BsonDocument("$match",
-                        new BsonDocument("tipo",
-                        new BsonDocument("$eq", "Sesion Educativa")));
+                        new BsonDocument("_id",
+                        new ObjectId(id)));
 
             var unwind = new BsonDocument("$unwind",
                         new BsonDocument("path", "$contenido.participantes"));
@@ -162,7 +162,7 @@ namespace SISDOMI.Services
                                 .AppendStage<dynamic>(group)
                                 .AppendStage<dynamic>(project2)
                                 .AppendStage<SesionEducativaDTO>(sort)
-                                .ToListAsync();
+                                .FirstAsync();
             return sesionEducativaDTO;
 
         }

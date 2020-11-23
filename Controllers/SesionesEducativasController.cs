@@ -31,10 +31,10 @@ namespace SISDOMI.Controllers
             return await _sesionducativaService.GetAll();
         }
 
-        [HttpGet("allsesiondto")]
-        public async Task<ActionResult<List<SesionEducativaDTO>>> GetListSesionEducativaDTO()
+        [HttpGet("allsesiondto/id")]
+        public async Task<ActionResult<SesionEducativaDTO>> GetSesionEducativaDTO([FromQuery] string id)
         {
-            return await _sesionducativaService.GetListSesionEducativaDTO();
+            return await _sesionducativaService.GetSesionEducativaDTO(id);
         }
 
         [HttpGet("id")]
