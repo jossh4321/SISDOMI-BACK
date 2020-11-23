@@ -26,14 +26,41 @@ namespace SISDOMI.Services
             List<Taller> listTaller = new List<Taller>();
 
             var proyect = new BsonDocument("$project",
-                    new BsonDocument
+    new BsonDocument
+        {
+            { "_id", 1 },
+            { "titulo", 1 },
+            { "tipo",
+    new BsonDocument("$cond",
+    new BsonDocument
+                {
+                    { "if",
+    new BsonDocument("$eq",
+    new BsonArray
                         {
-                            { "_id", 1 },
-                            { "tipo", 1 },
-                            { "titulo", 1 },
-                            { "area", 1 },
-                            { "fase", 1 }
-                        });
+                            "$tipo",
+                            "TallerEscuelaPadres"
+                        }) },
+                    { "then", "Taller de escuela para padres" },
+                    { "else",
+    new BsonDocument("$cond",
+    new BsonDocument
+                        {
+                            { "if",
+    new BsonDocument("$eq",
+    new BsonArray
+                                {
+                                    "$tipo",
+                                    "TallerEducativo"
+                                }) },
+                            { "then", "Taller Educativo" },
+                            { "else", "Taller Formativo de Egreso" }
+                        }) }
+                }) },
+            { "area", 1 },
+            { "fase", 1 },
+            { "fechacreacion", 1 }
+        });
 
             listTaller = await _talleres.Aggregate()
                                 .AppendStage<Taller>(proyect)
