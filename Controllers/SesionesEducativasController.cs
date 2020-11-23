@@ -36,5 +36,21 @@ namespace SISDOMI.Controllers
         {
             return _sesionducativaService.GetById(id);
         }
+
+        [HttpPost("")]
+
+        public async Task<ActionResult<SesionEducativa>> PostSesionesEducativas( [FromBody] SesionEducativa sesioneseducativas)
+        {
+
+            SesionEducativa objetosesioneducativa = _sesionducativaService.CreateSesionEducativa(sesioneseducativas);
+            return objetosesioneducativa;
+        }
+
+        [HttpPut("")]
+        public async Task<ActionResult<SesionEducativa>> PutSesionesEducativas([FromBody] SesionEducativa sesioneseducativas)
+        {
+            SesionEducativa objetosesioneducativa = _sesionducativaService.ModifySesionEducativa(sesioneseducativas);
+            return objetosesioneducativa;
+        }
     }
 }
