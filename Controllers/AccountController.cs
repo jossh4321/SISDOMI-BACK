@@ -115,7 +115,7 @@ namespace SISDOMI.Controllers
             var creds = new SigningCredentials(key,
                 SecurityAlgorithms.HmacSha256);
 
-            var expiration = DateTime.UtcNow.AddHours(-5).AddHours(8);
+            var expiration = DateTime.UtcNow.AddHours(8);
 
             JwtSecurityToken token = new JwtSecurityToken(
                issuer: null,

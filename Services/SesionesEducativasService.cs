@@ -37,5 +37,34 @@ namespace SISDOMI.Services
 
             return sesionEducativa;
         }
+
+        //Trae una sesion educativas segun su id
+        public SesionEducativa GetById(string id)
+        {
+            SesionEducativa sesionedu = new SesionEducativa();
+            sesionedu = _sesioneducativa.Find(sesionedu => sesionedu.id == id).FirstOrDefault();
+            return sesionedu;
+        }
+
+        public SesionEducativa CreateSesionEducativa(SesionEducativa sesioneducativa)
+        {
+           
+             _sesioneducativa.InsertOne(sesioneducativa);
+            return sesioneducativa;
+        }
+
+        public SesionEducativa ModifySesionEducativa(SesionEducativa sesioneducativa)
+        {
+            var filter = Builders<SesionEducativa>.Filter.Eq("id", sesioneducativa.id);
+            var update = Builders<SesionEducativa>.Update
+                .Set("titulo", sesioneducativa.titulo)
+                .Set("idcreador", sesioneducativa.idCreador)
+                .Set("fechacreacion", sesioneducativa.fechaCreacion)
+                .Set("area", sesioneducativa.area)
+                .Set("contenido", sesioneducativa.contenido)
+                .Set("tipo", sesioneducativa.tipo);
+            _sesioneducativa.UpdateOne(filter, update);
+            return sesioneducativa;
+        }
     }
 }
