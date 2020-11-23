@@ -15,5 +15,6 @@ namespace SISDOMI.Entities
         public string gradoinstruccion { get; set; }
         public string ocupacion { get; set; }
         public string observaciones { get; set; }
+        public string numerodocumento { get; set; }
     }
 }

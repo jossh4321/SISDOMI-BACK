@@ -21,7 +21,8 @@ namespace SISDOMI.Entities
        typeof(InformePsicologicoEvolutivo),
        typeof(PlanIntervencionIndividualEducativo),
        typeof(PlanIntervencionIndividualPsicologico),
-       typeof(PlanIntervencionIndividualSocial))]
+       typeof(PlanIntervencionIndividualSocial),
+       typeof(InformeSeguimientoEducativo))]
     public class Documento
     {
         [BsonId]
@@ -282,4 +283,49 @@ namespace SISDOMI.Entities
         public string idanexo { get; set; }
         public string tipo { get; set; }
     }
-}
+
+    //Contenido Seguimiento Educativo
+    public class ContenidoInformeSeguimientoEducativo
+    {
+
+        [BsonElement("modalidad")]
+        public String modalidad { get; set; }
+        [BsonElement("nivel")]
+        public String nivel { get; set; }
+        [BsonElement("grado")]
+        public String grado { get; set; }
+        [BsonElement("añoescolar")]
+        public String añoEscolar { get; set;}
+        [BsonElement("trimestre")]
+        public List<Trimestre> trimestre { get; set; }
+        [BsonElement("firmas")]
+        public List<Firmas> firmas { get; set; }
+        [BsonElement("codigodocumento")]
+        public String codigoDocumento { get; set; }
+          
+    }
+    public class Trimestre
+    {
+        public String orden { get; set; }
+        public List<Puntajes> puntajes { get; set; }
+        public String analisiseducativo { get; set; }
+        public String recomendaciones { get; set; }
+
+    }
+    public class Puntajes
+    {
+        public String area { get; set; }
+        public String promedio { get; set; }
+    }
+    public class Firmas
+    {
+        public String urlfirma { get; set; }
+        public String nombre { get; set; }
+        public String cargo { get; set; }
+    }
+    public class InformeSeguimientoEducativo :Documento
+    {
+        public ContenidoInformeSeguimientoEducativo contenido { get; set; } = new ContenidoInformeSeguimientoEducativo();
+    }
+    ///FIN SEGUIMIENTO EDUCATIVO
+}    

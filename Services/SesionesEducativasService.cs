@@ -1,0 +1,70 @@
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using SISDOMI.DTOs;
+using SISDOMI.Entities;
+using SISDOMI.Helpers;
+using SISDOMI.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+namespace SISDOMI.Services
+{
+    public class SesionesEducativasService
+    {
+        private readonly IMongoCollection<SesionEducativa> _sesioneducativa;
+
+        public SesionesEducativasService(ISysdomiDatabaseSettings settings)
+        {
+            var client = new MongoClient(settings.ConnectionString);
+            var database = client.GetDatabase(settings.DatabaseName);
+            _sesioneducativa = database.GetCollection<SesionEducativa>("sesioneseducativas");
+
+        }
+
+        //Trae la lista de sesiones educativas de la bd
+        public async Task<List<SesionEducativa>> GetAll()
+        {
+            List<SesionEducativa> sesionEducativa = new List<SesionEducativa>();
+
+            var match = new BsonDocument("$match",
+                        new BsonDocument("tipo",
+                        new BsonDocument("$eq", "Sesion Educativa")));
+
+            sesionEducativa = await _sesioneducativa.Aggregate()
+                                .AppendStage<SesionEducativa>(match)
+                                .ToListAsync();
+
+            return sesionEducativa;
+        }
+
+        //Trae una sesion educativas segun su id
+        public SesionEducativa GetById(string id)
+        {
+            SesionEducativa sesionedu = new SesionEducativa();
+            sesionedu = _sesioneducativa.Find(sesionedu => sesionedu.id == id).FirstOrDefault();
+            return sesionedu;
+        }
+
+        public SesionEducativa CreateSesionEducativa(SesionEducativa sesioneducativa)
+        {
+           
+             _sesioneducativa.InsertOne(sesioneducativa);
+            return sesioneducativa;
+        }
+
+        public SesionEducativa ModifySesionEducativa(SesionEducativa sesioneducativa)
+        {
+            var filter = Builders<SesionEducativa>.Filter.Eq("id", sesioneducativa.id);
+            var update = Builders<SesionEducativa>.Update
+                .Set("titulo", sesioneducativa.titulo)
+                .Set("idcreador", sesioneducativa.idCreador)
+                .Set("fechacreacion", sesioneducativa.fechaCreacion)
+                .Set("area", sesioneducativa.area)
+                .Set("contenido", sesioneducativa.contenido)
+                .Set("tipo", sesioneducativa.tipo);
+            _sesioneducativa.UpdateOne(filter, update);
+            return sesioneducativa;
+        }
+    }
+}

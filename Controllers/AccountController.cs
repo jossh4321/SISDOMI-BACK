@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -47,6 +48,32 @@ namespace SISDOMI.Controllers
             }
         }
 
+        [HttpGet("user")]
+        [Authorize]
+        public ActionResult<Usuario> GetByUserName()
+        {
+            Usuario usuario = null;
+
+            try
+            {
+                String userName = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+                
+                if(String.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("Sesión expirada");
+                }
+
+                usuario = _usuarioservice.GetByUserName(userName);
+
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+
+        }
 
         [HttpPost("login")]
         [AllowAnonymous]
@@ -88,7 +115,7 @@ namespace SISDOMI.Controllers
             var creds = new SigningCredentials(key,
                 SecurityAlgorithms.HmacSha256);
 
-            var expiration = DateTime.UtcNow.AddHours(-5).AddYears(1);
+            var expiration = DateTime.UtcNow.AddHours(8);
 
             JwtSecurityToken token = new JwtSecurityToken(
                issuer: null,
