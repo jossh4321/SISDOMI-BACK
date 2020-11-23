@@ -18,7 +18,7 @@ namespace SISDOMI.Controllers
             _tallerService = tallerService;
         }
 
-        [HttpGet("all/Taller")]
+        [HttpGet("all")]
         public async Task<ActionResult<List<Taller>>> GetAll()
         {
             return await _tallerService.GetAll();
