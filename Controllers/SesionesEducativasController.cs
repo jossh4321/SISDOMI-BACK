@@ -31,10 +31,31 @@ namespace SISDOMI.Controllers
             return await _sesionducativaService.GetAll();
         }
 
+        [HttpGet("allsesiondto/id")]
+        public async Task<ActionResult<SesionEducativaDTO>> GetSesionEducativaDTO([FromQuery] string id)
+        {
+            return await _sesionducativaService.GetSesionEducativaDTO(id);
+        }
+
         [HttpGet("id")]
         public ActionResult<SesionEducativa> Get([FromQuery] string id) //obtiene una sesion educativa segun su id
         {
             return _sesionducativaService.GetById(id);
+        }
+
+        [HttpPost("")]
+        public async Task<ActionResult<SesionEducativa>> PostSesionesEducativas( [FromBody] SesionEducativa sesioneseducativas)
+        {
+
+            SesionEducativa objetosesioneducativa = _sesionducativaService.CreateSesionEducativa(sesioneseducativas);
+            return objetosesioneducativa;
+        }
+
+        [HttpPut("")]
+        public async Task<ActionResult<SesionEducativa>> PutSesionesEducativas([FromBody] SesionEducativa sesioneseducativas)
+        {
+            SesionEducativa objetosesioneducativa = _sesionducativaService.ModifySesionEducativa(sesioneseducativas);
+            return objetosesioneducativa;
         }
     }
 }
