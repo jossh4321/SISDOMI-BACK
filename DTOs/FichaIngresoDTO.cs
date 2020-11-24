@@ -32,6 +32,13 @@ namespace SISDOMI.DTOs
         [BsonElement("contenido")] 
         public object contenido { get; set; }
 
+        [BsonElement("codigodocumento")]
+        public string codigodocumento { get; set; }
+        [BsonElement("residenteresultado")]
+        public string residenteresultado { get; set; }
+
+        [BsonElement("numerodocumento")]
+        public string numerodocumento { get; set; }
     }
     
 

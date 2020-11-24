@@ -22,5 +22,7 @@ namespace SISDOMI.DTOs
         public string idresidente { get; set; }
         public string estado { get; set; }
         public Object contenido { get; set; }
+
+      
     }
 }

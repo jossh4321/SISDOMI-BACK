@@ -103,7 +103,7 @@ namespace SISDOMI.Entities
         public string antecedentes { get; set; }
         public string situacionactual { get; set; }
         public string diagnosticosocial { get; set; }
-        public string recomendaciones { get; set; }
+        public List<string> recomendaciones { get; set; }
         public List<AnexosDocumento> anexos { get; set; }
         public List<Firma> firmas { get; set; }
         public string idresidente { get; set; }
@@ -162,6 +162,7 @@ namespace SISDOMI.Entities
         public Procedencia ieprocedencia { get; set; } = new Procedencia();
         public String responsableturno { get; set; }
         public List<String> observaciones { get; set; } = new List<String>();
+        public String codigodocumento { get; set; }
         public List<Firma> firmas { get; set; } = new List<Firma>();
         
 
@@ -175,6 +176,7 @@ namespace SISDOMI.Entities
         public Legal legal { get; set; } = new Legal();
         public String diagnosticosocial { get; set; }
         public String planintervencion { get; set; }
+        public String codigodocumento { get; set; }
         public List<Firma> firmas { get; set; } = new List<Firma>();
     }
     public class ContenidoFichaIngresoPsicologica
@@ -193,6 +195,7 @@ namespace SISDOMI.Entities
         public DesarrolloSexual  desarrollosexual  { get; set; } = new DesarrolloSexual ();
         public ExplotacionSexual  explotacionsexual { get; set; } = new ExplotacionSexual();
         public Actividades actividades  { get; set; } = new Actividades();
+        public String codigodocumento { get; set; }
         public String observaciones { get; set; }
 
 
@@ -277,8 +280,8 @@ namespace SISDOMI.Entities
 
     public class AnexosDocumento
     {
-        public string idanexo { get; set; }
-        public string tipo { get; set; }
+        public string url { get; set; }
+        public string titulo { get; set; }
     }
 
     //Contenido Seguimiento Educativo

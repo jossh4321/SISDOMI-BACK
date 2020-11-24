@@ -71,6 +71,14 @@ namespace SISDOMI.Controllers
         [HttpPost("informese")]
         public async Task<ActionResult<InformeSocialEvolutivo>> CrearInformeSE(InformeSocialEvolutivo informe)
         {
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
             return await _informeService.RegistrarInformeSE(informe);
         }
         //falta el psicologico inicial 0-0
