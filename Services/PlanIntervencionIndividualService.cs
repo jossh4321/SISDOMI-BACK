@@ -90,8 +90,119 @@ namespace SISDOMI.Services
             return listPlanIntervencionIndividuals;
         }
 
+        //General
+        public async Task<PlanIntervencionConsultaDTO> GetPlanById(String id)
+        {
+            PlanIntervencionConsultaDTO planIntervencionConsultaDTO = null;
+
+            var matchId = new BsonDocument("$match",
+                                           new BsonDocument("$expr", 
+                                                    new BsonDocument("$eq", new BsonArray
+                                                    {
+                                                        "$_id",
+                                                        new BsonDocument("$toObjectId", id)
+                                                    })));
+
+
+            var projectGeneralDataPlan = new BsonDocument("$project", new BsonDocument
+            {
+                { "tipo", 1},
+                { "creadordocumento", 1 },
+                {"idresidente", 1 },
+                { "area", 1  },
+                { "fase", 1  },
+                { "estado", 1  },
+                { "contenido", 1 }
+            });
+
+
+            var lookupResidente = new BsonDocument("$lookup", new BsonDocument
+            {
+                { "from", "residentes" },
+                { "let", new BsonDocument("residenteId", "$idresidente") },
+                { "pipeline", new BsonArray 
+                              {
+                                 new BsonDocument("$match",
+                                 new BsonDocument("$expr",
+                                 new BsonDocument("$eq",
+                                 new BsonArray {
+                                     "$_id",
+                                     new BsonDocument("$toObjectId", "$$residenteId")
+                                 })))  
+                              } 
+                },
+                { "as", "residente" }
+            });
+
+            var unwindResidente = new BsonDocument("$unwind", new BsonDocument("path", "$residente"));
+
+            var lookupUsuario = new BsonDocument("$lookup", new BsonDocument
+            {
+                { "from", "usuarios"},
+                { "let", new BsonDocument("usuarioId", "$creadordocumento") },
+                { "pipeline", new BsonArray
+                              {
+                                 new BsonDocument("$match",
+                                 new BsonDocument("$expr",
+                                 new BsonDocument("$eq",
+                                 new BsonArray {
+                                     "$_id",
+                                     new BsonDocument("$toObjectId", "$$usuarioId")
+                                 })))
+                              } 
+                },
+                { "as", "creador" }
+            });
+
+            var unwindUsuario = new BsonDocument("$unwind", new BsonDocument("path", "$creador"));
+
+            var projectFinalData = new BsonDocument("$project", new BsonDocument
+            {
+                { "tipo", 1  },
+                {"area", 1 },
+                {"fase", 1 },
+                {"estado", 1 },
+                { "contenido", 1},
+                { "residente", 1},
+                { "creador", new BsonDocument("$concat", new BsonArray{ 
+                                                            "$creador.datos.nombre",
+                                                            " ",
+                                                            "$creador.datos.apellido"
+                                                         }) 
+                }
+            });
+
+            planIntervencionConsultaDTO = await _documentos.Aggregate()
+                                                .AppendStage<dynamic>(matchId)
+                                                .AppendStage<dynamic>(projectGeneralDataPlan)
+                                                .AppendStage<dynamic>(lookupResidente)
+                                                .AppendStage<dynamic>(unwindResidente)
+                                                .AppendStage<dynamic>(lookupUsuario)
+                                                .AppendStage<dynamic>(unwindUsuario)
+                                                .AppendStage<PlanIntervencionConsultaDTO>(projectFinalData)
+                                                .FirstOrDefaultAsync();
+
+            return planIntervencionConsultaDTO;
+        }
+
+        public async Task UpdatePlanState(PlanState planState)
+        {
+            var filter = Builders<Documento>.Filter.Eq("id", planState.idDocumento);
+
+            var update = Builders<Documento>.Update.Set("estado", planState.estado);
+
+            await _documentos.FindOneAndUpdateAsync<Documento>(filter, update);
+        }
+
         //Angello xdd
         public PlanIntervencionIndividualEducativo GetById(String id)
+        {
+            PlanIntervencionIndividualEducativo planesI = new PlanIntervencionIndividualEducativo();
+            planesI = _documentos.AsQueryable().OfType<PlanIntervencionIndividualEducativo>().ToList().Find(planesI => planesI.id == id);
+            return planesI;
+        }
+
+        public PlanIntervencionIndividualEducativo GetEducationalIndividualInterventionPlanById(String id)
         {
             PlanIntervencionIndividualEducativo planesI = new PlanIntervencionIndividualEducativo();
             planesI = _documentos.AsQueryable().OfType<PlanIntervencionIndividualEducativo>().ToList().Find(planesI => planesI.id == id);
@@ -125,10 +236,7 @@ namespace SISDOMI.Services
         {
             var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
             var update = Builders<Documento>.Update
-                .Set("area", planIntervencionIndividual.area)
-                .Set("creadordocumento", planIntervencionIndividual.creadordocumento)
                 .Set("fase", planIntervencionIndividual.fase)
-                .Set("fechacreacion", planIntervencionIndividual.fechacreacion)
                 .Set("contenido", planIntervencionIndividual.contenido)
                 .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
             var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
@@ -137,6 +245,38 @@ namespace SISDOMI.Services
             });
 
             planIntervencionIndividual = doc as PlanIntervencionIndividualEducativo;
+            return planIntervencionIndividual;
+        }
+
+        public PlanIntervencionIndividualSocial ModifySocialIndividualInterventionPlan(PlanIntervencionIndividualSocial planIntervencionIndividual)
+        {
+            var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
+            var update = Builders<Documento>.Update
+                .Set("fase", planIntervencionIndividual.fase)
+                .Set("contenido", planIntervencionIndividual.contenido)
+                .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
+            var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
+
+            planIntervencionIndividual = doc as PlanIntervencionIndividualSocial;
+            return planIntervencionIndividual;
+        }
+
+        public PlanIntervencionIndividualPsicologico ModifyPsycologicalIndividualInterventionPlan(PlanIntervencionIndividualPsicologico planIntervencionIndividual)
+        {
+            var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
+            var update = Builders<Documento>.Update
+                .Set("fase", planIntervencionIndividual.fase)
+                .Set("contenido", planIntervencionIndividual.contenido)
+                .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
+            var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
+
+            planIntervencionIndividual = doc as PlanIntervencionIndividualPsicologico;
             return planIntervencionIndividual;
         }
 
@@ -154,6 +294,12 @@ namespace SISDOMI.Services
         }
 
         //Plan Intervencion Psicologica
+        public PlanIntervencionIndividualPsicologico GetPsychologicalIndividualInterventionPlanById(String id)
+        {
+            PlanIntervencionIndividualPsicologico planesI = new PlanIntervencionIndividualPsicologico();
+            planesI = _documentos.AsQueryable().OfType<PlanIntervencionIndividualPsicologico>().ToList().Find(planesI => planesI.id == id);
+            return planesI;
+        }
         public async Task<PlanIntervencionIndividualPsicologico> CreatePsycologicalInterventionPlan(PlanResidentePsicologico planResidentePsicologico)
         {
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
@@ -177,6 +323,12 @@ namespace SISDOMI.Services
 
 
         //Plan Intervencion Social
+        public PlanIntervencionIndividualSocial GetSocialIndividualInterventionPlanById(String id)
+        {
+            PlanIntervencionIndividualSocial planesI = new PlanIntervencionIndividualSocial();
+            planesI = _documentos.AsQueryable().OfType<PlanIntervencionIndividualSocial>().ToList().Find(planesI => planesI.id == id);
+            return planesI;
+        }
         public async Task<PlanIntervencionIndividualSocial> CreateSocialInterventionPlan(PlanResidenteSocial planResidenteSocial)
         {
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
@@ -197,5 +349,7 @@ namespace SISDOMI.Services
 
             return planResidenteSocial.planIntervencionIndividualSocial;
         }
+
+
     }
 }

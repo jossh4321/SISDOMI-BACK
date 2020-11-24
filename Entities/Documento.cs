@@ -21,7 +21,8 @@ namespace SISDOMI.Entities
        typeof(InformePsicologicoEvolutivo),
        typeof(PlanIntervencionIndividualEducativo),
        typeof(PlanIntervencionIndividualPsicologico),
-       typeof(PlanIntervencionIndividualSocial))]
+       typeof(PlanIntervencionIndividualSocial),
+       typeof(InformeSeguimientoEducativo))]
     public class Documento
     {
         [BsonId]
@@ -183,11 +184,12 @@ namespace SISDOMI.Entities
         public List<PadresFichaIngreso> padres { get; set; } = new List<PadresFichaIngreso>();
         public List<HermanosFichaIngreso> hermanos { get; set; } = new List<HermanosFichaIngreso>();
         public Escolaridad  escolaridad { get; set; } = new Escolaridad ();
+        public Discapacidad discapacidad { get; set; } = new Discapacidad();
         public List<Maltrato> maltrato { get; set; } = new List<Maltrato>();
-        public AbusoSexual abuso { get; set; } = new AbusoSexual ();
+        public AbusoSexual abusosexual   { get; set; } = new AbusoSexual ();
         public Adiccion adicciones { get; set; } = new Adiccion();
-        public List<conductaRiesgo > conductaRiesgos  { get; set; } = new List<conductaRiesgo>();
-        public List<ConductaEmocional > conductaemocionales { get; set; } = new List<ConductaEmocional>();
+        public List<conductaRiesgo> conductasriesgo  { get; set; } = new List<conductaRiesgo>();
+        public List<ConductaEmocional> conductasemocionales { get; set; } = new List<ConductaEmocional>();
         public DesarrolloSexual  desarrollosexual  { get; set; } = new DesarrolloSexual ();
         public ExplotacionSexual  explotacionsexual { get; set; } = new ExplotacionSexual();
         public Actividades actividades  { get; set; } = new Actividades();
@@ -216,8 +218,8 @@ namespace SISDOMI.Entities
     {
         [BsonElement("descripcion")]
         public String descripcion { get; set; }
-        [BsonElement("obtivoespecificos")]
-        public List<String> objetivosEspecificos { get; set; }
+        [BsonElement("objetivoespecificos")]
+        public List<String> objetivoEspecificos { get; set; }
         [BsonElement("tecnicas")]
         public List<String> tecnicas { get; set; }
         [BsonElement("metas")]
@@ -246,6 +248,8 @@ namespace SISDOMI.Entities
 
     public class ContenidoPlanIntervencionSocial
     {//
+        [BsonElement("edad")]
+        public int edad { get; set; }
         [BsonElement("diagnostico")]
         public String diagnostico { get; set; }
         [BsonElement("objetivos")]
@@ -276,4 +280,47 @@ namespace SISDOMI.Entities
         public string idanexo { get; set; }
         public string tipo { get; set; }
     }
-}
+
+    //Contenido Seguimiento Educativo
+    public class ContenidoInformeSeguimientoEducativo
+    {
+
+        [BsonElement("modalidad")]
+        public String modalidad { get; set; }
+        [BsonElement("nivel")]
+        public String nivel { get; set; }
+        [BsonElement("grado")]
+        public String grado { get; set; }
+        [BsonElement("añoescolar")]
+        public String añoEscolar { get; set;}
+        [BsonElement("trimestre")]
+        public List<Trimestre> trimestre { get; set; }
+        [BsonElement("firmas")]
+        public List<Firmas> firmas { get; set; }
+          
+    }
+    public class Trimestre
+    {
+        public String orden { get; set; }
+        public List<Puntajes> puntajes { get; set; }
+        public String analisiseducativo { get; set; }
+        public String recomendaciones { get; set; }
+
+    }
+    public class Puntajes
+    {
+        public String area { get; set; }
+        public String promedio { get; set; }
+    }
+    public class Firmas
+    {
+        public String urlfirma { get; set; }
+        public String nombre { get; set; }
+        public String cargo { get; set; }
+    }
+    public class InformeSeguimientoEducativo :Documento
+    {
+        public ContenidoInformeSeguimientoEducativo contenido { get; set; } = new ContenidoInformeSeguimientoEducativo();
+    }
+    ///FIN SEGUIMIENTO EDUCATIVO
+}    

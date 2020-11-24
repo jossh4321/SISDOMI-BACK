@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
@@ -46,9 +47,9 @@ namespace SISDOMI.Controllers
             return _residenteservice.GetByIdDoc(id); 
         }
         [HttpPost("")]
-        public ActionResult<Residentes> PostResidente(Residentes residente) //CREAR RESIDENTE
+        public async Task<ActionResult<Residentes>> PostResidente(Residentes residente) //CREAR RESIDENTE
         {
-            Residentes objetoresidente = _residenteservice.CreateUser(residente);
+            Residentes objetoresidente = await _residenteservice.CreateUser(residente);
             return objetoresidente;
         }
 
@@ -57,6 +58,23 @@ namespace SISDOMI.Controllers
         {
             Residentes objetoresidente = _residenteservice.ModifyUser(residente);
             return objetoresidente;
+        }
+
+        [HttpGet("planes/area/{area}")]
+        [Authorize]
+        public async Task<ActionResult<List<Residentes>>> GetAllByAreaAndNotPlan(String area) 
+        {
+            try
+            {
+                List<Residentes> lstResidentes = await _residenteservice.ListResidentByAreaAndByNotPlan(area);
+
+                return lstResidentes;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
         }
 
 

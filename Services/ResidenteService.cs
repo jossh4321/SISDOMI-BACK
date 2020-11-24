@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using SISDOMI.DTOs;
 
 namespace SISDOMI.Services
 {
@@ -11,12 +13,14 @@ namespace SISDOMI.Services
     {
         private readonly IMongoCollection<Residentes> _residente;
         private readonly IMongoCollection<Documento> _documento;
+        private readonly IMongoCollection<Expediente> _expedientes;
 
         public ResidenteService(ISysdomiDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _residente = database.GetCollection<Residentes>("residentes");
+            _expedientes = database.GetCollection<Expediente>("expedientes");
 
         }
         public List<Residentes> GetAll()
@@ -37,11 +41,39 @@ namespace SISDOMI.Services
             documento = _documento.Find(documento => documento.idresidente == id).FirstOrDefault();
             return documento;
         }
-        public Residentes CreateUser(Residentes residente)
+        public async Task<Residentes> CreateUser(Residentes residente)
         {
             _residente.InsertOne(residente);
+            Expediente expediente = new Expediente();
+            expediente.idresidente = residente.id;
+            expediente.fechainicio = residente.fechaIngreso;
+            await saveExpediente(expediente);
             return residente;
         }
+        public async Task saveExpediente(Expediente expediente)
+        {
+            Expediente exp  = await ObtenerUltimoExpediente();
+            string[] arregloInicial = exp.numeroexpediente.Split(' ');
+            int numeroExpediente = Int32.Parse(arregloInicial[1]);
+            string numeroExpedienteFinal = $"EO {numeroExpediente+1}";
+            expediente.numeroexpediente = numeroExpedienteFinal;
+            _expedientes.InsertOne(expediente);
+        }
+        public async Task<Expediente> ObtenerUltimoExpediente()
+        {
+            Expediente exp = new Expediente();
+            var sort =
+                new BsonDocument("$sort",
+                new BsonDocument("_id", -1));
+            var limit = new BsonDocument("$limit", 1);
+
+            exp = await _expedientes.Aggregate()
+                            .AppendStage<Expediente>(sort)
+                            .AppendStage<Expediente>(limit)
+                            .FirstAsync();
+            return exp;
+        }
+
 
         public Residentes ModifyUser(Residentes residente)
         {
@@ -56,7 +88,7 @@ namespace SISDOMI.Services
                 .Set("juzgadoprocedencia", residente.juzgadoProcedencia)
                 .Set("fechanacimiento", residente.fechaNacimiento)
                 .Set("sexo", residente.sexo)
-                .Set("telefonosreferencia", residente.telefonosReferencia)
+                .Set("telefonosreferencias", residente.telefonosReferencia)
                 .Set("fechaingreso", residente.fechaIngreso)
                 .Set("motivoingreso", residente.motivoIngreso)
                 .Set("progreso", residente.progreso)
@@ -66,6 +98,130 @@ namespace SISDOMI.Services
                 ReturnDocument = ReturnDocument.After
             });
             return residente;
+        }
+
+        public async Task<List<Residentes>> ListResidentByAreaAndByNotPlan(String areaPlan)
+        {
+
+            List<Residentes> lstResidentes;
+
+            var lookUpDocuments = new BsonDocument("$lookup",
+                                      new BsonDocument
+                                      {
+                                          { "from", "documentos" },
+                                          { "let", new BsonDocument("residenteid", "$_id") },
+                                          { "pipeline", new BsonArray
+                                                        {
+                                                            new BsonDocument("$match",
+                                                                new BsonDocument("$expr",
+                                                                new BsonDocument("$eq",
+                                                                new BsonArray
+                                                                {
+                                                                    "$$residenteid",
+                                                                    new BsonDocument("$toObjectId", "$idresidente")
+                                                                })))
+                                                        }
+                                          },
+                                          { "as", "documentos" }
+                                      });
+
+            var projectDocumentByType = new BsonDocument("$project",
+                                            new BsonDocument
+                                            {
+                                                { "nombre", 1 },
+                                                { "apellido", 1 },
+                                                { "tipodocumento", 1 },
+                                                { "numerodocumento", 1 },
+                                                { "fechanacimiento", 1 },
+                                                { "sexo", 1 },
+                                                { "motivoingreso", 1 },
+                                                { "estado", 1 },
+                                                { "progreso", 1 },
+                                                { "documentos", 
+                                                    new BsonDocument("$filter",
+                                                        new BsonDocument
+                                                        {
+                                                            { "input", "$documentos" },
+                                                            { "as", "documento" },
+                                                            { "cond", 
+                                                                new BsonDocument("$and",
+                                                                new BsonArray
+                                                                {
+                                                                   new BsonDocument("$eq",
+                                                                   new BsonArray
+                                                                   {
+                                                                       "$$documento.area",
+                                                                       areaPlan
+                                                                   }),
+                                                                   new BsonDocument("$eq",
+                                                                   new BsonArray 
+                                                                   {
+                                                                       "$$documento.tipo",
+                                                                       "PlanIntervencionIndividual"
+                                                                   })
+                                                                })
+                                                            }
+                                                        })
+                                                },
+                                                {
+                                                    "lastprogress", new BsonDocument("$arrayElemAt",
+                                                                    new BsonArray
+                                                                    {
+                                                                        "$progreso",
+                                                                        -1
+                                                                    })
+                                                }
+                                            });
+
+
+            var matchResidents = new BsonDocument("$match",
+                                    new BsonDocument("$expr",
+                                        new BsonDocument("$or",
+                                        new BsonArray
+                                        {
+                                            new BsonDocument("$eq",
+                                            new BsonArray
+                                            {
+                                                "$documentos",
+                                                new BsonArray()
+                                            }),
+                                            new BsonDocument("$eq",
+                                                new BsonArray
+                                                {
+                                                    new BsonDocument("$in",
+                                                    new BsonArray
+                                                    {
+                                                        "$lastprogress.nombre",
+                                                        "$documentos.fase"
+                                                    }),
+                                                    false
+                                                })
+                                        }
+                                        )));
+
+            var projectFinalResident = new BsonDocument("$project",
+                                          new BsonDocument
+                                          {
+                                              { "nombre", 1 },
+                                              { "apellido", 1 },
+                                              { "tipodocumento", 1 },
+                                              { "numerodocumento", 1 },
+                                              { "fechanacimiento", 1 },
+                                              { "sexo", 1 },
+                                              { "motivoingreso", 1 },
+                                              { "estado", 1 },
+                                              { "progreso", 1 }
+                                          });
+
+            lstResidentes = await _residente.Aggregate()
+                                    .AppendStage<dynamic>(lookUpDocuments)
+                                    .AppendStage<dynamic>(projectDocumentByType)
+                                    .AppendStage<dynamic>(matchResidents)
+                                    .AppendStage<Residentes>(projectFinalResident)
+                                    .ToListAsync();
+
+            return lstResidentes;
+
         }
     }
 }

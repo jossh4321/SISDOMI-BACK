@@ -7,8 +7,8 @@ namespace SISDOMI.Entities
 {
     public class Adiccion
     {
-        public bool cosumo { get; set; }
-        public DateTime  ultidiaconsumo { get; set; }
+        public bool consumo { get; set; }
+        public DateTime ultimodiaconsumo   { get; set; }
         public List<Spa> spa { get; set; }
     }
     public class Spa
