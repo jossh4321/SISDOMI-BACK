@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
@@ -13,6 +14,7 @@ namespace SISDOMI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class PlanIntervencionController: ControllerBase
     {
         private readonly PlanIntervencionIndividualService _planIntervencionService;
@@ -22,18 +24,8 @@ namespace SISDOMI.Controllers
             _planIntervencionService = planIntervencionIndividualService;
         }
 
-        [HttpGet("all")]
-        public async Task<ActionResult<List<PlanIntervencionDTO>>> GetAll()
-        {
-            return await _planIntervencionService.GetAll();
-        }
 
-        [HttpGet("educativobyid")]
-        public ActionResult<PlanIntervencionIndividualEducativo> GetPlanEducativo([FromQuery] string id)
-        {
-            return _planIntervencionService.GetEducationalIndividualInterventionPlanById(id);
-
-        }
+        // Educativo
 
         [HttpPost("educativo")]
         public async Task<ActionResult<PlanIntervencionIndividualEducativo>> PostPlanEducativo(PlanResidente planIntervencionIndividual)
@@ -58,12 +50,6 @@ namespace SISDOMI.Controllers
         }
 
         // Plan Psicologico
-        [HttpGet("psicologicobyid")]
-        public ActionResult<PlanIntervencionIndividualPsicologico> GetPlanPsicologico([FromQuery] string id)
-        {
-            return _planIntervencionService.GetPsychologicalIndividualInterventionPlanById(id);
-
-        }
 
         [HttpPost("psicologico")]
         public async Task<ActionResult<PlanIntervencionIndividualPsicologico>> PostPlanPsicologico(PlanResidentePsicologico planResidentePsicologico)
@@ -87,12 +73,6 @@ namespace SISDOMI.Controllers
         }
 
         // Plan Social
-        [HttpGet("socialbyid")]
-        public ActionResult<PlanIntervencionIndividualSocial> GetPlanSocial([FromQuery] string id)
-        {
-            return _planIntervencionService.GetSocialIndividualInterventionPlanById(id);
-
-        }
 
         [HttpPost("social")]
         public async Task<ActionResult<PlanIntervencionIndividualSocial>> PostPlanSocial(PlanResidenteSocial planResidenteSocial)
@@ -116,6 +96,21 @@ namespace SISDOMI.Controllers
         }
 
         //General
+        [HttpGet("all")]
+        public async Task<ActionResult<List<PlanIntervencionDTO>>> GetAll()
+        {
+            try
+            {
+                return await _planIntervencionService.GetAll();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+            
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<PlanIntervencionConsultaDTO>> GetPlanById(String id)
         {

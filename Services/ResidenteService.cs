@@ -114,11 +114,27 @@ namespace SISDOMI.Services
                                                         {
                                                             new BsonDocument("$match",
                                                                 new BsonDocument("$expr",
-                                                                new BsonDocument("$eq",
+                                                                new BsonDocument("$and",
                                                                 new BsonArray
                                                                 {
-                                                                    "$$residenteid",
-                                                                    new BsonDocument("$toObjectId", "$idresidente")
+                                                                    new BsonDocument("$eq",
+                                                                    new BsonArray
+                                                                    {
+                                                                        "$$residenteid",
+                                                                        new BsonDocument("$toObjectId", "$idresidente")
+                                                                    }),
+                                                                    new BsonDocument("$eq",
+                                                                    new BsonArray
+                                                                    {
+                                                                        "$tipo",
+                                                                        "PlanIntervencionIndividual"
+                                                                    }),
+                                                                    new BsonDocument("$eq",
+                                                                    new BsonArray
+                                                                    {
+                                                                        "$area",
+                                                                        areaPlan
+                                                                    })
                                                                 })))
                                                         }
                                           },
@@ -137,32 +153,7 @@ namespace SISDOMI.Services
                                                 { "motivoingreso", 1 },
                                                 { "estado", 1 },
                                                 { "progreso", 1 },
-                                                { "documentos", 
-                                                    new BsonDocument("$filter",
-                                                        new BsonDocument
-                                                        {
-                                                            { "input", "$documentos" },
-                                                            { "as", "documento" },
-                                                            { "cond", 
-                                                                new BsonDocument("$and",
-                                                                new BsonArray
-                                                                {
-                                                                   new BsonDocument("$eq",
-                                                                   new BsonArray
-                                                                   {
-                                                                       "$$documento.area",
-                                                                       areaPlan
-                                                                   }),
-                                                                   new BsonDocument("$eq",
-                                                                   new BsonArray 
-                                                                   {
-                                                                       "$$documento.tipo",
-                                                                       "PlanIntervencionIndividual"
-                                                                   })
-                                                                })
-                                                            }
-                                                        })
-                                                },
+                                                { "documentos", 1 },
                                                 {
                                                     "lastprogress", new BsonDocument("$arrayElemAt",
                                                                     new BsonArray
