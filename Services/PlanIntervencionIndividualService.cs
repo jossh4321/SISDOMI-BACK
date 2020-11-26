@@ -253,7 +253,7 @@ namespace SISDOMI.Services
         }
 
 
-        //Sebastian
+        // Plan de Intervención Educativo
         public async Task<PlanIntervencionIndividualEducativo> CreateIndividualInterventionPlan(PlanResidente planIntervencionIndividual)
         {
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
@@ -279,55 +279,39 @@ namespace SISDOMI.Services
             return planIntervencionIndividual.planintervencionindividual;
         }
 
-        //Fede
-        public PlanIntervencionIndividualEducativo ModifyIndividualInterventionPlan(PlanIntervencionIndividualEducativo planIntervencionIndividual)
+        public async Task<PlanIntervencionIndividualEducativo> ModifyIndividualInterventionPlan(PlanEducativoUpdate planIntervencionIndividual)
         {
+            var actualDocumento = await _documentos.Find(x => x.id == planIntervencionIndividual.id).FirstOrDefaultAsync();
+
+            if (actualDocumento != null)
+            {
+                if (actualDocumento.idresidente != planIntervencionIndividual.idresidente)
+                {
+                    DocumentoExpediente documentoExpediente = new DocumentoExpediente
+                    {
+                        tipo = planIntervencionIndividual.tipo,
+                        iddocumento = planIntervencionIndividual.id
+                    };
+
+                    await expedienteService.RevomePushDocumentos(documentoExpediente, actualDocumento.idresidente, planIntervencionIndividual.idresidente);
+                }
+            }
+
             var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
             var update = Builders<Documento>.Update
-                .Set("fase", planIntervencionIndividual.fase)
+                .Set("estado", "modificado")
+                .Set("idresidente", planIntervencionIndividual.idresidente)
                 .Set("contenido", planIntervencionIndividual.contenido)
                 .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
+
             var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
             {
                 ReturnDocument = ReturnDocument.After
             });
 
-            planIntervencionIndividual = doc as PlanIntervencionIndividualEducativo;
-            return planIntervencionIndividual;
+            PlanIntervencionIndividualEducativo planIntervencionEducativo = doc as PlanIntervencionIndividualEducativo;
+            return planIntervencionEducativo;
         }
-
-        public PlanIntervencionIndividualSocial ModifySocialIndividualInterventionPlan(PlanIntervencionIndividualSocial planIntervencionIndividual)
-        {
-            var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
-            var update = Builders<Documento>.Update
-                .Set("fase", planIntervencionIndividual.fase)
-                .Set("contenido", planIntervencionIndividual.contenido)
-                .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
-            var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
-            {
-                ReturnDocument = ReturnDocument.After
-            });
-
-            planIntervencionIndividual = doc as PlanIntervencionIndividualSocial;
-            return planIntervencionIndividual;
-        }
-
-        public PlanIntervencionIndividualPsicologico ModifyPsycologicalIndividualInterventionPlan(PlanIntervencionIndividualPsicologico planIntervencionIndividual)
-        {
-            var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
-            var update = Builders<Documento>.Update
-                .Set("fase", planIntervencionIndividual.fase)
-                .Set("contenido", planIntervencionIndividual.contenido)
-                .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
-            var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
-            {
-                ReturnDocument = ReturnDocument.After
-            });
-
-            planIntervencionIndividual = doc as PlanIntervencionIndividualPsicologico;
-            return planIntervencionIndividual;
-        }
-
 
         //Plan Intervencion Psicologica
         public async Task<PlanIntervencionIndividualPsicologico> CreatePsycologicalInterventionPlan(PlanResidentePsicologico planResidentePsicologico)
@@ -355,6 +339,39 @@ namespace SISDOMI.Services
             return planResidentePsicologico.planIntervencionIndividualPsicologico;
         }
 
+        public async Task<PlanIntervencionIndividualPsicologico> ModifyPsycologicalIndividualInterventionPlan(PlanPsicologoUpdate planIntervencionIndividual)
+        {
+            var actualDocumento = await _documentos.Find(x => x.id == planIntervencionIndividual.id).FirstOrDefaultAsync();
+
+            if (actualDocumento != null)
+            {
+                if (actualDocumento.idresidente != planIntervencionIndividual.idresidente)
+                {
+                    DocumentoExpediente documentoExpediente = new DocumentoExpediente
+                    {
+                        tipo = planIntervencionIndividual.tipo,
+                        iddocumento = planIntervencionIndividual.id
+                    };
+
+                    await expedienteService.RevomePushDocumentos(documentoExpediente, actualDocumento.idresidente, planIntervencionIndividual.idresidente);
+                }
+            }
+
+            var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
+            var update = Builders<Documento>.Update
+                .Set("estado", "modificado")
+                .Set("idresidente", planIntervencionIndividual.idresidente)
+                .Set("contenido", planIntervencionIndividual.contenido)
+                .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
+
+            var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
+
+            PlanIntervencionIndividualPsicologico planIntervencionPsicologico = doc as PlanIntervencionIndividualPsicologico;
+            return planIntervencionPsicologico;
+        }
 
         //Plan Intervencion Social
         public async Task<PlanIntervencionIndividualSocial> CreateSocialInterventionPlan(PlanResidenteSocial planResidenteSocial)
@@ -380,6 +397,40 @@ namespace SISDOMI.Services
             await expedienteService.UpdateDocuments(documentoExpediente, expediente.id);
 
             return planResidenteSocial.planIntervencionIndividualSocial;
+        }
+
+        public async Task<PlanIntervencionIndividualSocial> ModifySocialIndividualInterventionPlan(PlanSocialUpdate planIntervencionIndividual)
+        {
+            var actualDocumento = await _documentos.Find(x => x.id == planIntervencionIndividual.id).FirstOrDefaultAsync();
+
+            if(actualDocumento != null)
+            {
+                if(actualDocumento.idresidente != planIntervencionIndividual.id)
+                {
+                    DocumentoExpediente documentoExpediente = new DocumentoExpediente
+                    {
+                        tipo = planIntervencionIndividual.tipo,
+                        iddocumento = planIntervencionIndividual.id
+                    };
+
+                    await expedienteService.RevomePushDocumentos(documentoExpediente, actualDocumento.idresidente, planIntervencionIndividual.idresidente);
+
+                }
+            }
+
+            var filter = Builders<Documento>.Filter.Eq("id", planIntervencionIndividual.id);
+            var update = Builders<Documento>.Update
+                .Set("estado", "modificado")
+                .Set("idresidente", planIntervencionIndividual.idresidente)
+                .Set("contenido", planIntervencionIndividual.contenido)
+                .Set("historialcontenido", planIntervencionIndividual.historialcontenido);
+            var doc = _documentos.FindOneAndUpdate<Documento>(filter, update, new FindOneAndUpdateOptions<Documento>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
+
+            PlanIntervencionIndividualSocial planIntervencionSocial = doc as PlanIntervencionIndividualSocial;
+            return planIntervencionSocial;
         }
 
 

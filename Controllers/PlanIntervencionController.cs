@@ -43,10 +43,18 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("educativo")]
-        public ActionResult<PlanIntervencionIndividualEducativo> Put(PlanIntervencionIndividualEducativo planIntervencion)
+        public async Task<ActionResult<PlanIntervencionIndividualEducativo>> Put(PlanEducativoUpdate planIntervencion)
         {
-            PlanIntervencionIndividualEducativo objetoplan = _planIntervencionService.ModifyIndividualInterventionPlan(planIntervencion);
-            return objetoplan;
+            try
+            {
+                PlanIntervencionIndividualEducativo objetoplan = await _planIntervencionService.ModifyIndividualInterventionPlan(planIntervencion);
+                return objetoplan;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
         }
 
         // Plan Psicologico
@@ -66,9 +74,9 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("psicologico")]
-        public ActionResult<PlanIntervencionIndividualPsicologico> Put(PlanIntervencionIndividualPsicologico planIntervencion)
+        public async Task<ActionResult<PlanIntervencionIndividualPsicologico>> Put(PlanPsicologoUpdate planIntervencion)
         {
-            PlanIntervencionIndividualPsicologico objetoplan = _planIntervencionService.ModifyPsycologicalIndividualInterventionPlan(planIntervencion);
+            PlanIntervencionIndividualPsicologico objetoplan =await _planIntervencionService.ModifyPsycologicalIndividualInterventionPlan(planIntervencion);
             return objetoplan;
         }
 
@@ -89,10 +97,19 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("social")]
-        public ActionResult<PlanIntervencionIndividualSocial> PutPlanSocial(PlanIntervencionIndividualSocial planIntervencion)
+        public async Task<ActionResult<PlanIntervencionIndividualSocial>> PutPlanSocial(PlanSocialUpdate planIntervencion)
         {
-            PlanIntervencionIndividualSocial objetoplan = _planIntervencionService.ModifySocialIndividualInterventionPlan(planIntervencion);
-            return objetoplan;
+            try
+            {
+                PlanIntervencionIndividualSocial objetoplan =await _planIntervencionService.ModifySocialIndividualInterventionPlan(planIntervencion);
+                return objetoplan;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+            
         }
 
         //General
