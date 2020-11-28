@@ -54,8 +54,15 @@ namespace SISDOMI.Controllers
         [HttpPut("")]
         public async Task<ActionResult<SesionEducativa>> PutSesionesEducativas([FromBody] SesionEducativa sesioneseducativas)
         {
-            SesionEducativa objetosesioneducativa = _sesionducativaService.ModifySesionEducativa(sesioneseducativas);
-            return objetosesioneducativa;
+            foreach (var item in sesioneseducativas.contenido.participantes)
+            {
+                if (!string.IsNullOrWhiteSpace(item.firma) && !item.firma.Contains("https"))
+                {
+                    var imgfirma = Convert.FromBase64String(item.firma);
+                    item.firma = await _fileStorage.SaveFile(imgfirma, "png", "sesiones");
+                }
+            }
+            return await _sesionducativaService.ModifySesionEducativa(sesioneseducativas);
         }
     }
 }
