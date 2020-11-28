@@ -99,7 +99,11 @@ namespace SISDOMI.Services
             });
             return residente;
         }
-
+        public async Task<List<Residentes>> GetResidenteByNombre(String nombre)
+        {
+            var filter = Builders<Residentes>.Filter.Regex("nombre", new BsonRegularExpression(nombre));
+            return await  _residente.Find(filter).ToListAsync();
+        }
         public async Task<List<Residentes>> ListResidentByAreaAndByNotPlan(String areaPlan)
         {
 
