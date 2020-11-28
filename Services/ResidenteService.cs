@@ -223,5 +223,49 @@ namespace SISDOMI.Services
             return lstResidentes;
 
         }
+
+        public async Task<List<Residentes>> ListResidenteByFase(String fase)
+        {
+
+            List<Residentes> lstResidentes;
+
+            var proyectinicial = new BsonDocument("$project",
+                new BsonDocument
+                    {
+                        { "nombre", 1 },
+                        { "apellido", 1 },
+                        { "tipodocumento", 1 },
+                        { "numerodocumento", 1 },
+                        { "lastprogreso",
+                new BsonDocument("$arrayElemAt",
+                new BsonArray
+                            {
+                                "$progreso",
+                                -1
+                            }) }
+                    });
+
+            var matchResidents = new BsonDocument("$match",
+                new BsonDocument("lastprogreso.fase", Convert.ToInt32(fase) ));
+
+            var projectFinalResident = new BsonDocument("$project",
+                new BsonDocument
+                    {
+                        { "_id", 1 },
+                        { "nombre", 1 },
+                        { "apellido", 1 },
+                        { "tipodocumento", 1 },
+                        { "numerodocumento", 1 }
+                    });
+
+            lstResidentes = await _residente.Aggregate()
+                                    .AppendStage<dynamic>(proyectinicial)
+                                    .AppendStage<dynamic>(matchResidents)
+                                    .AppendStage<Residentes>(projectFinalResident)
+                                    .ToListAsync();
+
+            return lstResidentes;
+
+        }
     }
 }

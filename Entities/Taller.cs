@@ -13,7 +13,7 @@ namespace SISDOMI.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         public String id { get; set; }
         [BsonElement("fechacreacion")]
-        public DateTime fechacreacion { get; set; }
+        public DateTime fechaCreacion { get; set; }
         [BsonElement("titulo")]
         public String titulo { get; set; }
         [BsonElement("tipo")]
@@ -21,7 +21,7 @@ namespace SISDOMI.Entities
         [BsonElement("descripcion")]
         public String descripcion { get; set; }
         [BsonElement("creadordocumento")]
-        public String creadordocumento { get; set; }
+        public String creadorDocumento { get; set; }
         [BsonElement("area")]
         public String area { get; set; }
         [BsonElement("fase")]

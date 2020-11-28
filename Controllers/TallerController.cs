@@ -43,19 +43,19 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPost("crearTEP")]
-        public async Task<ActionResult<TallerEscuelaPadres>> CreateTEP([FromBody] TallerEscuelaPadres taller)
+        public async Task<ActionResult<TallerEscuelaPadres>> PostTEP([FromBody] TallerEscuelaPadres taller)
         {
             TallerEscuelaPadres mitaller = _tallerService.CreateTEP(taller);
             return mitaller;
         }
         [HttpPost("crearTE")]
-        public async Task<ActionResult<TallerEducativo>> CreateTE([FromBody] TallerEducativo taller)
+        public async Task<ActionResult<TallerEducativo>> PostTE([FromBody] TallerEducativo taller)
         {
             TallerEducativo mitaller = _tallerService.CreateTE(taller);
             return mitaller;
         }
         [HttpPost("crearTFE")]
-        public async Task<ActionResult<TallerFormativoEgreso>> CreateTFE([FromBody] TallerFormativoEgreso taller)
+        public async Task<ActionResult<TallerFormativoEgreso>> PostTFE([FromBody] TallerFormativoEgreso taller)
         {
             TallerFormativoEgreso mitaller = _tallerService.CreateTFE(taller);
             return mitaller;

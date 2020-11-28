@@ -14,7 +14,7 @@ namespace SISDOMI.DTOs
         [BsonRepresentation(BsonType.ObjectId)]
         public String id { get; set; }
         [BsonElement("fechacreacion")]
-        public DateTime fechacreacion { get; set; }
+        public DateTime fechaCreacion { get; set; }
         [BsonElement("titulo")]
         public String titulo { get; set; }
         [BsonElement("tipo")]
@@ -22,11 +22,13 @@ namespace SISDOMI.DTOs
         [BsonElement("descripcion")]
         public String descripcion { get; set; }
         [BsonElement("creadordocumento")]
-        public String creadordocumento { get; set; }
+        public String creadorDocumento { get; set; }
         [BsonElement("area")]
         public String area { get; set; }
         [BsonElement("fase")]
         public String fase { get; set; }
+        [BsonElement("firma")]
+        public Firma firma { get; set; }
     }
 
     public class TallerEscuelaPadres : TallerDTO
@@ -36,8 +38,11 @@ namespace SISDOMI.DTOs
 
     public class ContenidoTallerEscuelaPadres
     {
-        public DateTime fechainicio { get; set; }
-        public DateTime fechafin { get; set; }
+        [BsonElement("fechainicio")]
+        public DateTime fechaInicio { get; set; }
+        [BsonElement("fechafin")]
+        public DateTime fechaFin { get; set; }
+        [BsonElement("tutores")]
         public List<Tutor> tutores { get; set; }
     }
 
@@ -48,9 +53,13 @@ namespace SISDOMI.DTOs
 
     public class ContenidoTallerEducativo
     {
-        public DateTime fecharealizacion { get; set; }
+        [BsonElement("fecharealizacion")]
+        public DateTime fechaRealizacion { get; set; }
+        [BsonElement("turno")]
         public string turno { get; set; }
-        public int nrosesion { get; set; }
+        [BsonElement("nrosesion")]
+        public int nroSesion { get; set; }
+        [BsonElement("participantes")]
         public List<ParticipanteTaller> participantes { get; set; }
     }
 
@@ -61,9 +70,13 @@ namespace SISDOMI.DTOs
 
     public class ContenidoTallerFormativoEgreso
     {
-        public DateTime fecharealizacion { get; set; }
+        [BsonElement("fecharealizacion")]
+        public DateTime fechaRealizacion { get; set; }
+        [BsonElement("turno")]
         public string turno { get; set; }
-        public int nrosesion { get; set; }
+        [BsonElement("nrosesion")]
+        public int nroSesion { get; set; }
+        [BsonElement("participantes")]
         public List<ParticipanteTaller> participantes { get; set; }
     }
 
