@@ -22,6 +22,7 @@ namespace SISDOMI.Entities
        typeof(PlanIntervencionIndividualEducativo),
        typeof(PlanIntervencionIndividualPsicologico),
        typeof(PlanIntervencionIndividualSocial),
+         typeof(ActaExternamiento),
        typeof(InformeSeguimientoEducativo))]
     public class Documento
     {
@@ -103,7 +104,7 @@ namespace SISDOMI.Entities
         public string antecedentes { get; set; }
         public string situacionactual { get; set; }
         public string diagnosticosocial { get; set; }
-        public string recomendaciones { get; set; }
+        public List<string> recomendaciones { get; set; }
         public List<AnexosDocumento> anexos { get; set; }
         public List<Firma> firmas { get; set; }
         public string idresidente { get; set; }
@@ -162,6 +163,7 @@ namespace SISDOMI.Entities
         public Procedencia ieprocedencia { get; set; } = new Procedencia();
         public String responsableturno { get; set; }
         public List<String> observaciones { get; set; } = new List<String>();
+        public String codigodocumento { get; set; }
         public List<Firma> firmas { get; set; } = new List<Firma>();
         
 
@@ -175,6 +177,7 @@ namespace SISDOMI.Entities
         public Legal legal { get; set; } = new Legal();
         public String diagnosticosocial { get; set; }
         public String planintervencion { get; set; }
+        public String codigodocumento { get; set; }
         public List<Firma> firmas { get; set; } = new List<Firma>();
     }
     public class ContenidoFichaIngresoPsicologica
@@ -193,6 +196,7 @@ namespace SISDOMI.Entities
         public DesarrolloSexual  desarrollosexual  { get; set; } = new DesarrolloSexual ();
         public ExplotacionSexual  explotacionsexual { get; set; } = new ExplotacionSexual();
         public Actividades actividades  { get; set; } = new Actividades();
+        public String codigodocumento { get; set; }
         public String observaciones { get; set; }
 
 
@@ -277,8 +281,8 @@ namespace SISDOMI.Entities
 
     public class AnexosDocumento
     {
-        public string idanexo { get; set; }
-        public string tipo { get; set; }
+        public string url { get; set; }
+        public string titulo { get; set; }
     }
 
     //Contenido Seguimiento Educativo
@@ -297,6 +301,8 @@ namespace SISDOMI.Entities
         public List<Trimestre> trimestre { get; set; }
         [BsonElement("firmas")]
         public List<Firmas> firmas { get; set; }
+        [BsonElement("codigodocumento")]
+        public String codigoDocumento { get; set; }
           
     }
     public class Trimestre
@@ -323,4 +329,30 @@ namespace SISDOMI.Entities
         public ContenidoInformeSeguimientoEducativo contenido { get; set; } = new ContenidoInformeSeguimientoEducativo();
     }
     ///FIN SEGUIMIENTO EDUCATIVO
-}    
+
+    ///Acta De Externamiento
+    public class ContenidoActaDeExternamiento
+    {
+
+        [BsonElement("responsable")]
+        public String responsable { get; set; }
+        [BsonElement("entidaddisposicion")]
+        public String entidaddisposicion { get; set; }
+        [BsonElement("numeroresolucion")]
+        public String numeroresolucion { get; set; }
+        [BsonElement("numerooficio")]
+        public String numerooficio { get; set; }
+        [BsonElement("observaciones")]
+        public String observaciones { get; set; }
+        [BsonElement("firmas")]
+        public List<Firmas> firmas { get; set; }
+
+    }
+
+    public class ActaExternamiento : Documento
+    {
+        public ContenidoActaDeExternamiento contenido { get; set; } = new ContenidoActaDeExternamiento();
+    }
+    /// >:(
+
+}

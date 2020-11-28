@@ -38,5 +38,18 @@ namespace SISDOMI.Services
             await _expedientes.FindOneAndUpdateAsync(filterExp, pushDocumentsExp);
 
         }
+
+        public async Task RevomePushDocumentos(DocumentoExpediente documentoExpediente, String idResidenteExpedienteRemove, String idResidenteExpedientePush)
+        {
+            var removefilterExp = Builders<Expediente>.Filter.Eq("idresidente", idResidenteExpedienteRemove);
+            var removeDocumentsExp = Builders<Expediente>.Update.PullFilter("documentos",
+                                                                            Builders<DocumentoExpediente>.Filter.Eq("iddocumento", documentoExpediente.iddocumento));
+
+            var pushfilterExp = Builders<Expediente>.Filter.Eq("idresidente", idResidenteExpedientePush);
+            var pushDocumentsExp = Builders<Expediente>.Update.Push("documentos", documentoExpediente);
+
+            await _expedientes.UpdateOneAsync(removefilterExp, removeDocumentsExp);
+            await _expedientes.UpdateOneAsync(pushfilterExp, pushDocumentsExp);
+        }
     }
 }

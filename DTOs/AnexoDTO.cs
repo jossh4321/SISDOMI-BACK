@@ -8,21 +8,19 @@ using System.Threading.Tasks;
 
 namespace SISDOMI.DTOs
 {
-    public class DocumentoDTO { 
-    
+    public class AnexoDTO
+    {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
-        public string tipo { get; set; }
-        public List<string> historialcontenido { get; set; }
-        public string creadordocumento { get; set; }
+        public string titulo { get; set; }
+        public string descripcion { get; set; }
+        public string idresidente { get; set; }
+        public string residente { get; set; }
+        public string idcreador { get; set; }
+        public string creador { get; set; }
         public DateTime fechacreacion { get; set; }
         public string area { get; set; }
-        public string fase { get; set; }
-        public string idresidente { get; set; }
-        public string estado { get; set; }
-        public Object contenido { get; set; }
-
-      
+        public List<Enlace> enlaces { get; set; }
     }
 }
