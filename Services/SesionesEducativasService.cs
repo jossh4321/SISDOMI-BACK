@@ -182,7 +182,7 @@ namespace SISDOMI.Services
             return sesioneducativa;
         }
 
-        public SesionEducativa ModifySesionEducativa(SesionEducativa sesioneducativa)
+        public async Task<SesionEducativa> ModifySesionEducativa(SesionEducativa sesioneducativa)
         {
             var filter = Builders<SesionEducativa>.Filter.Eq("id", sesioneducativa.id);
             var update = Builders<SesionEducativa>.Update

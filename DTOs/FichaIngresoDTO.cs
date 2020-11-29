@@ -37,8 +37,7 @@ namespace SISDOMI.DTOs
         [BsonElement("residenteresultado")]
         public string residenteresultado { get; set; }
 
-        [BsonElement("numerodocumento")]
-        public string numerodocumento { get; set; }
+        
     }
     
 

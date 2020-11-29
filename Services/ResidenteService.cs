@@ -100,7 +100,11 @@ namespace SISDOMI.Services
             });
             return residente;
         }
-
+        public async Task<List<Residentes>> GetResidenteByNombre(String nombre)
+        {
+            var filter = Builders<Residentes>.Filter.Regex("nombre", new BsonRegularExpression(nombre));
+            return await  _residente.Find(filter).ToListAsync();
+        }
         public async Task<List<Residentes>> ListResidentByAreaAndByNotPlan(String areaPlan)
         {
 
@@ -377,6 +381,50 @@ namespace SISDOMI.Services
 
             return lstResidenteDTOs;
            
+        }
+
+        public async Task<List<Residentes>> ListResidenteByFase(String fase)
+        {
+
+            List<Residentes> lstResidentes;
+
+            var proyectinicial = new BsonDocument("$project",
+                new BsonDocument
+                    {
+                        { "nombre", 1 },
+                        { "apellido", 1 },
+                        { "tipodocumento", 1 },
+                        { "numerodocumento", 1 },
+                        { "lastprogreso",
+                new BsonDocument("$arrayElemAt",
+                new BsonArray
+                            {
+                                "$progreso",
+                                -1
+                            }) }
+                    });
+
+            var matchResidents = new BsonDocument("$match",
+                new BsonDocument("lastprogreso.fase", Convert.ToInt32(fase) ));
+
+            var projectFinalResident = new BsonDocument("$project",
+                new BsonDocument
+                    {
+                        { "_id", 1 },
+                        { "nombre", 1 },
+                        { "apellido", 1 },
+                        { "tipodocumento", 1 },
+                        { "numerodocumento", 1 }
+                    });
+
+            lstResidentes = await _residente.Aggregate()
+                                    .AppendStage<dynamic>(proyectinicial)
+                                    .AppendStage<dynamic>(matchResidents)
+                                    .AppendStage<Residentes>(projectFinalResident)
+                                    .ToListAsync();
+
+            return lstResidentes;
+
         }
     }
 }
