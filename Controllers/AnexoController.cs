@@ -43,6 +43,35 @@ namespace SISDOMI.Controllers
             }
         }
 
+        [HttpPost()]
+        public async Task<ActionResult<Anexo>> PostAnexo(Anexo anexo)
+        {
+            try
+            {
+                return await _anexoService.CreateAnexo(anexo);
+            }
+            catch (Exception ex)
+            {
 
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+
+        }
+
+        [HttpPut()]
+        public async Task<ActionResult<Anexo>> PutAnexo(Anexo anexo)
+        {
+            try
+            {
+                Anexo objetoanexo = await _anexoService.ModifyAnexo(anexo);
+                return objetoanexo;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+
+        }
     }
 }

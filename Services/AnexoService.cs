@@ -213,5 +213,31 @@ namespace SISDOMI.Services
                                                 .FirstOrDefaultAsync();
             return anexoDTO;
         }
+
+        public async Task<ActionResult<Anexo>> CreateAnexo(Anexo anexo)
+        {
+            DateTime DateNow = DateTime.UtcNow.AddHours(-5);
+            anexo.fechacreacion = DateNow;
+            await _anexos.InsertOneAsync(anexo);
+            return anexo;
+        }
+
+        public async Task<Anexo> ModifyAnexo(Anexo anexo)
+        {
+            var filter = Builders<Anexo>.Filter.Eq("id", anexo.id);
+            var update = Builders<Anexo>.Update
+                .Set("titulo", anexo.titulo)
+                .Set("descripcion", anexo.descripcion)
+                .Set("enlaces", anexo.enlaces)
+                .Set("area", anexo.area)
+                .Set("idresidente", anexo.idresidente);
+
+            var resultado = await _anexos.FindOneAndUpdateAsync<Anexo>(filter, update, new FindOneAndUpdateOptions<Anexo>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
+
+            return resultado;
+        }
     }
 }
