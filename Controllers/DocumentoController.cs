@@ -1,18 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
+using SISDOMI.Models;
 using SISDOMI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace SISDOMI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DocumentoController
+    public class DocumentoController : ControllerBase
     {
         private readonly FichaIngresoSocialService _fichaIngresoSocialService;
         private readonly FichaIngresoEducativoService _fichaIngresoEducativoService;
@@ -84,5 +85,7 @@ namespace SISDOMI.Controllers
            {
            return await _fichaIngresoSocialService.obtenerResidientesFichaIngreso();
            }
+
+      
     }
 }
