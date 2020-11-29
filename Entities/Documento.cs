@@ -90,7 +90,7 @@ namespace SISDOMI.Entities
         public string situacionactual { get; set; }
         public string diagnosticosocial { get; set; }
         public List<string> recomendaciones { get; set; }
-        public List<string> anexos { get; set; }
+        public List<AnexosDocumento> anexos { get; set; }
         public List<Firma> firmas { get; set; }        
         public string codigodocumento { get; set; }
     }
