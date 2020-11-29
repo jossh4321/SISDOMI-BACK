@@ -67,6 +67,7 @@ namespace SISDOMI
             services.AddScoped<RolService>();
             services.AddScoped<AnexoService>();
             services.AddScoped<ActaDeExternamientoService>();
+            services.AddScoped<DocumentoService>();
 
             services.AddScoped<IFileStorage, AzureFileStorage>();
             services.AddScoped<IDocument, Document>();

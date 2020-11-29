@@ -90,18 +90,25 @@ namespace SISDOMI.Controllers
             }
         }
 
-        [HttpGet("all/fase/{fase}")]
-        public async Task<ActionResult<List<Residentes>>> ListResidenteByFase(String fase)
+        [HttpGet("{residenteId}/expediente")]
+        [Authorize]
+        public async Task<ActionResult<List<ResidenteDTO>>> GetResidenteAndAnnexesAndDocuments(String residenteId)
         {
             try
             {
-                List<Residentes> lstResidentes = await _residenteservice.ListResidenteByFase(fase);
-                return lstResidentes;
+
+                List<ResidenteDTO> lstresidenteDTOs = await _residenteservice.GetResidentAndAnnexesAndDocuments(residenteId);
+
+                return lstresidenteDTOs;
             }
             catch (Exception ex)
             {
+
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
+
+
+
     }
 }
