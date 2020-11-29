@@ -29,6 +29,20 @@ namespace SISDOMI.Controllers
             return await _anexoService.GetAll();
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AnexoDTO>> GetById(String id)
+        {
+            try
+            {
+                return await _anexoService.GetAnexoById(id);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
+
 
     }
 }
