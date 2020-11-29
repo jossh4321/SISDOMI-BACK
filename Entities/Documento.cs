@@ -22,6 +22,7 @@ namespace SISDOMI.Entities
        typeof(PlanIntervencionIndividualEducativo),
        typeof(PlanIntervencionIndividualPsicologico),
        typeof(PlanIntervencionIndividualSocial),
+         typeof(ActaExternamiento),
        typeof(InformeSeguimientoEducativo))]
     public class Documento
     {
@@ -88,10 +89,9 @@ namespace SISDOMI.Entities
         public string educacion { get; set; }
         public string situacionactual { get; set; }
         public string diagnosticosocial { get; set; }
-        public string recomendaciones { get; set; }
+        public List<string> recomendaciones { get; set; }
         public List<string> anexos { get; set; }
-        public List<Firma> firmas { get; set; }
-        public string idresidente { get; set; }
+        public List<Firma> firmas { get; set; }        
         public string codigodocumento { get; set; }
     }
     public class InformeSocialInicial : Documento
@@ -328,4 +328,30 @@ namespace SISDOMI.Entities
         public ContenidoInformeSeguimientoEducativo contenido { get; set; } = new ContenidoInformeSeguimientoEducativo();
     }
     ///FIN SEGUIMIENTO EDUCATIVO
-}    
+
+    ///Acta De Externamiento
+    public class ContenidoActaDeExternamiento
+    {
+
+        [BsonElement("responsable")]
+        public String responsable { get; set; }
+        [BsonElement("entidaddisposicion")]
+        public String entidaddisposicion { get; set; }
+        [BsonElement("numeroresolucion")]
+        public String numeroresolucion { get; set; }
+        [BsonElement("numerooficio")]
+        public String numerooficio { get; set; }
+        [BsonElement("observaciones")]
+        public String observaciones { get; set; }
+        [BsonElement("firmas")]
+        public List<Firmas> firmas { get; set; }
+
+    }
+
+    public class ActaExternamiento : Documento
+    {
+        public ContenidoActaDeExternamiento contenido { get; set; } = new ContenidoActaDeExternamiento();
+    }
+    /// >:(
+
+}

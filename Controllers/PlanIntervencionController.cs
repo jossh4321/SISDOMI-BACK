@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
@@ -13,6 +14,7 @@ namespace SISDOMI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class PlanIntervencionController: ControllerBase
     {
         private readonly PlanIntervencionIndividualService _planIntervencionService;
@@ -22,18 +24,8 @@ namespace SISDOMI.Controllers
             _planIntervencionService = planIntervencionIndividualService;
         }
 
-        [HttpGet("all")]
-        public async Task<ActionResult<List<PlanIntervencionDTO>>> GetAll()
-        {
-            return await _planIntervencionService.GetAll();
-        }
 
-        [HttpGet("educativobyid")]
-        public ActionResult<PlanIntervencionIndividualEducativo> GetPlanEducativo([FromQuery] string id)
-        {
-            return _planIntervencionService.GetEducationalIndividualInterventionPlanById(id);
-
-        }
+        // Educativo
 
         [HttpPost("educativo")]
         public async Task<ActionResult<PlanIntervencionIndividualEducativo>> PostPlanEducativo(PlanResidente planIntervencionIndividual)
@@ -51,19 +43,21 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("educativo")]
-        public ActionResult<PlanIntervencionIndividualEducativo> Put(PlanIntervencionIndividualEducativo planIntervencion)
+        public async Task<ActionResult<PlanIntervencionIndividualEducativo>> Put(PlanEducativoUpdate planIntervencion)
         {
-            PlanIntervencionIndividualEducativo objetoplan = _planIntervencionService.ModifyIndividualInterventionPlan(planIntervencion);
-            return objetoplan;
+            try
+            {
+                PlanIntervencionIndividualEducativo objetoplan = await _planIntervencionService.ModifyIndividualInterventionPlan(planIntervencion);
+                return objetoplan;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
         }
 
         // Plan Psicologico
-        [HttpGet("psicologicobyid")]
-        public ActionResult<PlanIntervencionIndividualPsicologico> GetPlanPsicologico([FromQuery] string id)
-        {
-            return _planIntervencionService.GetPsychologicalIndividualInterventionPlanById(id);
-
-        }
 
         [HttpPost("psicologico")]
         public async Task<ActionResult<PlanIntervencionIndividualPsicologico>> PostPlanPsicologico(PlanResidentePsicologico planResidentePsicologico)
@@ -80,19 +74,13 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("psicologico")]
-        public ActionResult<PlanIntervencionIndividualPsicologico> Put(PlanIntervencionIndividualPsicologico planIntervencion)
+        public async Task<ActionResult<PlanIntervencionIndividualPsicologico>> Put(PlanPsicologoUpdate planIntervencion)
         {
-            PlanIntervencionIndividualPsicologico objetoplan = _planIntervencionService.ModifyPsycologicalIndividualInterventionPlan(planIntervencion);
+            PlanIntervencionIndividualPsicologico objetoplan =await _planIntervencionService.ModifyPsycologicalIndividualInterventionPlan(planIntervencion);
             return objetoplan;
         }
 
         // Plan Social
-        [HttpGet("socialbyid")]
-        public ActionResult<PlanIntervencionIndividualSocial> GetPlanSocial([FromQuery] string id)
-        {
-            return _planIntervencionService.GetSocialIndividualInterventionPlanById(id);
-
-        }
 
         [HttpPost("social")]
         public async Task<ActionResult<PlanIntervencionIndividualSocial>> PostPlanSocial(PlanResidenteSocial planResidenteSocial)
@@ -109,13 +97,37 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("social")]
-        public ActionResult<PlanIntervencionIndividualSocial> PutPlanSocial(PlanIntervencionIndividualSocial planIntervencion)
+        public async Task<ActionResult<PlanIntervencionIndividualSocial>> PutPlanSocial(PlanSocialUpdate planIntervencion)
         {
-            PlanIntervencionIndividualSocial objetoplan = _planIntervencionService.ModifySocialIndividualInterventionPlan(planIntervencion);
-            return objetoplan;
+            try
+            {
+                PlanIntervencionIndividualSocial objetoplan =await _planIntervencionService.ModifySocialIndividualInterventionPlan(planIntervencion);
+                return objetoplan;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+            
         }
 
         //General
+        [HttpGet("all")]
+        public async Task<ActionResult<List<PlanIntervencionDTO>>> GetAll()
+        {
+            try
+            {
+                return await _planIntervencionService.GetAll();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+            
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<PlanIntervencionConsultaDTO>> GetPlanById(String id)
         {

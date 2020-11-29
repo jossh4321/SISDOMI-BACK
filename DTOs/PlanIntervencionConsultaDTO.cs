@@ -20,6 +20,7 @@ namespace SISDOMI.DTOs
         public Object contenido { get; set; }
         public Residentes residente { get; set; }
         public String creador { get; set; }
+        public Int32 documentos { get; set; }
 
     }
 }

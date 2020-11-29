@@ -33,8 +33,7 @@ namespace SISDOMI.Controllers
         {
             return _residenteservice.GetAll();
         }
-
-
+    
         [HttpGet("id")]
         public ActionResult<Residentes> Get([FromQuery] string id) //obtiene un residente segun su id
         {
@@ -72,11 +71,37 @@ namespace SISDOMI.Controllers
             }
             catch (Exception ex)
             {
-
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
 
+        [HttpGet("nombre/{nombre}")]
+        [Authorize]
+        public async Task<ActionResult<List<Residentes>>> GetAllByNombre(String nombre)
+        {
+            try
+            {
+                List<Residentes> listResidentes = await _residenteservice.GetResidenteByNombre(nombre);
+                return listResidentes;
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
 
+        [HttpGet("all/fase/{fase}")]
+        public async Task<ActionResult<List<Residentes>>> ListResidenteByFase(String fase)
+        {
+            try
+            {
+                List<Residentes> lstResidentes = await _residenteservice.ListResidenteByFase(fase);
+                return lstResidentes;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
     }
 }
