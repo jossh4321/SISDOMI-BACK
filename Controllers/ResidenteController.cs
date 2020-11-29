@@ -77,6 +77,25 @@ namespace SISDOMI.Controllers
             }
         }
 
+        [HttpGet("{residenteId}/expediente")]
+        [Authorize]
+        public async Task<ActionResult<List<ResidenteDTO>>> GetResidenteAndAnnexesAndDocuments(String residenteId)
+        {
+            try
+            {
+
+                List<ResidenteDTO> lstresidenteDTOs = await _residenteservice.GetResidentAndAnnexesAndDocuments(residenteId);
+
+                return lstresidenteDTOs;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
+
+
 
     }
 }

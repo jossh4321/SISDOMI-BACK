@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
 using SISDOMI.Services;
@@ -12,16 +14,20 @@ namespace SISDOMI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DocumentoController
+    public class DocumentoController: ControllerBase
     {
         private readonly FichaIngresoSocialService _fichaIngresoSocialService;
         private readonly FichaIngresoEducativoService _fichaIngresoEducativoService;
         private readonly FichaIngresoPsicologicaService _fichaIngresoPsicologicaService ;
-        public DocumentoController(FichaIngresoSocialService fichaIngresoSocialService, FichaIngresoEducativoService fichaIngresoEducativoService,FichaIngresoPsicologicaService  fichaIngresoPsicologicaService)
+        private readonly DocumentoService documentoService;
+
+        public DocumentoController(FichaIngresoSocialService fichaIngresoSocialService, FichaIngresoEducativoService fichaIngresoEducativoService,FichaIngresoPsicologicaService  fichaIngresoPsicologicaService,
+                                   DocumentoService documentoService)
         {
             _fichaIngresoSocialService = fichaIngresoSocialService;
             _fichaIngresoEducativoService = fichaIngresoEducativoService;
             _fichaIngresoPsicologicaService = fichaIngresoPsicologicaService;
+            this.documentoService = documentoService;
         }
 
         [HttpGet("all/fichaingresosocial")]
@@ -73,6 +79,7 @@ namespace SISDOMI.Controllers
             return objetofichaSocial;
              
         }
+
         [HttpPost("all/fichaingresopsicologicacrear")]
         public ActionResult<FichaIngresoPsicologica> PostFichaIngresoPsicologica(FichaIngresoPsicologica  documento)
         {
@@ -84,5 +91,22 @@ namespace SISDOMI.Controllers
            {
            return await _fichaIngresoSocialService.obtenerResidientesFichaIngreso();
            }
+
+        [HttpGet("tipo/{tipo}/residente/{residenteid}")]
+        [Authorize]
+        public async Task<ActionResult<List<DocumentTypeResidentDTO>>> GetDocumentosByTypeAndResident(String tipo, String residenteid)
+        {
+            try
+            {
+                List<DocumentTypeResidentDTO> lstDocumentTypeResidentDTOs = await documentoService.ListDocumentsByTypeAndResident(tipo, residenteid);
+
+                return lstDocumentTypeResidentDTOs;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
     }
 }
