@@ -71,7 +71,7 @@ namespace SISDOMI.Services
                 {"creadordocumento", 1 },
                 {"idresidente", 1 },
                 { "area", 1 },
-            //  { "fase", 1 },
+              { "fase", 1 },
                 { "estado", 1 },
                 {"responsable","$contenido.responsable"},
 
