@@ -44,8 +44,30 @@ namespace SISDOMI.Services
                 { "as", "residente" }
             });
 
+            //Para obtener los datos del residente usando el lookup
+            var lookupCreador = new BsonDocument("$lookup", new BsonDocument
+            {
+                { "from", "usuarios" },
+                {"let", new BsonDocument("idCreador", "$idcreador") },
+                { "pipeline", new BsonArray
+                             {
+                                new BsonDocument("$match",
+                                new BsonDocument("$expr",
+                                new BsonDocument("$eq",
+                                new BsonArray {
+                                    "$_id",
+                                    new BsonDocument("$toObjectId", "$$idCreador")
+                                })))
+                             }
+                },
+                { "as", "creador" }
+            });
+
             //Para cambiar el arrays de residentes por un objeto utilizando unwind
             var unwindResidente = new BsonDocument("$unwind", new BsonDocument("path", "$residente"));
+
+            //Para cambiar el arrays de creador por un objeto utilizando unwind
+            var unwindCreador = new BsonDocument("$unwind", new BsonDocument("path", "$creador"));
 
             //Para solo enviar los datos que se necesitan utilizando project
             var projectAnexo = new BsonDocument("$project", new BsonDocument
@@ -54,7 +76,13 @@ namespace SISDOMI.Services
                 { "descripcion", 1 },
                 { "idresidente", 1 },
                 { "idcreador", 1 },
-                { "creador", 1 },
+                { "creador", new BsonDocument("$concat",
+                             new BsonArray{
+                                   "$creador.datos.nombre",
+                                   " ",
+                                   "$creador.datos.apellido"
+                               })
+                },
                 { "fechacreacion", 1 },
                 { "area", 1 },
                 { "enlaces", 1 },
@@ -70,6 +98,8 @@ namespace SISDOMI.Services
             listAnexos = await _anexos.Aggregate()
                                                     .AppendStage<dynamic>(lookupResidente)
                                                     .AppendStage<dynamic>(unwindResidente)
+                                                    .AppendStage<dynamic>(lookupCreador)
+                                                    .AppendStage<dynamic>(unwindCreador)
                                                     .AppendStage<AnexoDTO>(projectAnexo)
                                                     .ToListAsync();
 
