@@ -62,6 +62,7 @@ namespace SISDOMI
             services.AddScoped<SesionesEducativasService>();
             services.AddScoped<FichaIngresoPsicologicaService>();
             services.AddScoped<TallerService>();
+            services.AddScoped<IncidenciaService>();
             services.AddScoped<MediaService>();
             services.AddScoped<RolService>();
             services.AddScoped<AnexoService>();

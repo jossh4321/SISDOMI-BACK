@@ -21,9 +21,10 @@ namespace SISDOMI.Controllers
         private readonly SeguimientoEducativoService _seguimientoeducativoservice;
         private readonly IFileStorage _fileStorage;
 
-        public SeguimientoEducativoController(SeguimientoEducativoService seguimientoeducativoservice)
+        public SeguimientoEducativoController(SeguimientoEducativoService seguimientoeducativoservice, IFileStorage fileStorage)
         {
             _seguimientoeducativoservice = seguimientoeducativoservice;
+            _fileStorage = fileStorage;
         }
 
         [HttpGet("all")]
@@ -41,6 +42,14 @@ namespace SISDOMI.Controllers
         [HttpPost("informese")]
         public async Task<ActionResult<InformeSeguimientoEducativo>> CrearInformeSE(InformeSeguimientoEducativo informe)
         {
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
             return await _seguimientoeducativoservice.RegistrarInformeSE(informe);
         }
         [HttpPut("informese")]
