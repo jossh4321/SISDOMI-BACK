@@ -29,5 +29,20 @@ namespace SISDOMI.Controllers
         {
             return await _ActaExternamientoService.GetAll();
         }
+
+        [HttpGet("id")]
+        public async Task<ActionResult<Documento>> GetID(String id)
+        {
+            try
+            {
+                return await _ActaExternamientoService.GetById(id);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+                
+        }
     }
 }

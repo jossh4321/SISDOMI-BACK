@@ -13,6 +13,7 @@ namespace SISDOMI.DTOs
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
         public Usuario autor { get; set; }
+        [BsonElement("fecharegistro")]
         public DateTime fechaRegistro { get; set; }
         public DateTime fecha { get; set; }
         public string titulo { get; set; }
