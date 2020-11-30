@@ -33,7 +33,7 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPost("")]
-        public async Task<ActionResult<Incidencia>> PostIncidencia(Incidencia incidencia)
+        public async Task<ActionResult<IncidenciaDTO>> PostIncidencia(Incidencia incidencia)
         {
             return await _incidenciaService.PostIncidencia(incidencia);
         }
@@ -47,6 +47,11 @@ namespace SISDOMI.Controllers
         public async Task<ActionResult<IncidenciaDTO>> GetDetalleIncidenteDTO(string id)
         {
             return await _incidenciaService.GetDetalleIncidencia(id);
+        }
+        [HttpGet("all/detalle")]
+        public async Task<ActionResult<List<IncidenciaDTO>>> GetListDetalleIncidenciaDTO()
+        {
+            return await _incidenciaService.GetListDetalleIncidencia();
         }
     }
 }
