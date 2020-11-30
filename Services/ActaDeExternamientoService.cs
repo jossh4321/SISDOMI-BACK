@@ -95,5 +95,16 @@ namespace SISDOMI.Services
             return listActaExternamiento;
         }
 
+        public async Task<Documento> GetById(string id)
+        {
+            Documento documento;
+            var filterId = Builders<Documento>.Filter.Eq("id", id);
+
+            documento = await _documentos.Find(filterId).FirstOrDefaultAsync();
+
+            return documento;
+
+        }
+
     }
 }
