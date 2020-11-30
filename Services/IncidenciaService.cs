@@ -32,10 +32,12 @@ namespace SISDOMI.Services
             incidencia = await _incidencias.Find(incidencia => incidencia.id == idincidencia).SingleOrDefaultAsync();
             return incidencia;
         }
-        public async Task<Incidencia> PostIncidencia(Incidencia incidencia)
+        public async Task<IncidenciaDTO> PostIncidencia(Incidencia incidencia)
         {
+            incidencia.fecha.AddHours(-5);
             await _incidencias.InsertOneAsync(incidencia);
-            return incidencia;
+            IncidenciaDTO incidenciaDTO = await GetDetalleIncidencia(incidencia.id);
+            return incidenciaDTO;
         }
         public async Task<Incidencia> PutIncidencia(Incidencia incidencia)
         {
@@ -59,11 +61,102 @@ namespace SISDOMI.Services
         
         }
 
+        public async Task<List<IncidenciaDTO>> GetListDetalleIncidencia()
+        {
+            var unwind1 = new BsonDocument("$unwind",
+                              new BsonDocument("path", "$residentes"));
+            var subpipeline1 = new BsonArray
+                        {
+                            new BsonDocument("$match",
+                            new BsonDocument("$expr",
+                            new BsonDocument("$eq",
+                            new BsonArray
+                                        {
+                                            "$_id",
+                                            new BsonDocument("$toObjectId", "$$idres")
+                                        })))
+                        };
+            var lookup1 = new BsonDocument("$lookup",
+              new BsonDocument
+                  {
+                        { "from", "residentes" },
+                        { "let",
+                new BsonDocument("idres", "$residentes") },
+                        { "pipeline", subpipeline1},
+                        { "as", "residente" }
+                  });
+
+            var unwind2 = new BsonDocument("$unwind",
+                    new BsonDocument("path", "$residente"));
+
+            var group = new BsonDocument("$group",
+                                new BsonDocument
+                                    {
+                                        { "_id", "$_id" },
+                                        { "usuario",
+                                new BsonDocument("$first", "$usuario") },
+                                        { "fecharegistro",
+                                new BsonDocument("$first", "$fecharegistro") },
+                                        { "fecha",
+                                new BsonDocument("$first", "$fecha") },
+                                        { "titulo",
+                                new BsonDocument("$first", "$titulo") },
+                                        { "descripcion",
+                                new BsonDocument("$first", "$descripcion") },
+                                        { "observaciones",
+                                new BsonDocument("$first", "$observaciones") },
+                                        { "incidencias",
+                                new BsonDocument("$first", "$incidencias") },
+                                        { "residentes",
+                                new BsonDocument("$push", "$residente") },
+                                        { "firma",
+                                new BsonDocument("$first", "$firma") }
+                                    });
+
+            var subpipeline2 = new BsonArray
+                                        {
+                                            new BsonDocument("$match",
+                                            new BsonDocument("$expr",
+                                            new BsonDocument("$eq",
+                                            new BsonArray
+                                                        {
+                                                            "$_id",
+                                                            new BsonDocument("$toObjectId", "$$idusu")
+                                                        })))
+                                        };
+
+            var lookup2 = new BsonDocument("$lookup",
+                                new BsonDocument
+                                    {
+                                        { "from", "usuarios" },
+                                        { "let",
+                                new BsonDocument("idusu", "$usuario") },
+                                        { "pipeline", subpipeline2 },
+                                        { "as", "autor" }
+                                    });
+            var unwind3 = new BsonDocument("$unwind",
+            new BsonDocument("path", "$autor"));
+            var project = new BsonDocument("$project",
+                                new BsonDocument("usuario", 0));
+
+            List<IncidenciaDTO> incidencia = new List<IncidenciaDTO>();
+            incidencia = await _incidencias.Aggregate()
+                            .AppendStage<dynamic>(unwind1)
+                            .AppendStage<dynamic>(lookup1)
+                            .AppendStage<dynamic>(unwind2)
+                            .AppendStage<dynamic>(group)
+                            .AppendStage<dynamic>(lookup2)
+                            .AppendStage<dynamic>(unwind3)
+                            .AppendStage<IncidenciaDTO>(project)
+                            .ToListAsync();
+            return incidencia;
+        }
+
         public async Task<IncidenciaDTO> GetDetalleIncidencia(string id)
         {
             var match1 = new BsonDocument("$match",
                                 new BsonDocument("_id",
-                                new ObjectId("5fbaa32eb09aa608d4e7e537")));
+                                new ObjectId(id)));
 
             var unwind1 = new BsonDocument("$unwind",
                                 new BsonDocument("path", "$residentes"));
