@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using SISDOMI.DTOs;
 using Microsoft.AspNetCore.Mvc.Formatters.Xml;
+using static SISDOMI.DTOs.ResidenteDTO;
 
 namespace SISDOMI.Services
 {
@@ -220,9 +221,9 @@ namespace SISDOMI.Services
 
         }
 
-        public async Task<List<ResidenteDTO>> GetResidentAndAnnexesAndDocuments(String idresidente)
+        public async Task<ResidenteDTO> GetResidentAndAnnexesAndDocuments(String idresidente)
         {
-            List<ResidenteDTO> lstResidenteDTOs;
+            ResidenteDTO residenteDTO;
 
 
             var matchResident = new BsonDocument("$match",
@@ -322,7 +323,10 @@ namespace SISDOMI.Services
                                            { "ubigeo", new BsonDocument("$first", "$ubigeo") },
                                            { "juzgadoprocedencia", new BsonDocument("$first", "$juzgadoprocedencia") },
                                            { "fechaingreso", new BsonDocument("$first", "$fechaingreso") },
+                                           { "fechanacimiento", new BsonDocument("$first", "$fechanacimiento") },
                                            { "motivoingreso", new BsonDocument("$first", "$motivoingreso") },
+                                           { "sexo", new BsonDocument("$first", "$sexo") },
+                                           { "telefonosreferencias", new BsonDocument("$first", "$telefonosreferencias") },
                                            { "anexos", new BsonDocument("$first", "$anexos") },
                                            { "id", new BsonDocument("$first", "$_id") }
                                        });
@@ -340,6 +344,9 @@ namespace SISDOMI.Services
                                           { "juzgadoprocedencia", 1 },
                                           { "fechaingreso", 1 },
                                           { "motivoingreso", 1 },
+                                          { "sexo", 1 },
+                                          { "fechanacimiento", 1 },
+                                          { "telefonosreferencias", 1 },
                                           { "anexos", 1 },
                                           { "cantidaddocumentos",
                                             new BsonDocument
@@ -362,13 +369,48 @@ namespace SISDOMI.Services
                                  { "ubigeo", new BsonDocument("$first", "$ubigeo") },
                                  { "juzgadoprocedencia", new BsonDocument("$first", "$juzgadoprocedencia") },
                                  { "fechaingreso", new BsonDocument("$first", "$fechaingreso") },
+                                 { "fechanacimiento", new BsonDocument("$first", "$fechanacimiento") },
                                  { "motivoingreso", new BsonDocument("$first", "$motivoingreso") },
+                                 { "sexo", new BsonDocument("$first", "$sexo") },
+                                 { "telefonosreferencias", new BsonDocument("$first", "$telefonosreferencias") },
                                  { "anexos", new BsonDocument("$first", "$anexos") },
                                  { "cantidaddocumentos", new BsonDocument("$push", "$cantidaddocumentos") }
 
                              });
 
-            lstResidenteDTOs = await _residente.Aggregate()
+            ResidenteAnnexDocumentoDTO residenteAnnexDocumentoDTO = await _residente.Aggregate()
+                                    .AppendStage<dynamic>(matchResident)
+                                    .AppendStage<dynamic>(lookupAnnexes)
+                                    .AppendStage<ResidenteAnnexDocumentoDTO>(lookupDocuments)
+                                    .FirstOrDefaultAsync();
+
+            if(residenteAnnexDocumentoDTO.documentos.Count == 0)
+            {
+                residenteDTO = new ResidenteDTO()
+                {
+                    id = residenteAnnexDocumentoDTO.id,
+                    nombre = residenteAnnexDocumentoDTO.nombre,
+                    apellido = residenteAnnexDocumentoDTO.apellido,
+                    tipoDocumento = residenteAnnexDocumentoDTO.tipoDocumento,
+                    numeroDocumento = residenteAnnexDocumentoDTO.numeroDocumento,
+                    lugarNacimiento = residenteAnnexDocumentoDTO.lugarNacimiento,
+                    ubigeo = residenteAnnexDocumentoDTO.ubigeo,
+                    juzgadoProcedencia = residenteAnnexDocumentoDTO.juzgadoProcedencia,
+                    fechaIngreso = residenteAnnexDocumentoDTO.fechaIngreso,
+                    motivoIngreso = residenteAnnexDocumentoDTO.motivoIngreso,
+                    anexos = residenteAnnexDocumentoDTO.anexos,
+                    fechaNacimiento = residenteAnnexDocumentoDTO.fechaNacimiento,
+                    sexo = residenteAnnexDocumentoDTO.sexo,
+                    telefonosReferencia = residenteAnnexDocumentoDTO.telefonosReferencia,
+                    cantidadDocumentos = new List<DocumentoAreaDTO>()
+
+                };
+
+                return residenteDTO;
+            }
+
+
+            residenteDTO = await _residente.Aggregate()
                                         .AppendStage<dynamic>(matchResident)
                                         .AppendStage<dynamic>(lookupAnnexes)
                                         .AppendStage<dynamic>(lookupDocuments)
@@ -376,10 +418,10 @@ namespace SISDOMI.Services
                                         .AppendStage<dynamic>(groupDocumentsByArea)
                                         .AppendStage<dynamic>(projectDocumentArea)
                                         .AppendStage<ResidenteDTO>(groupFinal)
-                                        .ToListAsync();
+                                        .FirstOrDefaultAsync();
 
 
-            return lstResidenteDTOs;
+            return residenteDTO;
            
         }
 
