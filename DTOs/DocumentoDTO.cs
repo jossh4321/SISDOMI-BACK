@@ -25,4 +25,11 @@ namespace SISDOMI.DTOs
 
       
     }
+
+    // DTO para obtener todos los documentos mediante el tipo y el id del residente
+    public class DocumentTypeResidentDTO
+    {
+        public String tipo { get; set; }
+        public List<String> documentos { get; set; }
+    }
 }

@@ -89,10 +89,9 @@ namespace SISDOMI.Entities
         public string educacion { get; set; }
         public string situacionactual { get; set; }
         public string diagnosticosocial { get; set; }
-        public string recomendaciones { get; set; }
-        public List<string> anexos { get; set; }
-        public List<Firma> firmas { get; set; }
-        public string idresidente { get; set; }
+        public List<string> recomendaciones { get; set; }
+        public List<AnexosDocumento> anexos { get; set; }
+        public List<Firma> firmas { get; set; }        
         public string codigodocumento { get; set; }
     }
     public class InformeSocialInicial : Documento

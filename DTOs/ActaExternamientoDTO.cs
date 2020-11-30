@@ -18,7 +18,7 @@ namespace SISDOMI.DTOs
         public string creadordocumento { get; set; }
         public DateTime fechacreacion { get; set; }
         public string area { get; set; }
-        //   public string fase { get; set; }
+           public string fase { get; set; }
         public string responsable { get; set; }
         public string residente { get; set; }
         public string idresidente { get; set; }

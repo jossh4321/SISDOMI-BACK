@@ -28,7 +28,7 @@ namespace SISDOMI.Controllers
         // Educativo
 
         [HttpPost("educativo")]
-        public async Task<ActionResult<PlanIntervencionIndividualEducativo>> PostPlanEducativo(PlanResidente planIntervencionIndividual)
+        public async Task<ActionResult<PlanIntervencionIndividualEducativo>> PostPlanEducativo([FromBody] PlanResidente planIntervencionIndividual)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("educativo")]
-        public async Task<ActionResult<PlanIntervencionIndividualEducativo>> Put(PlanEducativoUpdate planIntervencion)
+        public async Task<ActionResult<PlanIntervencionIndividualEducativo>> Put([FromBody] PlanEducativoUpdate planIntervencion)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace SISDOMI.Controllers
         // Plan Psicologico
 
         [HttpPost("psicologico")]
-        public async Task<ActionResult<PlanIntervencionIndividualPsicologico>> PostPlanPsicologico(PlanResidentePsicologico planResidentePsicologico)
+        public async Task<ActionResult<PlanIntervencionIndividualPsicologico>> PostPlanPsicologico([FromBody] PlanResidentePsicologico planResidentePsicologico)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("psicologico")]
-        public async Task<ActionResult<PlanIntervencionIndividualPsicologico>> Put(PlanPsicologoUpdate planIntervencion)
+        public async Task<ActionResult<PlanIntervencionIndividualPsicologico>> Put([FromBody] PlanPsicologoUpdate planIntervencion)
         {
             PlanIntervencionIndividualPsicologico objetoplan =await _planIntervencionService.ModifyPsycologicalIndividualInterventionPlan(planIntervencion);
             return objetoplan;
@@ -83,7 +83,7 @@ namespace SISDOMI.Controllers
         // Plan Social
 
         [HttpPost("social")]
-        public async Task<ActionResult<PlanIntervencionIndividualSocial>> PostPlanSocial(PlanResidenteSocial planResidenteSocial)
+        public async Task<ActionResult<PlanIntervencionIndividualSocial>> PostPlanSocial([FromBody] PlanResidenteSocial planResidenteSocial)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("social")]
-        public async Task<ActionResult<PlanIntervencionIndividualSocial>> PutPlanSocial(PlanSocialUpdate planIntervencion)
+        public async Task<ActionResult<PlanIntervencionIndividualSocial>> PutPlanSocial([FromBody] PlanSocialUpdate planIntervencion)
         {
             try
             {
@@ -142,7 +142,7 @@ namespace SISDOMI.Controllers
             }
         }
         [HttpPut("state")]
-        public async Task<ActionResult> UpdatePlanState(PlanState planState)
+        public async Task<ActionResult> UpdatePlanState([FromBody] PlanState planState)
         {
             try
             {
