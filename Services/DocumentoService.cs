@@ -34,7 +34,7 @@ namespace SISDOMI.Services
                     area = "Educativo";
                     break;
                 case "psicologica":
-                    area = "Psicologica";
+                    area = "Psicologico";
                     break;
                 case "social":
                     area = "Social";
@@ -101,6 +101,99 @@ namespace SISDOMI.Services
                                                         .ToListAsync();
                                             
             return lstDocumentTypeResidentDTOs;
+        }
+
+        public async Task<DocumentoExpedienteDTO> GetById(String id)
+        {
+            DocumentoExpedienteDTO documentoExpedienteDTO;
+
+            var matchId = new BsonDocument("$match",
+                                           new BsonDocument("$expr",
+                                                    new BsonDocument("$eq", new BsonArray
+                                                    {
+                                                        "$_id",
+                                                        new BsonDocument("$toObjectId", id)
+                                                    })));
+
+            var projectGeneralDocument = new BsonDocument("$project", new BsonDocument
+            {
+                { "tipo", 1},
+                { "creadordocumento", 1 },
+                {"idresidente", 1 },
+                { "area", 1  },
+                { "fase", 1  },
+                { "estado", 1  },
+                { "contenido", 1 }
+            });
+
+
+            var lookupResidente = new BsonDocument("$lookup", new BsonDocument
+            {
+                { "from", "residentes" },
+                { "let", new BsonDocument("residenteId", "$idresidente") },
+                { "pipeline", new BsonArray
+                              {
+                                 new BsonDocument("$match",
+                                 new BsonDocument("$expr",
+                                 new BsonDocument("$eq",
+                                 new BsonArray {
+                                     "$_id",
+                                     new BsonDocument("$toObjectId", "$$residenteId")
+                                 })))
+                              }
+                },
+                { "as", "residente" }
+            });
+
+            var unwindResidente = new BsonDocument("$unwind", new BsonDocument("path", "$residente"));
+
+            var lookupUsuario = new BsonDocument("$lookup", new BsonDocument
+            {
+                { "from", "usuarios"},
+                { "let", new BsonDocument("usuarioId", "$creadordocumento") },
+                { "pipeline", new BsonArray
+                              {
+                                 new BsonDocument("$match",
+                                 new BsonDocument("$expr",
+                                 new BsonDocument("$eq",
+                                 new BsonArray {
+                                     "$_id",
+                                     new BsonDocument("$toObjectId", "$$usuarioId")
+                                 })))
+                              }
+                },
+                { "as", "creador" }
+            });
+
+            var unwindUsuario = new BsonDocument("$unwind", new BsonDocument("path", "$creador"));
+
+            var projectFinalData = new BsonDocument("$project", new BsonDocument
+            {
+                { "tipo", 1  },
+                {"area", 1 },
+                {"fase", 1 },
+                {"estado", 1 },
+                { "contenido", 1},
+                { "residente", 1},
+                { "creador", new BsonDocument("$concat", new BsonArray{
+                                                            "$creador.datos.nombre",
+                                                            " ",
+                                                            "$creador.datos.apellido"
+                                                         })
+                }
+            });
+
+            documentoExpedienteDTO = await _documentos.Aggregate()
+                                            .AppendStage<dynamic>(matchId)
+                                            .AppendStage<dynamic>(projectGeneralDocument)
+                                            .AppendStage<dynamic>(lookupResidente)
+                                            .AppendStage<dynamic>(unwindResidente)
+                                            .AppendStage<dynamic>(lookupUsuario)
+                                            .AppendStage<dynamic>(unwindUsuario)
+                                            .AppendStage<DocumentoExpedienteDTO>(projectFinalData)
+                                            .FirstOrDefaultAsync();
+
+            return documentoExpedienteDTO;
         }
     }
 }
