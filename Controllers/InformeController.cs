@@ -89,7 +89,13 @@ namespace SISDOMI.Controllers
             }
             return await _informeService.RegistrarInformeSE(informe);
         }
-        //falta el psicologico inicial 0-0
+        //falta el psicologico inicial 0-0 -> ya no uwu
+        [HttpPost("informepi")]
+        public async Task<ActionResult<InformePsicologicoInicial>> CrearInformePE(InformePsicologicoInicial informe)
+        {
+            return await _informeService.RegistrarInformePI(informe);
+        }
+
         [HttpPost("informepe")]
         public async Task<ActionResult<InformePsicologicoEvolutivo>> CrearInformePE(InformePsicologicoEvolutivo informe)
         {

@@ -60,10 +60,15 @@ namespace SISDOMI.Controllers
             TallerFormativoEgreso mitaller = _tallerService.CreateTFE(taller);
             return mitaller;
         }
-        [HttpGet("id")]
-        public async Task<ActionResult<Taller>> GetById([FromQuery] string id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Taller>> GetById(string id)
         {
             return await _tallerService.GetById(id);
+        }
+        [HttpPut("actualizarTallerEP")]
+        public async Task<ActionResult<TallerDTO>> PutTEP([FromBody] TallerEscuelaPadres taller)
+        {
+            return await _tallerService.PutTallerEP(taller);
         }
     }
 }

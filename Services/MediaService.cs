@@ -35,6 +35,19 @@ namespace SISDOMI.Services
             return urlImage;
         }
 
+        public async Task<String> ModificarListaFirmas(IFormFile mediaInfo, string urlfirma)
+        {
+            String urlImage = "";
+
+            using (var stream = new MemoryStream())
+            {
+                await mediaInfo.CopyToAsync(stream);
+                urlImage = await fileStorage.EditFile(stream.ToArray(), "jpg", "planes",urlfirma);
+            }
+
+            return urlImage;
+        }
+
         public async Task<String> CrearListaArchivos(IFormFile mediaInfo)
         {
             String urlImage = "";
