@@ -39,7 +39,7 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("")]
-        public async Task<ActionResult<Incidencia>> PutIncidencia(Incidencia incidencia)
+        public async Task<ActionResult<IncidenciaDTO>> PutIncidencia(Incidencia incidencia)
         {
             return await _incidenciaService.PutIncidencia(incidencia);
         }

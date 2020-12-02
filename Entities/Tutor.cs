@@ -11,6 +11,14 @@ namespace SISDOMI.Entities
         public string tipoDocumento { get; set; }
         public string numeroDocumento { get; set; }
         public string parentesco { get; set; }
-        public string usuariaid { get; set; }
+        public ResidenteAux usuaria { get; set; }
+    }
+
+    public class ResidenteAux
+    {
+        public string id { get; set; }
+        public string residente { get; set; }
+        public string numeroDocumento { get; set; }
+
     }
 }

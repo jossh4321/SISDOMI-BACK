@@ -15,9 +15,9 @@ namespace SISDOMI.Entities
         [BsonElement("usuario")]
         public string usuario { get; set; }
         [BsonElement("fecharegistro")]
-        public DateTime fechaRegistro { get; set; }
+        public DateTime fechaRegistro { get; set; } = DateTime.Now;
         [BsonElement("fecha")]
-        public DateTime fecha { get; set; }
+        public DateTime fecha { get; set; } 
         [BsonElement("titulo")]
         public string titulo { get; set; }
         [BsonElement("descripcion")]

@@ -23,16 +23,60 @@ namespace SISDOMI.Services
         }
 
         //Trae la lista de sesiones educativas de la bd
-        public async Task<List<SesionEducativa>> GetAll()
+        public async Task<List<SesionEducativaDTOInicial>> GetAll()
         {
-            List<SesionEducativa> sesionEducativa = new List<SesionEducativa>();
+            List<SesionEducativaDTOInicial> sesionEducativa = new List<SesionEducativaDTOInicial>();
 
             var match = new BsonDocument("$match",
-                        new BsonDocument("tipo",
-                        new BsonDocument("$eq", "Sesion Educativa")));
+            new BsonDocument("tipo",
+            new BsonDocument("$eq", "Sesion Educativa")));
+
+            var addFields =
+            new BsonDocument("$addFields",
+            new BsonDocument("idcreadorpk",
+            new BsonDocument("$toObjectId", "$idcreador")));
+
+            var lookup =
+            new BsonDocument("$lookup",
+            new BsonDocument
+                {
+                    { "from", "usuarios" },
+                    { "localField", "idcreadorpk" },
+                    { "foreignField", "_id" },
+                    { "as", "datoscreador" }
+                });
+
+            var unwind =
+            new BsonDocument("$unwind",
+            new BsonDocument("path", "$datoscreador"));
+
+            var project =
+            new BsonDocument("$project",
+            new BsonDocument
+                {
+                    { "idcreadorpk", 0 },
+                    { "datoscreador",
+            new BsonDocument
+                    {
+                        { "_id", 0 },
+                        { "clave", 0 },
+                        { "datos",
+            new BsonDocument
+                        {
+                            { "fechanacimiento", 0 },
+                            { "numerodocumento", 0 },
+                            { "tipodocumento", 0 },
+                            { "direccion", 0 }
+                        } }
+                    } }
+            });
 
             sesionEducativa = await _sesioneducativa.Aggregate()
-                                .AppendStage<SesionEducativa>(match)
+                                .AppendStage<dynamic>(match)
+                                .AppendStage<dynamic>(addFields)
+                                .AppendStage<dynamic>(lookup)
+                                .AppendStage<dynamic>(unwind)
+                                .AppendStage<SesionEducativaDTOInicial>(project)
                                 .ToListAsync();
 
             return sesionEducativa;
@@ -175,10 +219,10 @@ namespace SISDOMI.Services
             return sesionedu;
         }
 
-        public SesionEducativa CreateSesionEducativa(SesionEducativa sesioneducativa)
+        public async Task<SesionEducativa> CreateSesionEducativa(SesionEducativa sesioneducativa)
         {
            
-             _sesioneducativa.InsertOne(sesioneducativa);
+            _sesioneducativa.InsertOne(sesioneducativa);
             return sesioneducativa;
         }
 
