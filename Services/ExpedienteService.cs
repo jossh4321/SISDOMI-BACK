@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using SISDOMI.DTOs;
 using SISDOMI.Entities;
 using System;
 using System.Collections.Generic;
@@ -51,5 +53,75 @@ namespace SISDOMI.Services
             await _expedientes.UpdateOneAsync(removefilterExp, removeDocumentsExp);
             await _expedientes.UpdateOneAsync(pushfilterExp, pushDocumentsExp);
         }
+
+        public async Task<List<ExpedienteDTO>> GetAll()
+        {
+            List<ExpedienteDTO> lstExpedienteDTOs;
+
+            var projectExpediente = new BsonDocument("$project",
+                                    new BsonDocument
+                                    {
+                                        { "numeroexpediente", 1 },
+                                        { "idresidente", 1 },
+                                        { "fechainicio", 1 }
+                                    });
+
+            var lookupResidente = new BsonDocument("$lookup",
+                                  new BsonDocument
+                                  {
+                                      { "from", "residentes" },
+                                      { "let", new BsonDocument("residenteid", "$idresidente") },
+                                      { "pipeline",
+                                        new BsonArray
+                                        {
+                                            new BsonDocument("$match",
+                                            new BsonDocument("$expr",
+                                            new BsonDocument("$eq", 
+                                            new BsonArray 
+                                            {
+                                                "$_id",
+                                                new BsonDocument("$toObjectId", "$$residenteid")
+                                            }
+                                            ))),
+                                            new BsonDocument("$project",
+                                            new BsonDocument
+                                            {
+                                                { "_id", 0 },
+                                                { "residente",
+                                                  new BsonDocument("$concat", 
+                                                    new BsonArray
+                                                        {
+                                                            "$nombre",
+                                                            " ",
+                                                            "$apellido"
+                                                        }
+                                                    )
+                                                }
+                                            })
+                                        }
+                                      },
+                                      { "as", "residente" }
+                                  });
+
+            var unwindResident = new BsonDocument("$unwind",
+                                 new BsonDocument("path", "$residente"));
+
+
+            var setResident = new BsonDocument("$set",
+                              new BsonDocument("residente", "$residente.residente"));
+
+            lstExpedienteDTOs = await _expedientes.Aggregate()
+                                        .AppendStage<dynamic>(projectExpediente)
+                                        .AppendStage<dynamic>(lookupResidente)
+                                        .AppendStage<dynamic>(unwindResident)
+                                        .AppendStage<ExpedienteDTO>(setResident)
+                                        .ToListAsync();
+
+            return lstExpedienteDTOs;
+                                      
+        }
+
+
+        
     }
 }

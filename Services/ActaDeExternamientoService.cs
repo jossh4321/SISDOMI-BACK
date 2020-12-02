@@ -34,13 +34,7 @@ namespace SISDOMI.Services
         {
             List<ActaExternamientoDTO> listActaExternamiento;
 
-            //Esto si solo se quiere la información de una colección que usa polimorfismo y que quiere un tipo de clase específica
-            // listPlanIntervencionIndividuals =_documentos.AsQueryable().OfType<PlanIntervencionIndividual>().ToList();
-
-            //Para obtener un tipo específico usando el match
             var matchPlan = new BsonDocument("$match", new BsonDocument("tipo", "ActaExternamiento"));
-
-            //Para obtener los datos del residente usando el lookup
             var lookupPlan = new BsonDocument("$lookup", new BsonDocument
             {
                 { "from", "residentes" },
@@ -59,22 +53,18 @@ namespace SISDOMI.Services
                 { "as", "residente" }
             });
 
-            //Para cambiar el arrays de residentes por un objeto utilizando unwind
             var unwindPlan = new BsonDocument("$unwind", new BsonDocument("path", "$residente"));
-
-            //Para solo enviar los datos que se necesitan utilizando project
             var projectPlan = new BsonDocument("$project", new BsonDocument
             {
                 { "tipo", 1},
                 {"fechacreacion", 1 },
-              //  {"historialcontenido", 1 },
+                {"historialcontenido", 1 },
                 {"creadordocumento", 1 },
                 {"idresidente", 1 },
                 { "area", 1 },
-            //  { "fase", 1 },
+                { "fase", 1 },
                 { "estado", 1 },
                 {"responsable","$contenido.responsable"},
-
                 { "residente", new BsonDocument("$concat",
                                new BsonArray{
                                    "$residente.nombre",
@@ -94,6 +84,33 @@ namespace SISDOMI.Services
 
             return listActaExternamiento;
         }
+        public async Task<Documento> GetById(string id)
+        {
+            Documento documento;
+            var filterId = Builders<Documento>.Filter.Eq("id", id);
+            documento = await _documentos.Find(filterId).FirstOrDefaultAsync();
+            return documento;
+
+        }
+
+        public Documento Update(ActaExternamiento documento) 
+        {
+
+            var filterId = Builders<Documento>.Filter.Eq("id", documento.id);
+            var update = Builders<Documento>.Update
+                .Set("responsable", documento.contenido.responsable)
+                .Set("estado",documento.estado)
+                .Set("fase",documento.fase)
+                .Set("estado","modificado")
+                .Set("entidaddisposicion", documento.contenido.entidaddisposicion)
+                ;
+           var documentoUpdate = _documentos.FindOneAndUpdate<Documento>(filterId, update, new FindOneAndUpdateOptions<Documento>
+            {
+                ReturnDocument = ReturnDocument.After
+
+            });
+            return documentoUpdate;
+        } 
 
     }
 }

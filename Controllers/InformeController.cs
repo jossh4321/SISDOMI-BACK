@@ -66,6 +66,14 @@ namespace SISDOMI.Controllers
         [HttpPost("informesi")]
         public async Task<ActionResult<InformeSocialInicial>> CrearInformeSI(InformeSocialInicial informe)
         {
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
             return await _informeService.RegistrarInformeSI(informe);
         }
         [HttpPost("informese")]
@@ -81,7 +89,13 @@ namespace SISDOMI.Controllers
             }
             return await _informeService.RegistrarInformeSE(informe);
         }
-        //falta el psicologico inicial 0-0
+        //falta el psicologico inicial 0-0 -> ya no uwu
+        [HttpPost("informepi")]
+        public async Task<ActionResult<InformePsicologicoInicial>> CrearInformePE(InformePsicologicoInicial informe)
+        {
+            return await _informeService.RegistrarInformePI(informe);
+        }
+
         [HttpPost("informepe")]
         public async Task<ActionResult<InformePsicologicoEvolutivo>> CrearInformePE(InformePsicologicoEvolutivo informe)
         {
@@ -116,10 +130,20 @@ namespace SISDOMI.Controllers
             return await _informeService.ModificarInformeEE(informe);
         }
         [HttpPut("informesi")]
-        public ActionResult<InformeSocialInicial> ModificarInformeSI(InformeSocialInicial informe)
+        public async Task<ActionResult<InformeSocialInicial>> ModificarInformeSI(InformeSocialInicial informe)
         {
-            return _informeService.ModificarInformeSI(informe);
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma) && !item.urlfirma.Contains("http"))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
+
+            return await _informeService.ModificarInformeSI(informe);
         }
+
         [HttpPut("informese")]
         public ActionResult<InformeSocialEvolutivo> ModificarInformeSE(InformeSocialEvolutivo informe)
         {

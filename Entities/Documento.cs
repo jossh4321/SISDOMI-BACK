@@ -18,11 +18,12 @@ namespace SISDOMI.Entities
        typeof(FichaIngresoSocial),
        typeof(FichaIngresoEducativa),
        typeof(FichaIngresoPsicologica),
+       typeof(InformePsicologicoInicial),
        typeof(InformePsicologicoEvolutivo),
        typeof(PlanIntervencionIndividualEducativo),
        typeof(PlanIntervencionIndividualPsicologico),
        typeof(PlanIntervencionIndividualSocial),
-         typeof(ActaExternamiento),
+       typeof(ActaExternamiento),
        typeof(InformeSeguimientoEducativo))]
     public class Documento
     {
@@ -55,6 +56,7 @@ namespace SISDOMI.Entities
         public List<Firma> firmas { get; set; }        
         public string codigodocumento { get; set; }
         public string lugarevaluacion { get; set; }
+        public string evaluador { get; set; }
     }
 
     public class InformeEducativoInicial : Documento
@@ -73,6 +75,7 @@ namespace SISDOMI.Entities
         public List<Firma> firmas { get; set; }
         
         public string codigodocumento { get; set; }
+        public string evaluador { get; set; }
     }
     public class InformeEducativoEvolutivo : Documento
     {
@@ -89,11 +92,11 @@ namespace SISDOMI.Entities
         public string educacion { get; set; }
         public string situacionactual { get; set; }
         public string diagnosticosocial { get; set; }
-        public string recomendaciones { get; set; }
-        public List<string> anexos { get; set; }
-        public List<Firma> firmas { get; set; }
-        public string idresidente { get; set; }
+        public List<string> recomendaciones { get; set; }
+        public List<AnexosDocumento> anexos { get; set; }
+        public List<Firma> firmas { get; set; }        
         public string codigodocumento { get; set; }
+        public string evaluador { get; set; }
     }
     public class InformeSocialInicial : Documento
     {
@@ -109,11 +112,29 @@ namespace SISDOMI.Entities
         public List<Firma> firmas { get; set; }
         public string idresidente { get; set; }
         public string codigodocumento { get; set; }
+        public string evaluador { get; set; }
     }
     public class InformeSocialEvolutivo : Documento
     {
         public ContenidoInformeSocialEvolutivo contenido { get; set; } = new ContenidoInformeSocialEvolutivo();
     }
+    public class ContenidoInformePsicologicoInicial
+    {
+        public string antecedentes { get; set; }
+        public string conextopsicologico { get; set; }
+        public string analisisactual { get; set; }
+        public List<string> transtornos { get; set; }
+        public List<string> recomendaciones { get; set; }
+        public List<string> conclusiones { get; set; }        
+        public List<Firma> firmas { get; set; }
+        public string codigodocumento { get; set; }
+        public string evaluador { get; set; }
+    }
+    public class InformePsicologicoInicial : Documento
+    {
+        public ContenidoInformePsicologicoInicial contenido { get; set; } = new ContenidoInformePsicologicoInicial();
+    }
+
     public class ContenidoInformePsicologicoEvolutivo
     {
         public string motivoingreso { get; set; }
@@ -126,6 +147,7 @@ namespace SISDOMI.Entities
         public List<Firma> firmas { get; set; }
         public string idresidente { get; set; }
         public string codigodocumento { get; set; }
+        public string evaluador { get; set; }
     }
     public class InformePsicologicoEvolutivo : Documento
     {

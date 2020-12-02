@@ -175,14 +175,14 @@ namespace SISDOMI.Services
             return sesionedu;
         }
 
-        public SesionEducativa CreateSesionEducativa(SesionEducativa sesioneducativa)
+        public async Task<SesionEducativa> CreateSesionEducativa(SesionEducativa sesioneducativa)
         {
            
-             _sesioneducativa.InsertOne(sesioneducativa);
+            _sesioneducativa.InsertOne(sesioneducativa);
             return sesioneducativa;
         }
 
-        public SesionEducativa ModifySesionEducativa(SesionEducativa sesioneducativa)
+        public async Task<SesionEducativa> ModifySesionEducativa(SesionEducativa sesioneducativa)
         {
             var filter = Builders<SesionEducativa>.Filter.Eq("id", sesioneducativa.id);
             var update = Builders<SesionEducativa>.Update

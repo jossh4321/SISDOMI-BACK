@@ -2,7 +2,7 @@
 using MongoDB.Driver;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
-using System;
+using SISDOMI.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -71,7 +71,7 @@ namespace SISDOMI.Services
                     "FichaPsicologicaIngreso"
                   })));
             // lookup para fichas ingreso 
-             var subpipeline_fichaIngreso = new BsonArray
+            var subpipeline_fichaIngreso = new BsonArray
                                            {
                                                new BsonDocument("$match",
                                                new BsonDocument("$expr",
@@ -129,5 +129,9 @@ namespace SISDOMI.Services
 
 
             return fichaIngreso;
-        } }
+        }
+       
+
+    }
+
 }
