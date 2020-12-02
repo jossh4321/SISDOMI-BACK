@@ -42,6 +42,7 @@ namespace SISDOMI.DTOs
         public String area { get; set; }
         public String fase { get; set; }
         public String estado { get; set; }
+        public DateTime fechacreacion { get; set; }
         public Object contenido { get; set; }
         public Residentes residente { get; set; }
         public String creador { get; set; }
