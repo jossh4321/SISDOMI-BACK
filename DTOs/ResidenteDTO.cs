@@ -28,6 +28,12 @@ namespace SISDOMI.DTOs
         public DateTime fechaIngreso { get; set; }
         [BsonElement("motivoingreso")]
         public String motivoIngreso { get; set; }
+        [BsonElement("sexo")]
+        public String sexo { get; set; }
+        [BsonElement("fechanacimiento")]
+        public DateTime fechaNacimiento { get; set; }
+        [BsonElement("telefonosreferencias")]
+        public List<Telefono> telefonosReferencia { get; set; }
         public List<Anexo> anexos { get; set; }
         [BsonElement("cantidaddocumentos")]
         public List<DocumentoAreaDTO> cantidadDocumentos { get; set; }
@@ -37,5 +43,11 @@ namespace SISDOMI.DTOs
             public String area { get; set; }
             public Int32 cantidad { get; set; }
         } 
+    }
+
+    public class ResidenteAnnexDocumentoDTO: Residentes
+    {
+        public List<Anexo> anexos { get; set; } = new List<Anexo>();
+        public List<DocumentoDTO> documentos { get; set; } = new List<DocumentoDTO>();
     }
 }

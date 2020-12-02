@@ -92,14 +92,14 @@ namespace SISDOMI.Controllers
 
         [HttpGet("{residenteId}/expediente")]
         [Authorize]
-        public async Task<ActionResult<List<ResidenteDTO>>> GetResidenteAndAnnexesAndDocuments(String residenteId)
+        public async Task<ActionResult<ResidenteDTO>> GetResidenteAndAnnexesAndDocuments(String residenteId)
         {
             try
             {
 
-                List<ResidenteDTO> lstresidenteDTOs = await _residenteservice.GetResidentAndAnnexesAndDocuments(residenteId);
+                ResidenteDTO residenteDTO = await _residenteservice.GetResidentAndAnnexesAndDocuments(residenteId);
 
-                return lstresidenteDTOs;
+                return residenteDTO;
             }
             catch (Exception ex)
             {
