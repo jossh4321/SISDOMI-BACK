@@ -44,5 +44,12 @@ namespace SISDOMI.Controllers
             }
                 
         }
+        [HttpPut("")]
+        public ActionResult<Documento> PutExternamiento(Documento documento) {
+
+            Documento UpdateActa = _ActaExternamientoService.Update(documento);
+            return UpdateActa;
+        
+        }
     }
 }
