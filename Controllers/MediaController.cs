@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SISDOMI.Models;
 using SISDOMI.Services;
 using System;
 using System.Collections.Generic;
@@ -36,11 +37,26 @@ namespace SISDOMI.Controllers
 
             return imageUrl;
         }
+        [HttpPut("{*urlfirma}")]
+        public async Task<ActionResult<String>> PutImage(string urlfirma,IFormFile file)
+        {
+            String imageUrl;
+            try
+            {
+                imageUrl = await mediaService.ModificarListaFirmas(file, urlfirma);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+
+            return imageUrl;
+        }
+
         [HttpPost("archivos/pdf")]
         public async Task<ActionResult<String>> PostFilePdf(IFormFile file)
         {
             String imageUrl;
-
             try
             {
                 imageUrl = await mediaService.CrearListaArchivos(file);
