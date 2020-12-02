@@ -32,4 +32,18 @@ namespace SISDOMI.DTOs
         public String tipo { get; set; }
         public List<String> documentos { get; set; }
     }
+
+    public class DocumentoExpedienteDTO
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public String id { get; set; }
+        public String tipo { get; set; }
+        public String area { get; set; }
+        public String fase { get; set; }
+        public String estado { get; set; }
+        public Object contenido { get; set; }
+        public Residentes residente { get; set; }
+        public String creador { get; set; }
+    }
 }

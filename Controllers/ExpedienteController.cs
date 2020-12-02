@@ -21,7 +21,7 @@ namespace SISDOMI.Controllers
             this.expedienteService = expedienteService;
         }
 
-        [HttpGet("")]
+        [HttpGet("all")]
         public async Task<ActionResult<List<ExpedienteDTO>>> GetAll()
         {
             try

@@ -108,5 +108,23 @@ namespace SISDOMI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DocumentoExpedienteDTO>> GetById(String id)
+        {
+            try
+            {
+                DocumentoExpedienteDTO documentoExpedienteDTO;
+
+                documentoExpedienteDTO = await documentoService.GetById(id);
+
+                return documentoExpedienteDTO;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
     }
 }
