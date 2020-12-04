@@ -52,7 +52,7 @@ namespace SISDOMI.Entities
         public string situacionacademica { get; set; }
         public string analisisacademico { get; set; }
         public List<string> conclusiones { get; set; }
-        public List<string> anexos { get; set; }
+        public List<AnexosDocumento> anexos { get; set; }
         public List<Firma> firmas { get; set; }        
         public string codigodocumento { get; set; }
         public string lugarevaluacion { get; set; }
@@ -71,7 +71,7 @@ namespace SISDOMI.Entities
         public List<string> logroalcanzado { get; set; }
         public List<string> recomendaciones { get; set; }
         public InstitucionEducativa iereinsersion { get; set; }
-        public List<string> anexos { get; set; }
+        public List<AnexosDocumento> anexos { get; set; }
         public List<Firma> firmas { get; set; }
         
         public string codigodocumento { get; set; }
