@@ -375,6 +375,21 @@ namespace SISDOMI.Entities
     {
         public ContenidoActaDeExternamiento contenido { get; set; } = new ContenidoActaDeExternamiento();
     }
+
+    public class TransicionFase : Documento
+    {
+        public ContenidoTransicionFase contenido { get; set; } = new ContenidoTransicionFase();
+    }
+
+    public class ContenidoTransicionFase
+    {
+        [BsonElement("creador")]
+        public string creador { get; set; }
+        [BsonElement("firma")]
+        public string firma { get; set; }
+        [BsonElement("observacion")]
+        public string observacion { get; set; }
+    }
     /// >:(
 
 }
