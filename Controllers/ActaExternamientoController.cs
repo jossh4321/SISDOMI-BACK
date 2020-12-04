@@ -7,9 +7,7 @@ using SISDOMI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-
-namespace SISDOMI.Controllers
+using System.Threading.Tasks;namespace SISDOMI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

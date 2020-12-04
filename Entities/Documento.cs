@@ -121,7 +121,7 @@ namespace SISDOMI.Entities
     public class ContenidoInformePsicologicoInicial
     {
         public string antecedentes { get; set; }
-        public string conextopsicologico { get; set; }
+        public string contextopsicologico { get; set; }
         public string analisisactual { get; set; }
         public List<string> transtornos { get; set; }
         public List<string> recomendaciones { get; set; }

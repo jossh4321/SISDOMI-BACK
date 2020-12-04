@@ -93,6 +93,14 @@ namespace SISDOMI.Controllers
         [HttpPost("informepi")]
         public async Task<ActionResult<InformePsicologicoInicial>> CrearInformePI(InformePsicologicoInicial informe)
         {
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
             return await _informeService.RegistrarInformePI(informe);
         }
 
@@ -165,6 +173,23 @@ namespace SISDOMI.Controllers
             }
             return _informeService.ModificarInformeSE(informe);
         }
+
+        [HttpPut("informepi")]
+        public async Task<ActionResult<InformePsicologicoInicial>> ModificarInformePI(InformePsicologicoInicial informe)
+        {
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma) && !item.urlfirma.Contains("http"))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
+
+            return await _informeService.ModificarInformePI(informe);
+        }
+
+
         [HttpPut("informepe")]
         public async Task<ActionResult<InformePsicologicoEvolutivo>> ModificarInformePE(InformePsicologicoEvolutivo informe)
         {

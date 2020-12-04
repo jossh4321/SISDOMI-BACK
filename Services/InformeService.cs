@@ -267,7 +267,7 @@ namespace SISDOMI.Services
             _documentos.UpdateOne(filter, update);
             return informe;
         }
-        public InformePsicologicoInicial ModificarInformePI(InformePsicologicoInicial informe)
+        public async Task<InformePsicologicoInicial> ModificarInformePI(InformePsicologicoInicial informe)
         {
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
