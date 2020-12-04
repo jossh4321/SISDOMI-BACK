@@ -382,13 +382,13 @@ namespace SISDOMI.Entities
     }
 
     public class ContenidoTransicionFase
-    {
-        [BsonElement("creador")]
-        public string creador { get; set; }
+    { 
         [BsonElement("firma")]
         public string firma { get; set; }
         [BsonElement("observacion")]
         public string observacion { get; set; }
+        [BsonElement("nuevafase")]
+        public string nuevafase { get; set; }
     }
     /// >:(
 
