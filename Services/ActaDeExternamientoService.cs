@@ -17,6 +17,7 @@ namespace SISDOMI.Services
         private readonly IMongoCollection<Documento> _documentos;
         private readonly ExpedienteService expedienteService;
         private readonly IDocument document;
+        private readonly RolService rolService;
 
         public ActaDeExternamientoService(ISysdomiDatabaseSettings settings, ExpedienteService expedienteService, IDocument document)
         {
@@ -110,7 +111,31 @@ namespace SISDOMI.Services
 
             });
             return documentoUpdate;
-        } 
+        }
 
+        public async Task<ActaExternamiento> Register(ActaExternamiento actaExternamiento)
+        {
+            DateTime dateTime = DateTime.UtcNow.AddHours(-5);
+
+            Expediente expediente = await expedienteService.GetByResident(actaExternamiento.idresidente);
+
+            actaExternamiento.creadordocumento = document.CreateCodeDocument(dateTime, actaExternamiento.tipo, expediente.documentos.Count + 1);
+
+            Rol rol = await rolService.Get(actaExternamiento.contenido.firmas.ElementAt(0).cargo);
+            
+            actaExternamiento.contenido.firmas.ElementAt(0).cargo = rol.nombre;
+            
+            await _documentos.InsertOneAsync(actaExternamiento);
+
+            DocumentoExpediente documentoExpediente = new DocumentoExpediente {
+                iddocumento = actaExternamiento.id,
+                tipo = actaExternamiento.tipo
+
+            };
+
+            await expedienteService.UpdateDocuments(documentoExpediente, expediente.id);
+
+            return actaExternamiento;
+        }
     }
 }
