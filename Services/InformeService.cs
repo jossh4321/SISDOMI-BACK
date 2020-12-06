@@ -173,7 +173,23 @@ namespace SISDOMI.Services
             return informe;
         }
 
-        //falta el PsicologicoInicial
+        //falta el PsicologicoInicial -> ya está nwn
+        public async Task<InformePsicologicoInicial> RegistrarInformePI(InformePsicologicoInicial informe)
+        {
+            DateTime DateNow = DateTime.UtcNow.AddHours(-5);
+            Expediente expediente = await expedienteService.GetByResident(informe.idresidente);
+            informe.contenido.codigodocumento = document.CreateCodeDocument(DateNow, informe.tipo, expediente.documentos.Count + 1);
+            await _documentos.InsertOneAsync(informe);
+            DocumentoExpediente docexpe = new DocumentoExpediente()
+            {
+                tipo = informe.tipo,
+                iddocumento = informe.id
+            };
+            UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+            return informe;
+        }
+
         public async Task<InformePsicologicoEvolutivo> RegistrarInformePE(InformePsicologicoEvolutivo informe)
         {
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
@@ -251,6 +267,22 @@ namespace SISDOMI.Services
             _documentos.UpdateOne(filter, update);
             return informe;
         }
+        public async Task<InformePsicologicoInicial> ModificarInformePI(InformePsicologicoInicial informe)
+        {
+            var filter = Builders<Documento>.Filter.Eq("id", informe.id);
+            var update = Builders<Documento>.Update
+                .Set("historialcontenido", informe.historialcontenido)
+                .Set("idresidente", informe.idresidente)
+                .Set("creadordocumento", informe.creadordocumento)
+                .Set("fechacreacion", informe.fechacreacion)
+                .Set("area", informe.area)
+                .Set("fase", informe.fase)
+                .Set("contenido", informe.contenido);
+
+            _documentos.UpdateOne(filter, update);
+            return informe;
+        }
+
         public InformePsicologicoEvolutivo ModificarInformePE(InformePsicologicoEvolutivo informe)
         {
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);

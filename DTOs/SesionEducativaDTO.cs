@@ -48,4 +48,43 @@ namespace SISDOMI.DTOs
         public string nombre { get; set; }
 
     }
+    public class SesionEducativaDTOInicial
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string id { get; set; }
+
+        [BsonElement("titulo")]
+        public string titulo { get; set; }
+        [BsonElement("idcreador")]
+        public string idCreador { get; set; }
+
+        [BsonElement("fechacreacion")]
+        public DateTime fechaCreacion { get; set; }
+
+        [BsonElement("area")]
+        public string area { get; set; }
+
+        [BsonElement("contenido")]
+        public ContenidoSesionEducativa contenido { get; set; }
+
+        [BsonElement("tipo")]
+        public string tipo { get; set; }
+        [BsonElement("datoscreador")]
+        public DatosCreador datoscreador { get; set; }
+    }
+    public class DatosCreador
+    {
+        public string usuario { get; set; }
+        public DatosCreadorContenido datos { get; set; }
+        public string estado { get; set; }
+        public string rol { get; set; }
+    }
+    public class DatosCreadorContenido
+    {
+        public string nombre { get; set; }
+        public string apellido { get; set; }
+        public string email { get; set; }
+        public string imagen { get; set; }
+    }
 }

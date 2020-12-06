@@ -112,7 +112,7 @@ namespace SISDOMI.Services
             return informe;
         }
         //Modificar Informes
-        public InformeSeguimientoEducativo ModificarInformeSE(InformeSeguimientoEducativo informe)
+        public async Task <InformeSeguimientoEducativo> ModificarInformeSE(InformeSeguimientoEducativo informe)
         {
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update

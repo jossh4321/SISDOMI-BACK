@@ -28,5 +28,7 @@ namespace SISDOMI.Entities
         public String fase { get; set; }
         [BsonElement("contenido")]
         public Object contenido { get; set; }
+        [BsonElement("firma")]
+        public Firma firma { get; set; }
     }
 }

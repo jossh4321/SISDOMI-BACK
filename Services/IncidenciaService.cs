@@ -39,26 +39,28 @@ namespace SISDOMI.Services
             IncidenciaDTO incidenciaDTO = await GetDetalleIncidencia(incidencia.id);
             return incidenciaDTO;
         }
-        public async Task<Incidencia> PutIncidencia(Incidencia incidencia)
+        public async Task<IncidenciaDTO> PutIncidencia(Incidencia incidencia)
         {
+            incidencia.fecha.AddHours(-5);
             var updatefilter = Builders<Incidencia>
                                 .Filter
                                 .Eq("id", incidencia.id);
             var update = Builders<Incidencia>.Update
-                .Set("usuario", incidencia.usuario)
+                //.Set("usuario", incidencia.usuario)
                 .Set("fecha", incidencia.fecha)
                 .Set("titulo", incidencia.titulo)
                 .Set("descripcion", incidencia.descripcion)
                 .Set("observaciones", incidencia.observaciones)
                 .Set("incidencias", incidencia.incidencias)
-                .Set("residentes", incidencia.residentes);
+                .Set("residentes", incidencia.residentes)
+                .Set("firma", incidencia.firma);
             incidencia = await  _incidencias.FindOneAndUpdateAsync<Incidencia>
                             (updatefilter, update, new FindOneAndUpdateOptions<Incidencia>
                             {
                                 ReturnDocument = ReturnDocument.After
                             });
-            return incidencia;
-        
+            IncidenciaDTO incidenciaDTO = await GetDetalleIncidencia(incidencia.id);
+            return incidenciaDTO;
         }
 
         public async Task<List<IncidenciaDTO>> GetListDetalleIncidencia()
