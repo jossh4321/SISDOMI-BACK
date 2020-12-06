@@ -7,9 +7,7 @@ using SISDOMI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-
-namespace SISDOMI.Controllers
+using System.Threading.Tasks;namespace SISDOMI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -47,9 +45,9 @@ namespace SISDOMI.Controllers
         [HttpPut("")]
         public ActionResult<Documento> PutExternamiento(ActaExternamiento documento) {
 
-            Documento UpdateActa = _ActaExternamientoService.Update(documento);
-            return UpdateActa;
+        //    Documento UpdateActa = _ActaExternamientoService.Update(documento);
+        //    return UpdateActa;
         
-        }
+        //}
     }
 }
