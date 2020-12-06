@@ -42,12 +42,30 @@ using System.Threading.Tasks;namespace SISDOMI.Controllers
             }
                 
         }
-        [HttpPut("")]
+        [HttpPut("update")]
         public ActionResult<Documento> PutExternamiento(ActaExternamiento documento) {
+            try
+            {
+                Documento UpdateActa = _ActaExternamientoService.Update(documento);
+                return UpdateActa;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
 
-        //    Documento UpdateActa = _ActaExternamientoService.Update(documento);
-        //    return UpdateActa;
-        
-        //}
+        }
+        [HttpPost("register")]
+        public async Task<ActionResult<ActaExternamiento>> PostExternamiento(ActaExternamiento actaExternamiento) {
+            try
+            {
+                return await _ActaExternamientoService.Register(actaExternamiento);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
     }
 }
