@@ -137,15 +137,14 @@ namespace SISDOMI.Entities
 
     public class ContenidoInformePsicologicoEvolutivo
     {
-        public string motivoingreso { get; set; }
         public string observacionesgenerales { get; set; }
         public List<string> pruebasaplicadas { get; set; }
         public string interpretacionresultados { get; set; }
         public List<string> conclusiones { get; set; }
         public string diagnostico { get; set; }
         public List<string> recomendaciones { get; set; }
+        public List<AnexosDocumento> anexos { get; set; }
         public List<Firma> firmas { get; set; }
-        public string idresidente { get; set; }
         public string codigodocumento { get; set; }
         public string evaluador { get; set; }
     }

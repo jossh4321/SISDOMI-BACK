@@ -171,7 +171,7 @@ namespace SISDOMI.Controllers
                     item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
                 }
             }
-            return _informeService.ModificarInformeSE(informe);
+            return await _informeService.ModificarInformeSE(informe);
         }
 
         [HttpPut("informepi")]
@@ -201,7 +201,7 @@ namespace SISDOMI.Controllers
                     item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
                 }
             }
-            return _informeService.ModificarInformePE(informe);
+            return await _informeService.ModificarInformePE(informe);
         }
     }
 }
