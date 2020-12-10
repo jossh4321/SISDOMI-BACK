@@ -18,11 +18,12 @@ namespace SISDOMI.Entities
        typeof(FichaIngresoSocial),
        typeof(FichaIngresoEducativa),
        typeof(FichaIngresoPsicologica),
+       typeof(InformePsicologicoInicial),
        typeof(InformePsicologicoEvolutivo),
        typeof(PlanIntervencionIndividualEducativo),
        typeof(PlanIntervencionIndividualPsicologico),
        typeof(PlanIntervencionIndividualSocial),
-         typeof(ActaExternamiento),
+       typeof(ActaExternamiento),
        typeof(InformeSeguimientoEducativo))]
     public class Documento
     {
@@ -51,10 +52,11 @@ namespace SISDOMI.Entities
         public string situacionacademica { get; set; }
         public string analisisacademico { get; set; }
         public List<string> conclusiones { get; set; }
-        public List<string> anexos { get; set; }
+        public List<AnexosDocumento> anexos { get; set; }
         public List<Firma> firmas { get; set; }        
         public string codigodocumento { get; set; }
         public string lugarevaluacion { get; set; }
+        public string evaluador { get; set; }
     }
 
     public class InformeEducativoInicial : Documento
@@ -69,10 +71,11 @@ namespace SISDOMI.Entities
         public List<string> logroalcanzado { get; set; }
         public List<string> recomendaciones { get; set; }
         public InstitucionEducativa iereinsersion { get; set; }
-        public List<string> anexos { get; set; }
+        public List<AnexosDocumento> anexos { get; set; }
         public List<Firma> firmas { get; set; }
         
         public string codigodocumento { get; set; }
+        public string evaluador { get; set; }
     }
     public class InformeEducativoEvolutivo : Documento
     {
@@ -93,6 +96,7 @@ namespace SISDOMI.Entities
         public List<AnexosDocumento> anexos { get; set; }
         public List<Firma> firmas { get; set; }        
         public string codigodocumento { get; set; }
+        public string evaluador { get; set; }
     }
     public class InformeSocialInicial : Documento
     {
@@ -108,23 +112,41 @@ namespace SISDOMI.Entities
         public List<Firma> firmas { get; set; }
         public string idresidente { get; set; }
         public string codigodocumento { get; set; }
+        public string evaluador { get; set; }
     }
     public class InformeSocialEvolutivo : Documento
     {
         public ContenidoInformeSocialEvolutivo contenido { get; set; } = new ContenidoInformeSocialEvolutivo();
     }
+    public class ContenidoInformePsicologicoInicial
+    {
+        public string antecedentes { get; set; }
+        public string contextopsicologico { get; set; }
+        public string analisisactual { get; set; }
+        public List<string> transtornos { get; set; }
+        public List<string> recomendaciones { get; set; }
+        public List<string> conclusiones { get; set; }        
+        public List<Firma> firmas { get; set; }
+        public string codigodocumento { get; set; }
+        public string evaluador { get; set; }
+    }
+    public class InformePsicologicoInicial : Documento
+    {
+        public ContenidoInformePsicologicoInicial contenido { get; set; } = new ContenidoInformePsicologicoInicial();
+    }
+
     public class ContenidoInformePsicologicoEvolutivo
     {
-        public string motivoingreso { get; set; }
         public string observacionesgenerales { get; set; }
         public List<string> pruebasaplicadas { get; set; }
         public string interpretacionresultados { get; set; }
         public List<string> conclusiones { get; set; }
         public string diagnostico { get; set; }
         public List<string> recomendaciones { get; set; }
+        public List<AnexosDocumento> anexos { get; set; }
         public List<Firma> firmas { get; set; }
-        public string idresidente { get; set; }
         public string codigodocumento { get; set; }
+        public string evaluador { get; set; }
     }
     public class InformePsicologicoEvolutivo : Documento
     {
@@ -353,6 +375,64 @@ namespace SISDOMI.Entities
     {
         public ContenidoActaDeExternamiento contenido { get; set; } = new ContenidoActaDeExternamiento();
     }
+
+    public class TransicionFase : Documento
+    {
+        public ContenidoTransicionFase contenido { get; set; } = new ContenidoTransicionFase();
+    }
+
+    public class ContenidoTransicionFase
+    { 
+        [BsonElement("firma")]
+        public string firma { get; set; }
+        [BsonElement("observacion")]
+        public string observacion { get; set; }
+        [BsonElement("nuevafase")]
+        public string nuevafase { get; set; }
+    }
+
+    public class FichaEvaluacionDiagnosticoEducativo : Documento
+    {
+        public ContenidoFichaEvaluacionDiagnosticoEducativo contenido { get; set; } = new ContenidoFichaEvaluacionDiagnosticoEducativo();
+    }
+
+    public class ContenidoFichaEvaluacionDiagnosticoEducativo
+    {
+        [BsonElement("ultimaie")] //textfield
+        public string ultimaie { get; set; }
+        [BsonElement("tipoie")] //Select
+        public string tipoie { get; set; }
+        [BsonElement("modalidad")] //Autocomplete
+        public string modalidad { get; set; }
+        [BsonElement("nivel")] //Select
+        public string nivel { get; set; }
+        [BsonElement("grado")] //Select
+        public string grado { get; set; }
+        //
+        [BsonElement("estudios")] 
+        public List<Estudios> estudios { get; set; }
+        //
+        [BsonElement("aspectos")]
+        public List<Aspectos> aspectos { get; set; }
+        //
+        [BsonElement("firmas")]
+        public List<Firmas> firmas { get; set; }
+
+        public string codigodocumento { get; set; }
+        public string evaluador { get; set; }
+    }
+
+    public class Estudios
+    {
+        public String nivel { get; set; } //INICIAL-PRIMARIA-SECUNDARIA
+        public List<String> observaciones { get; set; }
+    }
+    public class Aspectos
+    {
+        public String tipo { get; set; } //POSITIVO-NEGATIVO
+        public String descripcion { get; set; }
+    }
+
     /// >:(
 
 }

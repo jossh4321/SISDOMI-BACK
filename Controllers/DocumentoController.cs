@@ -126,5 +126,12 @@ namespace SISDOMI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
+
+        [HttpGet("fichaingresoeducativa/idresidente/{idresidente}")]
+        public ActionResult<FichaIngresoEducativa> GetFichaIngresoSocialByIdResidente(String idresidente)
+        {
+            FichaIngresoEducativa fichaIngresoEducativa = _fichaIngresoEducativoService.GetByResidenteId(idresidente);
+            return fichaIngresoEducativa;
+        }
     }
 }

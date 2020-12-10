@@ -26,7 +26,7 @@ namespace SISDOMI.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<SesionEducativa>>> GetAll()
+        public async Task<ActionResult<List<SesionEducativaDTOInicial>>> GetAll()
         {
             return await _sesionducativaService.GetAll();
         }

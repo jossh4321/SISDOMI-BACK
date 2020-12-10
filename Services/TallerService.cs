@@ -143,5 +143,22 @@ namespace SISDOMI.Services
                             .FirstAsync();
             return documento;
         }
+
+        //MODIFICACIONES
+        
+        public async Task<TallerEscuelaPadres> PutTallerEP(TallerEscuelaPadres taller)
+        {
+            var filter = Builders<TallerDTO>.Filter.Eq("id", taller.id);
+            var update = Builders<TallerDTO>.Update
+                .Set("titulo", taller.titulo)
+                .Set("descripcion", taller.descripcion)
+                .Set("firma", taller.firma)
+                .Set("contenido", taller.contenido);
+
+            _talleres.UpdateOne(filter, update);
+
+            return taller;
+
+        }
     }
 }

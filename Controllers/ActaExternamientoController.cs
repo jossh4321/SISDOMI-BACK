@@ -7,9 +7,7 @@ using SISDOMI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-
-namespace SISDOMI.Controllers
+using System.Threading.Tasks;namespace SISDOMI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -44,12 +42,30 @@ namespace SISDOMI.Controllers
             }
                 
         }
-        /*[HttpPut("")]
-        public ActionResult<Documento> PutExternamiento(Documento documento) {
+        [HttpPut("update")]
+        public ActionResult<Documento> PutExternamiento(ActaExternamiento documento) {
+            try
+            {
+                Documento UpdateActa = _ActaExternamientoService.Update(documento);
+                return UpdateActa;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
 
-            Documento UpdateActa = _ActaExternamientoService.Update(documento);
-            return UpdateActa;
-        
-        }*/
+        }
+        [HttpPost("register")]
+        public async Task<ActionResult<ActaExternamiento>> PostExternamiento(ActaExternamiento actaExternamiento) {
+            try
+            {
+                return await _ActaExternamientoService.Register(actaExternamiento);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
     }
 }

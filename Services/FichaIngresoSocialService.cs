@@ -12,13 +12,13 @@ namespace SISDOMI.Services
     {
         private readonly IMongoCollection<Documento> _documentos;
 
-        public FichaIngresoSocialService(ISysdomiDatabaseSettings settings)
-        {
+        public FichaIngresoSocialService(ISysdomiDatabaseSettings settings){
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _documentos = database.GetCollection<Documento>("documentos");
         }
+
         public List<FichaIngresoSocial> GetAll()
         {
             List<FichaIngresoSocial> listFichaIngresoSocial = new List<FichaIngresoSocial>();

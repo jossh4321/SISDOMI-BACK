@@ -67,6 +67,13 @@ namespace SISDOMI.Services
             return documento;
         }
 
+        public FichaIngresoEducativa GetByResidenteId(string idResidente)
+        {
+            FichaIngresoEducativa documento = new FichaIngresoEducativa();
+            documento = _documentos.AsQueryable().OfType<FichaIngresoEducativa>().ToList().Find(documento => documento.idresidente == idResidente);
+            return documento;
+        }
+
 
     }
 }
