@@ -406,5 +406,26 @@ namespace SISDOMI.Services
             _documentos.UpdateOne(filter, update);
             return informe;
         }
+
+        public async Task<Boolean> ComprobarDocumento (BuscarExpedienteDocumentoDTO documento)
+        {
+            var match = new BsonDocument("$match",
+                            new BsonDocument{
+                                { "idresidente", documento.idresidente },
+                                { "documentos.tipo", documento.tipo }
+                            });
+            Expediente exp = new Expediente();
+            exp = await _expedientes.Aggregate()
+                .AppendStage<Expediente>(match)
+                .FirstOrDefaultAsync();
+            if (exp == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }

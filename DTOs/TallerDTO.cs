@@ -87,6 +87,6 @@ namespace SISDOMI.DTOs
         public string aprendizaje { get; set; }
         public string conducta { get; set; }
         public string firma { get; set; }
-        public string usuariaid { get; set; }
+        public ResidenteAux usuaria { get; set; }
     }
 }

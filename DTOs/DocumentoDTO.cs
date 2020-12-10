@@ -47,4 +47,10 @@ namespace SISDOMI.DTOs
         public Residentes residente { get; set; }
         public String creador { get; set; }
     }
+
+    public class BuscarExpedienteDocumentoDTO
+    {
+        public string idresidente { get; set; }
+        public string tipo { get; set; }
+    }
 }

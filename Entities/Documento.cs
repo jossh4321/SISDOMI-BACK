@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization.Attributes;
+using SISDOMI.DTOs;
 using SISDOMI.Services;
 
 namespace SISDOMI.Entities
@@ -24,7 +25,8 @@ namespace SISDOMI.Entities
        typeof(PlanIntervencionIndividualPsicologico),
        typeof(PlanIntervencionIndividualSocial),
        typeof(ActaExternamiento),
-       typeof(InformeSeguimientoEducativo))]
+       typeof(InformeSeguimientoEducativo),
+       typeof(FichaEvaluacionDiagnosticoEducativo))]
     public class Documento
     {
         [BsonId]
@@ -408,13 +410,10 @@ namespace SISDOMI.Entities
         public string nivel { get; set; }
         [BsonElement("grado")] //Select
         public string grado { get; set; }
-        //
         [BsonElement("estudios")] 
         public List<Estudios> estudios { get; set; }
-        //
         [BsonElement("aspectos")]
         public List<Aspectos> aspectos { get; set; }
-        //
         [BsonElement("firmas")]
         public List<Firmas> firmas { get; set; }
 
