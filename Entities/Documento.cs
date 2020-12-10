@@ -24,7 +24,8 @@ namespace SISDOMI.Entities
        typeof(PlanIntervencionIndividualPsicologico),
        typeof(PlanIntervencionIndividualSocial),
        typeof(ActaExternamiento),
-       typeof(InformeSeguimientoEducativo))]
+       typeof(InformeSeguimientoEducativo),
+       typeof(FichaEvaluacionDiagnosticoEducativo))]
     public class Documento
     {
         [BsonId]
