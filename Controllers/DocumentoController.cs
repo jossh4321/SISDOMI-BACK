@@ -66,7 +66,7 @@ namespace SISDOMI.Controllers
             FichaIngresoPsicologica objetofichaPsicologica = _fichaIngresoPsicologicaService.ModifyFichaIngresoPsicologica(documento);
             return objetofichaPsicologica;
         }
-        [HttpPost("all/fichaingresoeducativacrear")]
+        [HttpPost("fichaeducativaingreso")]
         public ActionResult<FichaIngresoEducativa> PostFichaIngresoEducativa(FichaIngresoEducativa  documento) {
 
            FichaIngresoEducativa  objetofichaEducativa = _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);

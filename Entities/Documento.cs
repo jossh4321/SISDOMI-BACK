@@ -160,12 +160,13 @@ namespace SISDOMI.Entities
     }
     public class ContenidoFichaIngresoEducativo {
         public Procedencia ieprocedencia { get; set; } = new Procedencia();
-        public String responsableturno { get; set; }
+        [BsonElement("responsableturno")]
+        public String responsableTurno { get; set; }
         public List<String> observaciones { get; set; } = new List<String>();
-        public String codigodocumento { get; set; }
-        public List<Firma> firmas { get; set; } = new List<Firma>();
+        [BsonElement("codigodocumento")]
+        public String codigoDocumento { get; set; }
+        public Firma firma { get; set; } = new Firma();
         
-
     }
     public class ContenidoFichaIngresoSocial
     {

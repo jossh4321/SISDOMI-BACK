@@ -271,6 +271,112 @@ namespace SISDOMI.Services
 
         }
 
+        public async Task<UsuarioDTOR> ObtenerUsuarioRolPermisoPorNombre(string nombre)
+        {
+
+            var match = new BsonDocument("$match",
+                                new BsonDocument("usuario", nombre));
+
+            //lookup para roles
+            var subpipeline_rol = new BsonArray
+                                        {
+                                            new BsonDocument("$match",
+                                            new BsonDocument("$expr",
+                                            new BsonDocument("$eq",
+                                            new BsonArray
+                                                        {
+                                                            "$_id",
+                                                            new BsonDocument("$toObjectId", "$$idrol")
+                                                        })))
+                                        };
+
+            var lookup_rol = new BsonDocument("$lookup",
+                                new BsonDocument
+                                    {
+                                        { "from", "roles" },
+                                        { "let",
+                                new BsonDocument("idrol", "$rol") },
+                                        { "pipeline",subpipeline_rol },
+                                        { "as", "rolobj" }
+                                    });
+            //lookup para permisos
+            var subpipeline_permiso = new BsonArray
+                            {
+                                new BsonDocument("$match",
+                                new BsonDocument("$expr",
+                                new BsonDocument("$eq",
+                                new BsonArray
+                                            {
+                                                "$_id",
+                                                new BsonDocument("$toObjectId", "$$idpermiso")
+                                            })))
+                            };
+            var lookup_permiso = new BsonDocument("$lookup",
+                                     new BsonDocument
+                                         {
+                                        { "from", "permisos" },
+                                        { "let",
+                                new BsonDocument("idpermiso", "$rolobj.permisos") },
+                                        { "pipeline",subpipeline_permiso
+                                    },
+                                        { "as", "permisos" }
+                                         });
+
+            //agrupacion de documentos divididos
+            var group = new BsonDocument("$group",
+                    new BsonDocument
+                        {
+                            { "_id", "$_id" },
+                            { "usuario",
+                    new BsonDocument("$first", "$usuario") },
+                            { "clave",
+                    new BsonDocument("$first", "$clave") },
+                            { "datos",
+                    new BsonDocument("$first", "$datos") },
+                            { "estado",
+                    new BsonDocument("$first", "$estado") },
+                            { "rol",
+                    new BsonDocument("$first", "$rolobj") },
+                            { "permisos",
+                    new BsonDocument("$push", "$permisos") }
+                        });
+            //proyeccion de cada documento
+            var project = new BsonDocument("$project",
+                    new BsonDocument
+                        {
+                            { "_id", "$_id" },
+                            { "usuario", "$usuario" },
+                            { "clave", "$clave" },
+                            { "datos", "$datos" },
+                            { "estado", "$estado" },
+                            { "rol",
+                    new BsonDocument
+                            {
+                                { "_id", "$rol._id" },
+                                { "nombre","$rol.nombre"},
+                                { "descripcion", "$rol.descripcion" },
+                                { "area", "$rol.area" },
+                                { "permisos","$permisos" }
+                            } }
+                        });
+
+
+
+            UsuarioDTOR usuario = new UsuarioDTOR();
+            usuario = await _usuarios.Aggregate()
+                .AppendStage<Usuario>(match)
+                .AppendStage<UsuarioDTO>(lookup_rol)
+                .Unwind<UsuarioDTO, UsuarioDTO_UnwindRol>(x => x.rolobj)
+                .Unwind<UsuarioDTO_UnwindRol, UsuarioDTO_UnwindPermiso>(x => x.rolobj.permisos)
+                .AppendStage<UsuarioDTO_LK>(lookup_permiso)
+                .Unwind<UsuarioDTO_LK, UsuarioDTO_LK_UW>(x => x.permisos)
+                .AppendStage<Usuario_Group>(group)
+                .AppendStage<UsuarioDTOR>(project)
+                .SingleOrDefaultAsync();
+            return usuario;
+
+        }
+
         public async Task<UsuarioDTOR> ObtenerUsuarioRolPermiso(string id)
         {
 

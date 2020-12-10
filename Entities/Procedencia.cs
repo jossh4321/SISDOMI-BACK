@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,14 @@ namespace SISDOMI.Entities
         public string  direccion { get; set; }
         public string  telefono { get; set; }
         public string  correo { get; set; }
-        public List<String> documentosescolares { get; set; }
-        public string situacionescolar { get; set; }
+        [BsonElement("documentosescolares")]
+        public List<DocumentosEscolares> documentosEscolares { get; set; } = new List<DocumentosEscolares>();
+        [BsonElement("situacionescolar")]
+        public string situacionEscolar { get; set; }
+    }
+    public class DocumentosEscolares
+    {
+        public string titulo { get; set; }
+        public string url { get; set; }
     }
 }

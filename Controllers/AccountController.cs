@@ -50,9 +50,9 @@ namespace SISDOMI.Controllers
 
         [HttpGet("user")]
         [Authorize]
-        public ActionResult<Usuario> GetByUserName()
+        public async Task<ActionResult<UsuarioDTOR>> GetByUserName()
         {
-            Usuario usuario = null;
+            UsuarioDTOR usuario = null;
 
             try
             {
@@ -63,7 +63,7 @@ namespace SISDOMI.Controllers
                     return Unauthorized("Sesión expirada");
                 }
 
-                usuario = _usuarioservice.GetByUserName(userName);
+                usuario = await _usuarioservice.ObtenerUsuarioRolPermisoPorNombre(userName);
 
                 return usuario;
             }
