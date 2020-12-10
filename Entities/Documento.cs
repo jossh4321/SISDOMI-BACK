@@ -389,6 +389,49 @@ namespace SISDOMI.Entities
         [BsonElement("nuevafase")]
         public string nuevafase { get; set; }
     }
+
+    public class FichaEvaluacionDiagnosticoEducativo : Documento
+    {
+        public ContenidoFichaEvaluacionDiagnosticoEducativo contenido { get; set; } = new ContenidoFichaEvaluacionDiagnosticoEducativo();
+    }
+
+    public class ContenidoFichaEvaluacionDiagnosticoEducativo
+    {
+        [BsonElement("ultimaie")] //textfield
+        public string ultimaie { get; set; }
+        [BsonElement("tipoie")] //Select
+        public string tipoie { get; set; }
+        [BsonElement("modalidad")] //Autocomplete
+        public string modalidad { get; set; }
+        [BsonElement("nivel")] //Select
+        public string nivel { get; set; }
+        [BsonElement("grado")] //Select
+        public string grado { get; set; }
+        //
+        [BsonElement("estudios")] 
+        public List<Estudios> estudios { get; set; }
+        //
+        [BsonElement("aspectos")]
+        public List<Aspectos> aspectos { get; set; }
+        //
+        [BsonElement("firmas")]
+        public List<Firmas> firmas { get; set; }
+
+        public string codigodocumento { get; set; }
+        public string evaluador { get; set; }
+    }
+
+    public class Estudios
+    {
+        public String nivel { get; set; } //INICIAL-PRIMARIA-SECUNDARIA
+        public List<String> observaciones { get; set; }
+    }
+    public class Aspectos
+    {
+        public String tipo { get; set; } //POSITIVO-NEGATIVO
+        public String descripcion { get; set; }
+    }
+
     /// >:(
 
 }
