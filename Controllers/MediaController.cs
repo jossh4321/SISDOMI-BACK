@@ -52,6 +52,39 @@ namespace SISDOMI.Controllers
 
             return imageUrl;
         }
+        //talleres
+        [HttpPost("talleres")]
+        public async Task<ActionResult<String>> PostImageTalleres(IFormFile file)
+        {
+            String imageUrl;
+
+            try
+            {
+                imageUrl = await mediaService.CrearFirmasTalleres(file);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+
+            return imageUrl;
+        }
+        [HttpPut("talleres/{*urlfirma}")]
+        public async Task<ActionResult<String>> PutImageTalleres(string urlfirma, IFormFile file)
+        {
+            String imageUrl;
+            try
+            {
+                imageUrl = await mediaService.ModificarFirmasTalleres(file, urlfirma);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+
+            return imageUrl;
+        }
 
         [HttpPost("archivos/pdf")]
         public async Task<ActionResult<String>> PostFilePdf(IFormFile file)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
+using SISDOMI.Helpers;
 using SISDOMI.Models;
 using SISDOMI.Services;
 using System;
@@ -20,13 +21,15 @@ namespace SISDOMI.Controllers
         private readonly FichaIngresoEducativoService _fichaIngresoEducativoService;
         private readonly FichaIngresoPsicologicaService _fichaIngresoPsicologicaService ;
         private readonly DocumentoService documentoService;
+        private readonly IFileStorage _fileStorage;
 
-        public DocumentoController(FichaIngresoSocialService fichaIngresoSocialService, FichaIngresoEducativoService fichaIngresoEducativoService,FichaIngresoPsicologicaService  fichaIngresoPsicologicaService,
+        public DocumentoController(IFileStorage fileStorage, FichaIngresoSocialService fichaIngresoSocialService, FichaIngresoEducativoService fichaIngresoEducativoService,FichaIngresoPsicologicaService  fichaIngresoPsicologicaService,
                                    DocumentoService documentoService)
         {
             _fichaIngresoSocialService = fichaIngresoSocialService;
             _fichaIngresoEducativoService = fichaIngresoEducativoService;
             _fichaIngresoPsicologicaService = fichaIngresoPsicologicaService;
+            _fileStorage = fileStorage;
             this.documentoService = documentoService;
         }
 
@@ -72,15 +75,21 @@ namespace SISDOMI.Controllers
            FichaIngresoEducativa  objetofichaEducativa = _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);
             return objetofichaEducativa;
         }
-        [HttpPost("all/fichaingresosocialcrear")]
-        public ActionResult<FichaIngresoSocial> PostFichaIngresoSocial(FichaIngresoSocial documento)
+        [HttpPost("fichaingresosocialcrear")]
+        public async Task<ActionResult<FichaIngresoSocial>> PostFichaIngresoSocial(FichaIngresoSocial documento)
         {
-            FichaIngresoSocial objetofichaSocial = _fichaIngresoSocialService.CreateFichaIngresoSocial(documento);
-            return objetofichaSocial;
-             
+            foreach (var item in documento.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "jpg", "fichaingreso");
+                }
+            }
+            return await _fichaIngresoSocialService.CreateFichaIngresoSocial(documento);
         }
 
-        [HttpPost("all/fichaingresopsicologicacrear")]
+        [HttpPost("fichaingresopsicologicacrear")]
         public ActionResult<FichaIngresoPsicologica> PostFichaIngresoPsicologica(FichaIngresoPsicologica  documento)
         {
           FichaIngresoPsicologica  objetofichaPsicologica =_fichaIngresoPsicologicaService.CreateFichaIngresoPsicologica(documento);
