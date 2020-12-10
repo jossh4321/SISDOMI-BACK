@@ -409,13 +409,10 @@ namespace SISDOMI.Entities
         public string nivel { get; set; }
         [BsonElement("grado")] //Select
         public string grado { get; set; }
-        //
         [BsonElement("estudios")] 
         public List<Estudios> estudios { get; set; }
-        //
         [BsonElement("aspectos")]
         public List<Aspectos> aspectos { get; set; }
-        //
         [BsonElement("firmas")]
         public List<Firmas> firmas { get; set; }
 
