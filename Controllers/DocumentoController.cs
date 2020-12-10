@@ -69,7 +69,7 @@ namespace SISDOMI.Controllers
             FichaIngresoPsicologica objetofichaPsicologica = _fichaIngresoPsicologicaService.ModifyFichaIngresoPsicologica(documento);
             return objetofichaPsicologica;
         }
-        [HttpPost("fichaingresoeducativacrear")]
+        [HttpPost("fichaeducativaingreso")]
         public ActionResult<FichaIngresoEducativa> PostFichaIngresoEducativa(FichaIngresoEducativa  documento) {
 
            FichaIngresoEducativa  objetofichaEducativa = _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);
@@ -134,6 +134,13 @@ namespace SISDOMI.Controllers
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
+        }
+
+        [HttpGet("fichaingresoeducativa/idresidente/{idresidente}")]
+        public ActionResult<FichaIngresoEducativa> GetFichaIngresoSocialByIdResidente(String idresidente)
+        {
+            FichaIngresoEducativa fichaIngresoEducativa = _fichaIngresoEducativoService.GetByResidenteId(idresidente);
+            return fichaIngresoEducativa;
         }
     }
 }

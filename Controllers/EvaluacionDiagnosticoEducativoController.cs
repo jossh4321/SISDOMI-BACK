@@ -16,31 +16,31 @@ namespace SISDOMI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SeguimientoEducativoController : ControllerBase
+    public class EvaluacionDiagnosticoEducativoController : ControllerBase
     {
-        private readonly SeguimientoEducativoService _seguimientoeducativoservice;
+        private readonly FichaEvaluacionDiagnosticoEducativoService _diagnosticoeducativoservice;
         private readonly IFileStorage _fileStorage;
 
-        public SeguimientoEducativoController(SeguimientoEducativoService seguimientoeducativoservice, IFileStorage fileStorage)
+        public EvaluacionDiagnosticoEducativoController(FichaEvaluacionDiagnosticoEducativoService diagnosticoeducativoservice, IFileStorage fileStorage)
         {
-            _seguimientoeducativoservice = seguimientoeducativoservice;
+            _diagnosticoeducativoservice = diagnosticoeducativoservice;
             _fileStorage = fileStorage;
         }
 
         [HttpGet("all")]
-        
-        public async Task<ActionResult<List<SeguimientoDTO>>> GetAll()
+
+        public async Task<ActionResult<List<FichaEvaluacionDiagnosticoEducativoDTO>>> GetAll()
         {
-            return await _seguimientoeducativoservice.GetAll();
+            return await _diagnosticoeducativoservice.GetAll();
         }
         [HttpGet("id")]
         public async Task<ActionResult<DocumentoDTO>> GetById([FromQuery] string id)
         {
-            return await _seguimientoeducativoservice.GetById(id);
+            return await _diagnosticoeducativoservice.GetById(id);
         }
         //POST
-        [HttpPost("informese")]
-        public async Task<ActionResult<InformeSeguimientoEducativo>> CrearInformeSE(InformeSeguimientoEducativo informe)
+        [HttpPost("fichaEvaluacionDE")]
+        public async Task<ActionResult<FichaEvaluacionDiagnosticoEducativo>> CrearFichaEvaluacionDE(FichaEvaluacionDiagnosticoEducativo informe)
         {
             foreach (var item in informe.contenido.firmas)
             {
@@ -50,10 +50,10 @@ namespace SISDOMI.Controllers
                     item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
                 }
             }
-            return await _seguimientoeducativoservice.RegistrarInformeSE(informe);
+            return await _diagnosticoeducativoservice.RegistrarFichaEvaluacionDE(informe);
         }
         [HttpPut("informese")]
-        public async Task <ActionResult<InformeSeguimientoEducativo>> ModificarInformeSE(InformeSeguimientoEducativo informe)
+        public async Task<ActionResult<FichaEvaluacionDiagnosticoEducativo>> ModificarInformeSE(FichaEvaluacionDiagnosticoEducativo informe)
         {
             foreach (var item in informe.contenido.firmas)
             {
@@ -63,7 +63,7 @@ namespace SISDOMI.Controllers
                     item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
                 }
             }
-            return await _seguimientoeducativoservice.ModificarInformeSE(informe);
+            return await _diagnosticoeducativoservice.ModificarFichaEvaluacionDE(informe);
         }
     }
 }

@@ -27,6 +27,7 @@ namespace SISDOMI.Services
             this.expedienteService = expedienteService;
             this.document = document;
         }
+
         public List<FichaIngresoSocial> GetAll()
         {
             List<FichaIngresoSocial> listFichaIngresoSocial = new List<FichaIngresoSocial>();

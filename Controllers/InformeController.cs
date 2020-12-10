@@ -91,14 +91,30 @@ namespace SISDOMI.Controllers
         }
         //falta el psicologico inicial 0-0 -> ya no uwu
         [HttpPost("informepi")]
-        public async Task<ActionResult<InformePsicologicoInicial>> CrearInformePE(InformePsicologicoInicial informe)
+        public async Task<ActionResult<InformePsicologicoInicial>> CrearInformePI(InformePsicologicoInicial informe)
         {
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
             return await _informeService.RegistrarInformePI(informe);
         }
 
         [HttpPost("informepe")]
         public async Task<ActionResult<InformePsicologicoEvolutivo>> CrearInformePE(InformePsicologicoEvolutivo informe)
         {
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
             return await _informeService.RegistrarInformePE(informe);
         }
 
@@ -145,14 +161,47 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("informese")]
-        public ActionResult<InformeSocialEvolutivo> ModificarInformeSE(InformeSocialEvolutivo informe)
+        public async Task<ActionResult<InformeSocialEvolutivo>> ModificarInformeSE(InformeSocialEvolutivo informe)
         {
-            return _informeService.ModificarInformeSE(informe);
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma) && !item.urlfirma.Contains("http"))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
+            return await _informeService.ModificarInformeSE(informe);
         }
-        [HttpPut("informepe")]
-        public ActionResult<InformePsicologicoEvolutivo> ModificarInformePE(InformePsicologicoEvolutivo informe)
+
+        [HttpPut("informepi")]
+        public async Task<ActionResult<InformePsicologicoInicial>> ModificarInformePI(InformePsicologicoInicial informe)
         {
-            return _informeService.ModificarInformePE(informe);
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma) && !item.urlfirma.Contains("http"))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
+
+            return await _informeService.ModificarInformePI(informe);
+        }
+
+
+        [HttpPut("informepe")]
+        public async Task<ActionResult<InformePsicologicoEvolutivo>> ModificarInformePE(InformePsicologicoEvolutivo informe)
+        {
+            foreach (var item in informe.contenido.firmas)
+            {
+                if (!string.IsNullOrWhiteSpace(item.urlfirma) && !item.urlfirma.Contains("http"))
+                {
+                    var imgfirma = Convert.FromBase64String(item.urlfirma);
+                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+                }
+            }
+            return await _informeService.ModificarInformePE(informe);
         }
     }
 }

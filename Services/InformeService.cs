@@ -209,6 +209,24 @@ namespace SISDOMI.Services
         //Modificar Informes
         public async Task<InformeEducativoInicial> ModificarInformeEI(InformeEducativoInicial informe)
         {
+            var actualDocumento = await _documentos.Find(x => x.id == informe.id).FirstOrDefaultAsync();
+
+            if (actualDocumento != null)
+            {
+                if (actualDocumento.idresidente != informe.idresidente)
+                {
+                    DocumentoExpediente docexpe = new DocumentoExpediente()
+                    {
+                        tipo = informe.tipo,
+                        iddocumento = informe.id
+                    };
+                    UpdateDefinition<Expediente> updateExpedienteD = Builders<Expediente>.Update.Pull("documentos", docexpe);
+                    _expedientes.FindOneAndUpdate(x => x.idresidente == actualDocumento.idresidente, updateExpedienteD);
+
+                    UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+                    _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+                }
+            }
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
                 .Set("historialcontenido", informe.historialcontenido)
@@ -224,6 +242,24 @@ namespace SISDOMI.Services
         }
         public async Task<InformeEducativoEvolutivo> ModificarInformeEE(InformeEducativoEvolutivo informe)
         {
+            var actualDocumento = await _documentos.Find(x => x.id == informe.id).FirstOrDefaultAsync();
+
+            if (actualDocumento != null)
+            {
+                if (actualDocumento.idresidente != informe.idresidente)
+                {
+                    DocumentoExpediente docexpe = new DocumentoExpediente()
+                    {
+                        tipo = informe.tipo,
+                        iddocumento = informe.id
+                    };
+                    UpdateDefinition<Expediente> updateExpedienteD = Builders<Expediente>.Update.Pull("documentos", docexpe);
+                    _expedientes.FindOneAndUpdate(x => x.idresidente == actualDocumento.idresidente, updateExpedienteD);
+
+                    UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+                    _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+                }
+            }
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
                 .Set("historialcontenido", informe.historialcontenido)
@@ -239,6 +275,24 @@ namespace SISDOMI.Services
         }
         public async Task<InformeSocialInicial> ModificarInformeSI(InformeSocialInicial informe)
         {
+            var actualDocumento = await _documentos.Find(x => x.id == informe.id).FirstOrDefaultAsync();
+
+            if (actualDocumento != null)
+            {
+                if (actualDocumento.idresidente != informe.idresidente)
+                {
+                    DocumentoExpediente docexpe = new DocumentoExpediente()
+                    {
+                        tipo = informe.tipo,
+                        iddocumento = informe.id
+                    };
+                    UpdateDefinition<Expediente> updateExpedienteD = Builders<Expediente>.Update.Pull("documentos", docexpe);
+                    _expedientes.FindOneAndUpdate(x => x.idresidente == actualDocumento.idresidente, updateExpedienteD);
+
+                    UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+                    _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+                }
+            }
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
                 .Set("historialcontenido", informe.historialcontenido)
@@ -252,8 +306,26 @@ namespace SISDOMI.Services
             _documentos.UpdateOne(filter, update);
             return informe;
         }
-        public InformeSocialEvolutivo ModificarInformeSE(InformeSocialEvolutivo informe)
+        public async Task<InformeSocialEvolutivo> ModificarInformeSE(InformeSocialEvolutivo informe)
         {
+            var actualDocumento = await _documentos.Find(x => x.id == informe.id).FirstOrDefaultAsync();
+
+            if (actualDocumento != null)
+            {
+                if (actualDocumento.idresidente != informe.idresidente)
+                {
+                    DocumentoExpediente docexpe = new DocumentoExpediente()
+                    {
+                        tipo = informe.tipo,
+                        iddocumento = informe.id
+                    };
+                    UpdateDefinition<Expediente> updateExpedienteD = Builders<Expediente>.Update.Pull("documentos", docexpe);
+                    _expedientes.FindOneAndUpdate(x => x.idresidente == actualDocumento.idresidente, updateExpedienteD);
+
+                    UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+                    _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+                }
+            }
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
                 .Set("historialcontenido", informe.historialcontenido)
@@ -267,8 +339,26 @@ namespace SISDOMI.Services
             _documentos.UpdateOne(filter, update);
             return informe;
         }
-        public InformePsicologicoInicial ModificarInformePI(InformePsicologicoInicial informe)
+        public async Task<InformePsicologicoInicial> ModificarInformePI(InformePsicologicoInicial informe)
         {
+            var actualDocumento = await _documentos.Find(x => x.id == informe.id).FirstOrDefaultAsync();
+
+            if (actualDocumento != null)
+            {
+                if (actualDocumento.idresidente != informe.idresidente)
+                {
+                    DocumentoExpediente docexpe = new DocumentoExpediente()
+                    {
+                        tipo = informe.tipo,
+                        iddocumento = informe.id
+                    };
+                    UpdateDefinition<Expediente> updateExpedienteD = Builders<Expediente>.Update.Pull("documentos", docexpe);
+                    _expedientes.FindOneAndUpdate(x => x.idresidente == actualDocumento.idresidente, updateExpedienteD);
+
+                    UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+                    _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+                }
+            }
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
                 .Set("historialcontenido", informe.historialcontenido)
@@ -283,8 +373,26 @@ namespace SISDOMI.Services
             return informe;
         }
 
-        public InformePsicologicoEvolutivo ModificarInformePE(InformePsicologicoEvolutivo informe)
+        public async Task<InformePsicologicoEvolutivo> ModificarInformePE(InformePsicologicoEvolutivo informe)
         {
+            var actualDocumento = await _documentos.Find(x => x.id == informe.id).FirstOrDefaultAsync();
+
+            if (actualDocumento != null)
+            {
+                if (actualDocumento.idresidente != informe.idresidente)
+                {
+                    DocumentoExpediente docexpe = new DocumentoExpediente()
+                    {
+                        tipo = informe.tipo,
+                        iddocumento = informe.id
+                    };
+                    UpdateDefinition<Expediente> updateExpedienteD = Builders<Expediente>.Update.Pull("documentos", docexpe);
+                    _expedientes.FindOneAndUpdate(x => x.idresidente == actualDocumento.idresidente, updateExpedienteD);
+
+                    UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+                    _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+                }
+            }
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
                 .Set("historialcontenido", informe.historialcontenido)
