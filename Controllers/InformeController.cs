@@ -203,5 +203,11 @@ namespace SISDOMI.Controllers
             }
             return await _informeService.ModificarInformePE(informe);
         }
+
+        [HttpPost("compdocu")]
+        public async Task<ActionResult<Boolean>> ComprobarDocumento(BuscarExpedienteDocumentoDTO documento)
+        {
+            return await _informeService.ComprobarDocumento(documento);
+        }
     }
 }
