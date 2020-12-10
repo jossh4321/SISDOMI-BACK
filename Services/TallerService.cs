@@ -155,7 +155,35 @@ namespace SISDOMI.Services
                 .Set("firma", taller.firma)
                 .Set("contenido", taller.contenido);
 
-            _talleres.UpdateOne(filter, update);
+            await _talleres.UpdateOneAsync(filter, update);
+
+            return taller;
+
+        }
+        public async Task<TallerEducativo> PutTallerE(TallerEducativo taller)
+        {
+            var filter = Builders<TallerDTO>.Filter.Eq("id", taller.id);
+            var update = Builders<TallerDTO>.Update
+                .Set("titulo", taller.titulo)
+                .Set("descripcion", taller.descripcion)
+                .Set("firma", taller.firma)
+                .Set("contenido", taller.contenido);
+
+            await _talleres.UpdateOneAsync(filter, update);
+
+            return taller;
+
+        }
+        public async Task<TallerFormativoEgreso> PutTallerFE(TallerFormativoEgreso taller)
+        {
+            var filter = Builders<TallerDTO>.Filter.Eq("id", taller.id);
+            var update = Builders<TallerDTO>.Update
+                .Set("titulo", taller.titulo)
+                .Set("descripcion", taller.descripcion)
+                .Set("firma", taller.firma)
+                .Set("contenido", taller.contenido);
+
+            await _talleres.UpdateOneAsync(filter, update);
 
             return taller;
 

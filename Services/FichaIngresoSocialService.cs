@@ -2,7 +2,9 @@
 using MongoDB.Driver;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
+using SISDOMI.Helpers;
 using SISDOMI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,13 +13,19 @@ namespace SISDOMI.Services
     public class FichaIngresoSocialService
     {
         private readonly IMongoCollection<Documento> _documentos;
+        private readonly IMongoCollection<Expediente> _expedientes;
+        private readonly ExpedienteService expedienteService;
+        private readonly IDocument document;
 
-        public FichaIngresoSocialService(ISysdomiDatabaseSettings settings)
+        public FichaIngresoSocialService(ISysdomiDatabaseSettings settings, IDocument document, ExpedienteService expedienteService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _documentos = database.GetCollection<Documento>("documentos");
+            _expedientes = database.GetCollection<Expediente>("expedientes");
+            this.expedienteService = expedienteService;
+            this.document = document;
         }
         public List<FichaIngresoSocial> GetAll()
         {
@@ -28,9 +36,18 @@ namespace SISDOMI.Services
             return listFichaIngresoSocial;
         }
         //
-        public FichaIngresoSocial CreateFichaIngresoSocial(FichaIngresoSocial documento)
+        public async Task<FichaIngresoSocial> CreateFichaIngresoSocial(FichaIngresoSocial documento)
         {
-            _documentos.InsertOne(documento);
+            DateTime DateNow = DateTime.UtcNow.AddHours(-5);
+            Expediente expediente = await expedienteService.GetByResident(documento.idresidente);
+            documento.contenido.codigodocumento = document.CreateCodeDocument(DateNow, documento.tipo, expediente.documentos.Count + 1);
+            await _documentos.InsertOneAsync(documento);
+            DocumentoExpediente docexpe = new DocumentoExpediente()
+            {
+                tipo = documento.tipo,
+                iddocumento = documento.id
+            };
+            await expedienteService.UpdateDocuments(docexpe, expediente.id);
             return documento;
         }
         public FichaIngresoSocial GetById(string id)

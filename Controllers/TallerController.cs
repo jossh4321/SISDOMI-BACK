@@ -70,5 +70,15 @@ namespace SISDOMI.Controllers
         {
             return await _tallerService.PutTallerEP(taller);
         }
+        [HttpPut("actualizarTallerE")]
+        public async Task<ActionResult<TallerDTO>> PutTE([FromBody] TallerEducativo taller)
+        {
+            return await _tallerService.PutTallerE(taller);
+        }
+        [HttpPut("actualizarTallerFE")]
+        public async Task<ActionResult<TallerDTO>> PutTFE([FromBody] TallerFormativoEgreso taller)
+        {
+            return await _tallerService.PutTallerFE(taller);
+        }
     }
 }

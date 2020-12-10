@@ -48,6 +48,34 @@ namespace SISDOMI.Services
             return urlImage;
         }
 
+        public async Task<String> CrearFirmasTalleres(IFormFile mediaInfo)
+        {
+            String urlImage = "";
+
+            using (var stream = new MemoryStream())
+            {
+                await mediaInfo.CopyToAsync(stream);
+
+                urlImage = await fileStorage.SaveFile(stream.ToArray(), "jpg", "talleres");
+
+            }
+
+            return urlImage;
+        }
+
+        public async Task<String> ModificarFirmasTalleres(IFormFile mediaInfo, string urlfirma)
+        {
+            String urlImage = "";
+
+            using (var stream = new MemoryStream())
+            {
+                await mediaInfo.CopyToAsync(stream);
+                urlImage = await fileStorage.EditFile(stream.ToArray(), "jpg", "talleres", urlfirma);
+            }
+
+            return urlImage;
+        }
+
         public async Task<String> CrearListaArchivos(IFormFile mediaInfo)
         {
             String urlImage = "";

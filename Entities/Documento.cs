@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization.Attributes;
+using SISDOMI.DTOs;
 using SISDOMI.Services;
 
 namespace SISDOMI.Entities
