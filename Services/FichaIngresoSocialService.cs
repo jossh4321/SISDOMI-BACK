@@ -58,6 +58,71 @@ namespace SISDOMI.Services
             documento = doc as FichaIngresoSocial;
             return documento;
         }
+        public async Task<FichaIngresoDTO> obtenerResidienteFichaIngreso(string id)
+        {
+            var match = new BsonDocument("$match",
+                                      new BsonDocument("_id",
+                                      new ObjectId(id)));
+            // lookup para fichas ingreso 
+            var subpipeline_fichaIngreso = new BsonArray
+                                           {
+                                               new BsonDocument("$match",
+                                               new BsonDocument("$expr",
+                                               new BsonDocument("$eq",
+                                               new BsonArray
+                                                           {
+                                                               "$_id",
+                                                               new BsonDocument("$toObjectId", "$$idres")
+                                                           })))
+                                           };
+
+            var lookup_fichaIngreso = new BsonDocument("$lookup",
+                              new BsonDocument
+                                  {
+                                          { "from", "residentes" },
+                                          { "let",
+                                  new BsonDocument("idres", "$idresidente") },
+                                          { "pipeline",subpipeline_fichaIngreso
+                                      },
+                                             { "as", "residenteresultado" }
+                                  });
+
+            // 
+            var unwindFicha = new BsonDocument("$unwind", new BsonDocument("path", "$residenteresultado"));
+
+            //Proyeccion de cada documentos 
+            var project = new BsonDocument("$project",
+                          new BsonDocument
+                              {
+                                          { "_id", 1 },
+                                          { "_t", 1 },
+                                          { "tipo", 1 },
+                                          { "historialcontenido", 1 },
+                                          { "creadordocumento", 1 },
+                                          { "fechacreacion", 1 },
+                                          { "area", 1 },
+                                          { "fase", 1 },
+                                          { "estado", 1 },
+                                          { "codigodocumento", "$contenido.codigodocumento" },
+                                          { "residenteresultado",
+                                  new BsonDocument("$concat",
+                                  new BsonArray
+                                              {
+                                                   "$residenteresultado.nombre",
+                                                     " ",
+                                                   "$residenteresultado.apellido"
+                                              }) }
+                              });
+            FichaIngresoDTO fichaIngreso = await _documentos.Aggregate()
+                 .AppendStage<dynamic>(match)
+                 .AppendStage<dynamic>(lookup_fichaIngreso)
+                   .AppendStage<dynamic>(unwindFicha)
+                 .AppendStage<FichaIngresoDTO>(project).SingleAsync();
+
+
+
+            return fichaIngreso;
+        }
 
         public async Task<List<FichaIngresoDTO>> obtenerResidientesFichaIngreso()
         {

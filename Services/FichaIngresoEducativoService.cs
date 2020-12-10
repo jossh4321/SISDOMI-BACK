@@ -14,9 +14,12 @@ namespace SISDOMI.Services
     {
         private readonly IMongoCollection<Documento> _documentos;
         private readonly ExpedienteService expedienteService;
+        private readonly FichaIngresoSocialService fichaIngresoSocialService;
         private readonly IDocument document;
 
-        public FichaIngresoEducativoService(ISysdomiDatabaseSettings settings, ExpedienteService expedienteService, IDocument document)
+        public FichaIngresoEducativoService(ISysdomiDatabaseSettings settings, 
+            ExpedienteService expedienteService, IDocument document,
+            FichaIngresoSocialService fichaIngresoSocialService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -24,6 +27,7 @@ namespace SISDOMI.Services
             _documentos = database.GetCollection<Documento>("documentos");
 
             this.expedienteService = expedienteService;
+            this.fichaIngresoSocialService = fichaIngresoSocialService;
             this.document = document;
         }
         public List<FichaIngresoEducativa> GetAll()
@@ -34,10 +38,14 @@ namespace SISDOMI.Services
 
             return listFichaIngresoEducativa;
         }
-        public FichaIngresoEducativa CreateFichaIngresoEducativo(FichaIngresoEducativa documento)
+        public async  Task<FichaIngresoDTO> CreateFichaIngresoEducativo(FichaIngresoEducativa documento)
         {
-            _documentos.InsertOne(documento);
-            return documento;
+            DateTime DateNow = DateTime.UtcNow.AddHours(-5);
+            Expediente expediente = await expedienteService.GetByResident(documento.idresidente);
+            documento.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, documento.tipo, expediente.documentos.Count + 1);
+            await _documentos.InsertOneAsync(documento);
+            FichaIngresoDTO fichaIngresoEducativa =  await fichaIngresoSocialService.obtenerResidienteFichaIngreso(documento.id);
+            return fichaIngresoEducativa;
         }
         public FichaIngresoEducativa GetById(string id)
         {

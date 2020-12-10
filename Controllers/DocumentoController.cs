@@ -67,10 +67,10 @@ namespace SISDOMI.Controllers
             return objetofichaPsicologica;
         }
         [HttpPost("fichaeducativaingreso")]
-        public ActionResult<FichaIngresoEducativa> PostFichaIngresoEducativa(FichaIngresoEducativa  documento) {
+        public async Task<ActionResult<FichaIngresoDTO>> PostFichaIngresoEducativa(FichaIngresoEducativa  documento) {
 
-           FichaIngresoEducativa  objetofichaEducativa = _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);
-            return objetofichaEducativa;
+           FichaIngresoDTO objetofichaEducativa = await _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);
+           return objetofichaEducativa;
         }
         [HttpPost("all/fichaingresosocialcrear")]
         public ActionResult<FichaIngresoSocial> PostFichaIngresoSocial(FichaIngresoSocial documento)
