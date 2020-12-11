@@ -16,13 +16,14 @@ namespace SISDOMI.Services
         private readonly IMongoCollection<Residentes> _residente;
         private readonly IMongoCollection<Documento> _documento;
         private readonly IMongoCollection<Expediente> _expedientes;
-
+        private readonly IMongoCollection<Fase> _documentofase;
         public ResidenteService(ISysdomiDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _residente = database.GetCollection<Residentes>("residentes");
             _expedientes = database.GetCollection<Expediente>("expedientes");
+            _documentofase = database.GetCollection<Fase>("fases");
 
         }
         public List<Residentes> GetAll()
@@ -37,7 +38,7 @@ namespace SISDOMI.Services
             residente = _residente.Find(residente => residente.id == id).FirstOrDefault();
             return residente;
         }
-        public Documento  GetByIdDoc(string id)
+        public Documento GetByIdDoc(string id)
         {
             Documento documento = new Documento();
             documento = _documento.Find(documento => documento.idresidente == id).FirstOrDefault();
@@ -47,20 +48,31 @@ namespace SISDOMI.Services
         {
             _residente.InsertOne(residente);
             Expediente expediente = new Expediente();
+            Fase fase = new Fase();
+            Usuario usuario = new Usuario();
             expediente.idresidente = residente.id;
             expediente.fechainicio = residente.fechaIngreso;
+            fase.idresidente = residente.id;
+            fase.progreso = new List<ProgresoFase>();
+            fase.progreso.Add(new ProgresoFase());
+            fase.progreso[0].fase = residente.progreso[0].fase;
+            fase.progreso[0].documentotransicion.fecha = residente.progreso[0].fechaingreso;
+            //fase.progreso[0].documentotransicion.idcreador = usuario.id;
             await saveExpediente(expediente);
+            _documentofase.InsertOne(fase);
             return residente;
         }
+
         public async Task saveExpediente(Expediente expediente)
         {
-            Expediente exp  = await ObtenerUltimoExpediente();
+            Expediente exp = await ObtenerUltimoExpediente();
             string[] arregloInicial = exp.numeroexpediente.Split(' ');
             int numeroExpediente = Int32.Parse(arregloInicial[1]);
-            string numeroExpedienteFinal = $"EO {numeroExpediente+1}";
+            string numeroExpedienteFinal = $"EO {numeroExpediente + 1}";
             expediente.numeroexpediente = numeroExpedienteFinal;
             _expedientes.InsertOne(expediente);
         }
+
         public async Task<Expediente> ObtenerUltimoExpediente()
         {
             Expediente exp = new Expediente();
@@ -104,7 +116,7 @@ namespace SISDOMI.Services
         public async Task<List<Residentes>> GetResidenteByNombre(String nombre)
         {
             var filter = Builders<Residentes>.Filter.Regex("nombre", new BsonRegularExpression(nombre));
-            return await  _residente.Find(filter).ToListAsync();
+            return await _residente.Find(filter).ToListAsync();
         }
         public async Task<List<Residentes>> ListResidentByAreaAndByNotPlan(String areaPlan)
         {
@@ -240,7 +252,7 @@ namespace SISDOMI.Services
                                 new BsonDocument
                                 {
                                     { "from", "anexos" },
-                                    { "let", 
+                                    { "let",
                                         new BsonDocument("residenteid", "$_id")},
                                     { "pipeline",
                                         new BsonArray
@@ -264,7 +276,7 @@ namespace SISDOMI.Services
                                   {
                                       { "from", "documentos" } ,
                                       { "let",
-                                        new BsonDocument("residenteid", "$_id") 
+                                        new BsonDocument("residenteid", "$_id")
                                       },
                                       { "pipeline",
                                             new BsonArray
@@ -384,7 +396,7 @@ namespace SISDOMI.Services
                                     .AppendStage<ResidenteAnnexDocumentoDTO>(lookupDocuments)
                                     .FirstOrDefaultAsync();
 
-            if(residenteAnnexDocumentoDTO.documentos.Count == 0)
+            if (residenteAnnexDocumentoDTO.documentos.Count == 0)
             {
                 residenteDTO = new ResidenteDTO()
                 {
@@ -422,7 +434,7 @@ namespace SISDOMI.Services
 
 
             return residenteDTO;
-           
+
         }
 
         public async Task<List<Residentes>> ListResidenteByFase(String fase)
@@ -447,7 +459,7 @@ namespace SISDOMI.Services
                     });
 
             var matchResidents = new BsonDocument("$match",
-                new BsonDocument("lastprogreso.fase", Convert.ToInt32(fase) ));
+                new BsonDocument("lastprogreso.fase", Convert.ToInt32(fase)));
 
             var projectFinalResident = new BsonDocument("$project",
                 new BsonDocument
