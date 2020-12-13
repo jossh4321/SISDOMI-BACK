@@ -49,6 +49,9 @@ namespace SISDOMI.Services
             _residente.InsertOne(residente);
             Expediente expediente = new Expediente();
             Fase fase = new Fase();
+
+
+
             Usuario usuario = new Usuario();
             expediente.idresidente = residente.id;
             expediente.fechainicio = residente.fechaIngreso;
@@ -62,6 +65,15 @@ namespace SISDOMI.Services
             _documentofase.InsertOne(fase);
             return residente;
         }
+
+
+        /*public Fase generarProgresoFase()
+        {
+            List<ProgresoFase> progreso = new List<ProgresoFase>() { new ProgresoFase() 
+            { documentotransicion= new DocumentacionTransicion(),
+                fase=1,educativa= new ContenidoFase() { estado="icompleto", documentos = new List<Documentos>(){ new Documentos() { estado="Pendiente", tipo=""} } } } }
+
+        }*/
 
         public async Task saveExpediente(Expediente expediente)
         {
