@@ -101,6 +101,13 @@ namespace SISDOMI.Controllers
            return await _fichaIngresoSocialService.obtenerResidientesFichaIngreso();
            }
 
+        [HttpGet("fichaingreso/idficha/{id}")]
+        public Object getFichaIngresoGenericaPorId(string id)
+        {
+            
+            return _fichaIngresoEducativoService.GetFichaIngresoDTO2PorId(id);
+        }
+
         [HttpGet("tipo/{tipo}/residente/{residenteid}")]
         [Authorize]
         public async Task<ActionResult<List<DocumentTypeResidentDTO>>> GetDocumentosByTypeAndResident(String tipo, String residenteid)
