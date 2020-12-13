@@ -50,4 +50,12 @@ namespace SISDOMI.DTOs
         public List<Anexo> anexos { get; set; } = new List<Anexo>();
         public List<DocumentoDTO> documentos { get; set; } = new List<DocumentoDTO>();
     }
+
+
+    public class ResidenteFaseDTO
+    {
+        public Residentes residente { get; set; }
+        public ProgresoFase? progresoFase { get; set; }
+        public bool promocion { get; set; }
+    }
 }

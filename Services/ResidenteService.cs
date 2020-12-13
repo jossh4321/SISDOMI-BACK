@@ -89,29 +89,41 @@ namespace SISDOMI.Services
         }
 
 
-        public Residentes ModifyUser(Residentes residente)
+        public Residentes ModifyUser(ResidenteFaseDTO residenteFase)
         {
-            var filter = Builders<Residentes>.Filter.Eq("id", residente.id);
+            if(residenteFase.promocion == true)
+            {
+                Fase fase = new Fase();
+                //fase.progreso.Add(residenteFase.progresoFase);
+                var filter2 = Builders<Fase>.Filter.Eq("idresidente", residenteFase.residente.id);
+                var update2 = Builders<Fase>.Update
+                    .Push("progreso", residenteFase.progresoFase);
+                _documentofase.FindOneAndUpdate<Fase>(filter2, update2);
+            }
+            var filter = Builders<Residentes>.Filter.Eq("id", residenteFase.residente.id);
             var update = Builders<Residentes>.Update
-                .Set("nombre", residente.nombre)
-                .Set("apellido", residente.apellido)
-                .Set("tipodocumento", residente.tipoDocumento)
-                .Set("numerodocumento", residente.numeroDocumento)
-                .Set("lugarnacimiento", residente.lugarNacimiento)
-                .Set("ubigeo", residente.ubigeo)
-                .Set("juzgadoprocedencia", residente.juzgadoProcedencia)
-                .Set("fechanacimiento", residente.fechaNacimiento)
-                .Set("sexo", residente.sexo)
-                .Set("telefonosreferencias", residente.telefonosReferencia)
-                .Set("fechaingreso", residente.fechaIngreso)
-                .Set("motivoingreso", residente.motivoIngreso)
-                .Set("progreso", residente.progreso)
-                .Set("estado", residente.estado);
-            residente = _residente.FindOneAndUpdate<Residentes>(filter, update, new FindOneAndUpdateOptions<Residentes>
+                .Set("nombre", residenteFase.residente.nombre)
+                .Set("apellido", residenteFase.residente.apellido)
+                .Set("tipodocumento", residenteFase.residente.tipoDocumento)
+                .Set("numerodocumento", residenteFase.residente.numeroDocumento)
+                .Set("lugarnacimiento", residenteFase.residente.lugarNacimiento)
+                .Set("ubigeo", residenteFase.residente.ubigeo)
+                .Set("juzgadoprocedencia", residenteFase.residente.juzgadoProcedencia)
+                .Set("fechanacimiento", residenteFase.residente.fechaNacimiento)
+                .Set("sexo", residenteFase.residente.sexo)
+                .Set("telefonosreferencias", residenteFase.residente.telefonosReferencia)
+                .Set("fechaingreso", residenteFase.residente.fechaIngreso)
+                .Set("motivoingreso", residenteFase.residente.motivoIngreso)
+                .Set("progreso", residenteFase.residente.progreso)
+                .Set("estado", residenteFase.residente.estado);
+            residenteFase.residente = _residente.FindOneAndUpdate<Residentes>(filter, update, new FindOneAndUpdateOptions<Residentes>
             {
                 ReturnDocument = ReturnDocument.After
             });
-            return residente;
+            
+
+
+            return residenteFase.residente;
         }
         public async Task<List<Residentes>> GetResidenteByNombre(String nombre)
         {

@@ -21,11 +21,12 @@ namespace SISDOMI.Controllers
     public class ResidenteController : ControllerBase
     {
         private readonly ResidenteService _residenteservice;
+        private readonly IFileStorage _fileStorage;
 
-        public ResidenteController(ResidenteService residenteservice)
+        public ResidenteController(ResidenteService residenteservice, IFileStorage fileStorage)
         {
-
             _residenteservice = residenteservice;
+            _fileStorage = fileStorage;
         }
 
         [HttpGet("all")]
@@ -53,9 +54,17 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPut("")]
-        public ActionResult<Residentes> PutResidente(Residentes residente)  //MODIFICAR RESIDENTE
+        public async Task<ActionResult<Residentes>> PutResidente(ResidenteFaseDTO residenteFase)  //MODIFICAR RESIDENTE
         {
-            Residentes objetoresidente = _residenteservice.ModifyUser(residente);
+            if(residenteFase.promocion == true)
+            {
+                if (!string.IsNullOrWhiteSpace(residenteFase.progresoFase.documentotransicion.firma.urlfirma))
+                {
+                    var imgfirma = Convert.FromBase64String(residenteFase.progresoFase.documentotransicion.firma.urlfirma);
+                    residenteFase.progresoFase.documentotransicion.firma.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "sesiones");
+                }
+            }  
+            Residentes objetoresidente = _residenteservice.ModifyUser(residenteFase);
             return objetoresidente;
         }
 
