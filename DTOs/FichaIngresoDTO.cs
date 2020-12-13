@@ -40,6 +40,12 @@ namespace SISDOMI.DTOs
         
     }
 
+    public class FichaIngresoDTO2 : Documento
+    {
+        [BsonElement("contenido")]
+        public object contenido { get; set; }
+    }
+
     public class FamiliarIngreso
     {
         public List<String> motivoingreso { get; set; } = new List<String>();

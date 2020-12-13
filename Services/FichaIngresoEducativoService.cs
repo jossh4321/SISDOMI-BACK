@@ -38,6 +38,12 @@ namespace SISDOMI.Services
 
             return listFichaIngresoEducativa;
         }
+        public Object GetFichaIngresoDTO2PorId(string id)
+        {
+            Object fichaIngreso = new Object();
+            fichaIngreso =  _documentos.Find(x => x.id == id).FirstOrDefault();
+            return fichaIngreso;
+        }
         public async  Task<FichaIngresoDTO> CreateFichaIngresoEducativo(FichaIngresoEducativa documento)
         {
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
