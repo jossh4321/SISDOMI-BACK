@@ -100,7 +100,7 @@ namespace SISDOMI.Controllers
         }
 
         [HttpGet("{residenteId}/expediente")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<ResidenteDTO>> GetResidenteAndAnnexesAndDocuments(String residenteId)
         {
             try
@@ -123,6 +123,20 @@ namespace SISDOMI.Controllers
             try
             {
                 List<Residentes> lstResidentes = await _residenteservice.ListResidenteByFase(fase);
+
+                return lstResidentes;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
+        [HttpPost("all/estadofase")]
+        public async Task<ActionResult<List<Residentes>>> GetAllByFaseAndDocument(ResidenteFaseDocumentoDTO obj)
+        {
+            try
+            {
+                List<Residentes> lstResidentes = await _residenteservice.ListResidentByFaseAndDocument(obj);
 
                 return lstResidentes;
             }

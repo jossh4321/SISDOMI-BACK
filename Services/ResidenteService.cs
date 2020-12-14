@@ -492,5 +492,52 @@ namespace SISDOMI.Services
             return lstResidentes;
 
         }
+
+        public async Task<List<Residentes>> ListResidentByFaseAndDocument(ResidenteFaseDocumentoDTO dtoFase)
+        {
+
+            List<Residentes> listResidentes;
+
+                var fields = new BsonDocument("$addFields",
+                         new BsonDocument("residenteid",
+                         new BsonDocument("$toString", "$_id")));
+
+            var lookup = new BsonDocument("$lookup",
+                         new BsonDocument
+                            {
+                                { "from", "fases" },
+                                { "localField", "residenteid" },
+                                { "foreignField", "idresidente" },
+                                { "as", "fases" }
+                            });
+
+            var match = new BsonDocument("$match",
+                        new BsonDocument
+                            {
+                                { "fases.progreso.fase", Convert.ToInt32(dtoFase.fase) },
+                                { "fases.progreso."+dtoFase.area+".documentos.tipo",
+                        new BsonDocument("$in",
+                        new BsonArray(dtoFase.documentos)) },
+                                { "fases.progreso."+dtoFase.area+".documentos.estado", "Pendiente" },
+                                { "fases.progreso."+dtoFase.area+".estado", "incompleto" }
+                            });
+
+            var project = new BsonDocument("$project",
+                          new BsonDocument
+                         {
+                            { "fases", 0 },
+                            { "residenteid", 0 }
+                         });
+
+            listResidentes = await _residente.Aggregate()
+                                    .AppendStage<dynamic>(fields)
+                                    .AppendStage<dynamic>(lookup)
+                                    .AppendStage<dynamic>(match)
+                                    .AppendStage<Residentes>(project)
+                                    .ToListAsync();
+
+            return listResidentes;
+
+        }
     }
 }
