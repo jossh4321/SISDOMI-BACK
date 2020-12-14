@@ -59,6 +59,13 @@ namespace SISDOMI.DTOs
         public bool promocion { get; set; }
     }
 
+    public class ResidenteFaseDocumentoDTO
+    {
+        public string fase { get; set; }
+        public string area { get; set; }
+        public List<string> documentos { get; set; }
+    }
+
     public class ResidenteDTO2 : Residentes
     {
         //DTO para registrar datos del usuario creador en el documento de la coleccion Fases
