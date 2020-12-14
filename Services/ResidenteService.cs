@@ -44,36 +44,112 @@ namespace SISDOMI.Services
             documento = _documento.Find(documento => documento.idresidente == id).FirstOrDefault();
             return documento;
         }
-        public async Task<Residentes> CreateUser(Residentes residente)
+        public async Task<Residentes> CreateUser(ResidenteDTO2 residente)
         {
-            _residente.InsertOne(residente);
+            Residentes res = new Residentes();
+            //res.id = residente.id;
+            res.nombre = residente.nombre;
+            res.apellido = residente.apellido;
+            res.tipoDocumento = residente.tipoDocumento;
+            res.numeroDocumento = residente.numeroDocumento;
+            res.lugarNacimiento = residente.lugarNacimiento;
+            res.ubigeo = residente.ubigeo;
+            res.juzgadoProcedencia = residente.juzgadoProcedencia;
+            res.fechaNacimiento = residente.fechaNacimiento;
+            res.sexo = residente.sexo;
+            res.telefonosReferencia = residente.telefonosReferencia;
+            res.fechaIngreso = residente.fechaIngreso;
+            res.motivoIngreso = residente.motivoIngreso;
+            res.progreso = residente.progreso;
+            res.estado = residente.estado;
+            _residente.InsertOne(res);
             Expediente expediente = new Expediente();
-            Fase fase = new Fase();
-
-
-
-            Usuario usuario = new Usuario();
-            expediente.idresidente = residente.id;
+            var fase= generarProgresoFase(residente, res.id);
+            expediente.idresidente = res.id;
             expediente.fechainicio = residente.fechaIngreso;
-            fase.idresidente = residente.id;
-            fase.progreso = new List<ProgresoFase>();
-            fase.progreso.Add(new ProgresoFase());
-            fase.progreso[0].fase = residente.progreso[0].fase;
-            fase.progreso[0].documentotransicion.fecha = residente.progreso[0].fechaingreso;
-            //fase.progreso[0].documentotransicion.idcreador = usuario.id;
             await saveExpediente(expediente);
             _documentofase.InsertOne(fase);
-            return residente;
+            return res;
         }
 
 
-        /*public Fase generarProgresoFase()
+        public Fase generarProgresoFase(ResidenteDTO2 residente, string id)
         {
-            List<ProgresoFase> progreso = new List<ProgresoFase>() { new ProgresoFase() 
-            { documentotransicion= new DocumentacionTransicion(),
-                fase=1,educativa= new ContenidoFase() { estado="icompleto", documentos = new List<Documentos>(){ new Documentos() { estado="Pendiente", tipo=""} } } } }
-
-        }*/
+            Fase fase = new Fase();
+            fase.idresidente = id;
+            fase.progreso = new List<ProgresoFase>();
+            fase.progreso.Add(new ProgresoFase());
+            fase.progreso[0].educativa = new ContenidoFase()
+            {
+                estado = "incompleto",
+                documentos = new List<Documentos>()
+                    {
+                        new Documentos() { estado = "Pendiente", tipo = "FichaEducativaIngreso" },
+                        new Documentos() { estado = "Pendiente", tipo = "InformeEducativoInicial" },
+                        new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualEducativo" },
+                        new Documentos() { estado = "Pendiente", tipo = "InformeSeguimientoEducativo" },
+                    }
+            };
+            if (residente.progreso.Count() > 1 )
+            {
+                fase.progreso.Add(new ProgresoFase());
+                if (residente.progreso[1].fase == 2)
+                {   
+                    fase.progreso[1].educativa = new ContenidoFase()
+                    {
+                        estado = "incompleto",
+                        documentos = new List<Documentos>()
+                        {
+                            new Documentos() { estado = "Pendiente", tipo = "InformeEducativoEvolutivo" },
+                        }
+                    };
+                }
+                else if (residente.progreso[1].fase == 3)
+                {
+                    fase.progreso[1].educativa = new ContenidoFase()
+                    {
+                        estado = "incompleto",
+                        documentos = new List<Documentos>()
+                        {
+                            new Documentos() { estado = "Pendiente", tipo = "InformeEducativoFinal" },
+                        }
+                    };
+                }
+            }
+            if (residente.progreso.Count() > 2)
+            {
+                fase.progreso.Add(new ProgresoFase());
+                fase.progreso[2].educativa = new ContenidoFase()
+                {
+                    estado = "icompleto",
+                    documentos = new List<Documentos>()
+                    {
+                        new Documentos() { estado = "Pendiente", tipo = "InformeEducativoFinal" },
+                    }
+                };
+            }
+            if (residente.progreso.Count() > 3)
+            {
+                fase.progreso.Add(new ProgresoFase());
+                fase.progreso[3].educativa = new ContenidoFase()
+                {
+                    estado = "icompleto",
+                    documentos = new List<Documentos>()
+                    {
+                        new Documentos() { estado = "Pendiente", tipo = "NO SE QUE DOCUMENTO VA AQUI" },
+                    }
+                };
+            }
+            for (int i = 0; i < fase.progreso.Count(); i++)
+            {
+                fase.progreso[i].fase = residente.progreso[i].fase;
+                fase.progreso[i].documentotransicion.fecha = residente.progreso[i].fechaingreso;
+                fase.progreso[i].documentotransicion.idcreador = residente.idcreador;
+                fase.progreso[i].documentotransicion.observaciones = residente.observaciones;
+                fase.progreso[i].documentotransicion.firma = residente.firma;
+            }
+            return fase;
+        }
 
         public async Task saveExpediente(Expediente expediente)
         {

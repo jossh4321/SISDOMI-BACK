@@ -47,7 +47,7 @@ namespace SISDOMI.Controllers
             return _residenteservice.GetByIdDoc(id); 
         }
         [HttpPost("")]
-        public async Task<ActionResult<Residentes>> PostResidente(Residentes residente) //CREAR RESIDENTE
+        public async Task<ActionResult<Residentes>> PostResidente(ResidenteDTO2 residente) //CREAR RESIDENTE
         {
             Residentes objetoresidente = await _residenteservice.CreateUser(residente);
             return objetoresidente;
