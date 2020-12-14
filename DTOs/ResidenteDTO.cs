@@ -63,7 +63,10 @@ namespace SISDOMI.DTOs
     {
         public string fase { get; set; }
         public string area { get; set; }
-        public List<string> documentos { get; set; }
+        public string documentoanterior { get; set; }
+        public string documentoactual { get; set; }
+        public string estadodocumentoanterior { get; set; }
+        //public List<string> documentos { get; set; }
     }
 
     public class ResidenteDTO2 : Residentes

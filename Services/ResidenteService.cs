@@ -586,7 +586,7 @@ namespace SISDOMI.Services
 
             List<Residentes> listResidentes;
 
-                var fields = new BsonDocument("$addFields",
+            var fields = new BsonDocument("$addFields",
                          new BsonDocument("residenteid",
                          new BsonDocument("$toString", "$_id")));
 
@@ -599,27 +599,62 @@ namespace SISDOMI.Services
                                 { "as", "fases" }
                             });
 
-            var match = new BsonDocument("$match",
-                        new BsonDocument
+            var unwind = new BsonDocument("$unwind",
+                         new BsonDocument
+                         {
+                            { "path", "$fases" },
+                            { "preserveNullAndEmptyArrays", true }
+                         });
+            var addfields = new BsonDocument("$addFields",
+                            new BsonDocument("ultimafase",
+                            new BsonDocument("$arrayElemAt",
+                            new BsonArray
                             {
-                                { "fases.progreso.fase", Convert.ToInt32(dtoFase.fase) },
-                                { "fases.progreso."+dtoFase.area+".documentos.tipo",
-                        new BsonDocument("$in",
-                        new BsonArray(dtoFase.documentos)) },
-                                { "fases.progreso."+dtoFase.area+".documentos.estado", "Pendiente" },
-                                { "fases.progreso."+dtoFase.area+".estado", "incompleto" }
-                            });
+                                "$progreso",
+                                -1
+                            })));
+            var match = new BsonDocument("$match",
+                        new BsonDocument("$and",
+                        new BsonArray
+                        {
+                            new BsonDocument("ultimafase.fase", Convert.ToInt32(dtoFase.fase)),
+                            new BsonDocument("fases.progreso."+dtoFase.area+".estado", "incompleto"),
+                            new BsonDocument("fases.progreso."+dtoFase.area+".documentos",
+                            new BsonDocument("$in",
+                            new BsonArray
+                            {
+                                new BsonDocument
+                                {
+                                    { "tipo", dtoFase.documentoanterior },
+                                    { "estado", dtoFase.estadodocumentoanterior }
+                                }
+                            })),
+                            new BsonDocument("fases.progreso.educativa.documentos",
+                            new BsonDocument("$not",
+                            new BsonDocument("$in",
+                            new BsonArray
+                            {
+                                new BsonDocument
+                                {
+                                    { "tipo", dtoFase.documentoactual },
+                                    { "estado", "Registrado" }
+                                }
+                            })))
+                        }));
 
             var project = new BsonDocument("$project",
                           new BsonDocument
-                         {
+                          {
                             { "fases", 0 },
-                            { "residenteid", 0 }
-                         });
+                            { "residenteid", 0 },
+                            { "ultimafase", 0 }
+                          });
 
             listResidentes = await _residente.Aggregate()
                                     .AppendStage<dynamic>(fields)
                                     .AppendStage<dynamic>(lookup)
+                                    .AppendStage<dynamic>(unwind)
+                                    .AppendStage<dynamic>(addfields)
                                     .AppendStage<dynamic>(match)
                                     .AppendStage<Residentes>(project)
                                     .ToListAsync();
