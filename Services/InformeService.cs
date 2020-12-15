@@ -128,6 +128,7 @@ namespace SISDOMI.Services
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
             _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+            Fase fase = faseService.ModifyStateForDocument(informe.idresidente, informe.fase, informe.area, informe.tipo);
             return informe;
         }
         public async Task<InformeEducativoEvolutivo> RegistrarInformeEE(InformeEducativoEvolutivo informe)
@@ -142,6 +143,7 @@ namespace SISDOMI.Services
                 iddocumento = informe.id
             };
             await expedienteService.UpdateDocuments(docexpe, expediente.id);
+            Fase fase = faseService.ModifyStateForDocument(informe.idresidente, informe.fase, informe.area, informe.tipo);
             return informe;
         }
         public async Task<InformeSocialInicial> RegistrarInformeSI(InformeSocialInicial informe)
