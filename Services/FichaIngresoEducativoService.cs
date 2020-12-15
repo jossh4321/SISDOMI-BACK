@@ -60,8 +60,9 @@ namespace SISDOMI.Services
             return documento;
           
         }
-        public FichaIngresoEducativa ModifyFichaIngresoEducativa(FichaIngresoEducativa documento)
+        public async Task<FichaIngresoDTO> ModifyFichaIngresoEducativa(FichaIngresoEducativa documento)
         {
+            FichaIngresoDTO fichaIngresoDTO = new FichaIngresoDTO();
             var filter = Builders<Documento>.Filter.Eq("id", documento.id);
             var update = Builders<Documento>.Update
                 .Set("tipo", documento.tipo)
@@ -78,7 +79,8 @@ namespace SISDOMI.Services
                 ReturnDocument = ReturnDocument.After
             });
             documento = doc as FichaIngresoEducativa;
-            return documento;
+            fichaIngresoDTO = await fichaIngresoSocialService.obtenerResidienteFichaIngreso(documento.id);
+            return fichaIngresoDTO;
         }
 
         public FichaIngresoEducativa GetByResidenteId(string idResidente)
