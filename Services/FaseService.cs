@@ -23,7 +23,12 @@ namespace SISDOMI.Services
             _documentofase = database.GetCollection<Fase>("fases");
 
         }
-
+        public Fase GetByIdResidente(string idresidente)
+        {
+            Fase fase = new Fase();
+            fase = _documentofase.Find(fase => fase.idresidente == idresidente).FirstOrDefault();
+            return fase;
+        }
         public Fase ModifyFase(Fase documentofase)
         {
             var filter = Builders<Fase>.Filter.Eq("id", documentofase.id);
@@ -38,5 +43,61 @@ namespace SISDOMI.Services
             return documentofase;
         }
 
+        public Fase ModifyStateForDocument(string idresidente, string fase, string area, string tipodocumento)
+        {
+            Fase faseactualizar = GetByIdResidente(idresidente);
+            for (int i = 0; i < faseactualizar.progreso.Count ; i++)
+            {
+                if (i == Convert.ToInt32(fase)-1)
+                {
+                    if (area == "educativa")
+                    {
+                        faseactualizar.progreso[i].educativa.estado = "completo";
+                        for (int j = 0; j < faseactualizar.progreso[i].educativa.documentos.Count;j++)
+                        {
+                            if(faseactualizar.progreso[i].educativa.documentos[j].tipo == tipodocumento)
+                            {
+                                faseactualizar.progreso[i].educativa.documentos[j].estado = "Completo";
+                            }
+                            if (!(faseactualizar.progreso[i].educativa.documentos[j].estado == "Completo"))
+                            {
+                                faseactualizar.progreso[i].educativa.estado = "incompleto";
+                            }
+                        }
+                    }
+                    else if (area == "social")
+                    {
+                        faseactualizar.progreso[i].social.estado = "completo";
+                        for (int j = 0; j < faseactualizar.progreso[i].social.documentos.Count; j++)
+                        {
+                            if (faseactualizar.progreso[i].social.documentos[j].tipo == tipodocumento)
+                            {
+                                faseactualizar.progreso[i].social.documentos[j].estado = "Completo";
+                            }
+                            if(!(faseactualizar.progreso[i].social.documentos[j].estado == "Completo"))
+                            {
+                                faseactualizar.progreso[i].social.estado = "incompleto";
+                            }
+                        }
+                    }
+                    else if (area == "psicologica")
+                    {
+                        faseactualizar.progreso[i].psicologica.estado = "completo";
+                        for (int j = 0; j < faseactualizar.progreso[i].psicologica.documentos.Count; j++)
+                        {
+                            if (faseactualizar.progreso[i].psicologica.documentos[j].tipo == tipodocumento)
+                            {
+                                faseactualizar.progreso[i].psicologica.documentos[j].estado = "Completo";
+                            }
+                            if (!(faseactualizar.progreso[i].psicologica.documentos[j].estado == "Completo"))
+                            {
+                                faseactualizar.progreso[i].psicologica.estado = "incompleto";
+                            }
+                        }
+                    }
+                }
+            }
+            return ModifyFase(faseactualizar);
+        }
     }
 }

@@ -15,9 +15,10 @@ namespace SISDOMI.Services
         private readonly IMongoCollection<Documento> _documentos;
         private readonly IMongoCollection<Expediente> _expedientes;
         private readonly ExpedienteService expedienteService;
+        private readonly FaseService faseService;
         private readonly IDocument document;
 
-        public InformeService(ISysdomiDatabaseSettings settings, IDocument document, ExpedienteService expedienteService)
+        public InformeService(ISysdomiDatabaseSettings settings, IDocument document, ExpedienteService expedienteService, FaseService faseService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -25,6 +26,7 @@ namespace SISDOMI.Services
             _documentos = database.GetCollection<Documento>("documentos");
             _expedientes = database.GetCollection<Expediente>("expedientes");
             this.expedienteService = expedienteService;
+            this.faseService = faseService;
             this.document = document;
         }
 
