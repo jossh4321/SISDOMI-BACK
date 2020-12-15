@@ -52,8 +52,8 @@ namespace SISDOMI.Controllers
             }
             return await _diagnosticoeducativoservice.RegistrarFichaEvaluacionDE(informe);
         }
-        [HttpPut("informese")]
-        public async Task<ActionResult<FichaEvaluacionDiagnosticoEducativo>> ModificarInformeSE(FichaEvaluacionDiagnosticoEducativo informe)
+        [HttpPut("fichaEvaluacionDE")]
+        public async Task<ActionResult<FichaEvaluacionDiagnosticoEducativo>> ModificarFichaEvaluacionDE(FichaEvaluacionDiagnosticoEducativo informe)
         {
             foreach (var item in informe.contenido.firmas)
             {
