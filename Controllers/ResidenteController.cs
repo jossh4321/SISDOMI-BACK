@@ -132,7 +132,8 @@ namespace SISDOMI.Controllers
             }
         }
         [HttpPost("all/estadofase")]
-        public async Task<ActionResult<List<Residentes>>> GetAllByFaseAndDocument(ResidenteFaseDocumentoDTO obj)
+        public async Task<ActionResult<List<Residentes>>> GetAllByFaseAndDocument
+            (ResidenteFaseDocumentoDTO obj)
         {
             try
             {
