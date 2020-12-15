@@ -70,7 +70,7 @@ namespace SISDOMI.Services
                                                    "Informe" + area + "Inicial",
                                                    "Informe" + area + "Evolutivo",
                                                    "Informe" + area + "Final",
-                                                   "PlanIntervencionIndividual"
+                                                   "PlanIntervencionIndividual" + area
                                                }
                                            })
 
@@ -197,5 +197,86 @@ namespace SISDOMI.Services
 
             return documentoExpedienteDTO;
         }
+
+        public async Task<FichaIngresoDetalleDTO> getFichaIngresoDetalleDtoById(string id)
+        {
+            var match = new BsonDocument("$match",
+                           new BsonDocument("_id",
+                           new ObjectId(id)));
+            var lookup1 = new BsonDocument("$lookup",
+                             new BsonDocument
+                                 {
+                                    { "from", "residentes" },
+                                    { "let",
+                            new BsonDocument("idres", "$idresidente") },
+                                    { "pipeline",
+                            new BsonArray
+                                    {
+                                        new BsonDocument("$match",
+                                        new BsonDocument("$expr",
+                                        new BsonDocument("$eq",
+                                        new BsonArray
+                                                    {
+                                                        "$_id",
+                                                        new BsonDocument("$toObjectId", "$$idres")
+                                                    })))
+                                    } },
+                                    { "as", "residente" }
+                                 });
+            var lookup2 = new BsonDocument("$lookup",
+                                new BsonDocument
+                                    {
+                                        { "from", "usuarios" },
+                                        { "let",
+                                new BsonDocument("idcrea", "$creadordocumento") },
+                                        { "pipeline",
+                                new BsonArray
+                                        {
+                                            new BsonDocument("$match",
+                                            new BsonDocument("$expr",
+                                            new BsonDocument("$eq",
+                                            new BsonArray
+                                                        {
+                                                            "$_id",
+                                                            new BsonDocument("$toObjectId", "$$idcrea")
+                                                        })))
+                                        } },
+                                        { "as", "autor" }
+                                    });
+            var project = new BsonDocument("$project",
+                                new BsonDocument
+                                    {
+                                        { "_id", "$_id" },
+                                        { "tipo", "$tipo" },
+                                        { "historialcontenido", "$historialcontenido" },
+                                        { "creadordocumento",
+                                new BsonDocument("$arrayElemAt",
+                                new BsonArray
+                                            {
+                                                "$autor",
+                                                0
+                                            }) },
+                                        { "fechacreacion", "$fechacreacion" },
+                                        { "area", "$area" },
+                                        { "fase", "$fase" },
+                                        { "residente",
+                                new BsonDocument("$arrayElemAt",
+                                new BsonArray
+                                            {
+                                                "$residente",
+                                                0
+                                            }) },
+                                        { "contenido", "$contenido" }
+                                    });
+            FichaIngresoDetalleDTO fichaIngresoDetalle = await _documentos.Aggregate()
+                .AppendStage<dynamic>(match)
+                .AppendStage<dynamic>(lookup1)
+                                .AppendStage<dynamic>(lookup2)
+                                .AppendStage<FichaIngresoDetalleDTO>(project).FirstOrDefaultAsync();
+            return fichaIngresoDetalle;
+
+
+
+    }
     }
 }

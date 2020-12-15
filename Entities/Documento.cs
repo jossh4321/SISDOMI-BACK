@@ -424,7 +424,7 @@ namespace SISDOMI.Entities
     public class Estudios
     {
         public String nivel { get; set; } //INICIAL-PRIMARIA-SECUNDARIA
-        public List<String> observaciones { get; set; }
+        public String observaciones { get; set; }
     }
     public class Aspectos
     {

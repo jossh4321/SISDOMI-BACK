@@ -56,10 +56,10 @@ namespace SISDOMI.Controllers
             return objetofichaSocial;
         }
         [HttpPut("fichaingresoeducativa")]
-        public ActionResult<FichaIngresoEducativa> PutFichaIngresoEducativa(FichaIngresoEducativa documento)
+        public async Task<ActionResult<FichaIngresoDTO>> PutFichaIngresoEducativa(FichaIngresoEducativa documento)
         {
 
-            FichaIngresoEducativa objetofichaEducativa = _fichaIngresoEducativoService.ModifyFichaIngresoEducativa(documento);
+            FichaIngresoDTO objetofichaEducativa = await  _fichaIngresoEducativoService.ModifyFichaIngresoEducativa(documento);
             return objetofichaEducativa;
         }
         [HttpPut("fichaingresopsicologica")]
@@ -100,6 +100,18 @@ namespace SISDOMI.Controllers
            {
            return await _fichaIngresoSocialService.obtenerResidientesFichaIngreso();
            }
+        [HttpGet("fichaingreso/detalle/{id}")]
+        public async Task<ActionResult<FichaIngresoDetalleDTO>> GetFichaIngresoResidenteDetalle(string id)
+        {
+            return await documentoService.getFichaIngresoDetalleDtoById(id);
+        }
+
+        [HttpGet("fichaingreso/idficha/{id}")]
+        public Object getFichaIngresoGenericaPorId(string id)
+        {
+            
+            return _fichaIngresoEducativoService.GetFichaIngresoDTO2PorId(id);
+        }
 
         [HttpGet("tipo/{tipo}/residente/{residenteid}")]
         [Authorize]

@@ -15,9 +15,10 @@ namespace SISDOMI.Services
         private readonly IMongoCollection<Documento> _documentos;
         private readonly IMongoCollection<Expediente> _expedientes;
         private readonly ExpedienteService expedienteService;
+        private readonly FaseService faseService;
         private readonly IDocument document;
 
-        public InformeService(ISysdomiDatabaseSettings settings, IDocument document, ExpedienteService expedienteService)
+        public InformeService(ISysdomiDatabaseSettings settings, IDocument document, ExpedienteService expedienteService, FaseService faseService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -25,6 +26,7 @@ namespace SISDOMI.Services
             _documentos = database.GetCollection<Documento>("documentos");
             _expedientes = database.GetCollection<Expediente>("expedientes");
             this.expedienteService = expedienteService;
+            this.faseService = faseService;
             this.document = document;
         }
 
@@ -126,6 +128,7 @@ namespace SISDOMI.Services
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
             _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+            Fase fase = faseService.ModifyStateForDocument(informe.idresidente, informe.fase, informe.area, informe.tipo);
             return informe;
         }
         public async Task<InformeEducativoEvolutivo> RegistrarInformeEE(InformeEducativoEvolutivo informe)
@@ -140,6 +143,7 @@ namespace SISDOMI.Services
                 iddocumento = informe.id
             };
             await expedienteService.UpdateDocuments(docexpe, expediente.id);
+            Fase fase = faseService.ModifyStateForDocument(informe.idresidente, informe.fase, informe.area, informe.tipo);
             return informe;
         }
         public async Task<InformeSocialInicial> RegistrarInformeSI(InformeSocialInicial informe)

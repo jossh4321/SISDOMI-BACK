@@ -15,11 +15,13 @@ namespace SISDOMI.Services
         private readonly IMongoCollection<Documento> _documentos;
         private readonly ExpedienteService expedienteService;
         private readonly FichaIngresoSocialService fichaIngresoSocialService;
+        private readonly FaseService faseService;
         private readonly IDocument document;
 
         public FichaIngresoEducativoService(ISysdomiDatabaseSettings settings, 
             ExpedienteService expedienteService, IDocument document,
-            FichaIngresoSocialService fichaIngresoSocialService)
+            FichaIngresoSocialService fichaIngresoSocialService,
+            FaseService faseService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -28,6 +30,7 @@ namespace SISDOMI.Services
 
             this.expedienteService = expedienteService;
             this.fichaIngresoSocialService = fichaIngresoSocialService;
+            this.faseService = faseService;
             this.document = document;
         }
         public List<FichaIngresoEducativa> GetAll()
@@ -38,6 +41,12 @@ namespace SISDOMI.Services
 
             return listFichaIngresoEducativa;
         }
+        public Object GetFichaIngresoDTO2PorId(string id)
+        {
+            Object fichaIngreso = new Object();
+            fichaIngreso =  _documentos.Find(x => x.id == id).FirstOrDefault();
+            return fichaIngreso;
+        }
         public async  Task<FichaIngresoDTO> CreateFichaIngresoEducativo(FichaIngresoEducativa documento)
         {
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
@@ -45,6 +54,7 @@ namespace SISDOMI.Services
             documento.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, documento.tipo, expediente.documentos.Count + 1);
             await _documentos.InsertOneAsync(documento);
             FichaIngresoDTO fichaIngresoEducativa =  await fichaIngresoSocialService.obtenerResidienteFichaIngreso(documento.id);
+            Fase fase = faseService.ModifyStateForDocument(documento.idresidente, documento.fase, documento.area, documento.tipo);
             return fichaIngresoEducativa;
         }
         public FichaIngresoEducativa GetById(string id)
@@ -54,8 +64,9 @@ namespace SISDOMI.Services
             return documento;
           
         }
-        public FichaIngresoEducativa ModifyFichaIngresoEducativa(FichaIngresoEducativa documento)
+        public async Task<FichaIngresoDTO> ModifyFichaIngresoEducativa(FichaIngresoEducativa documento)
         {
+            FichaIngresoDTO fichaIngresoDTO = new FichaIngresoDTO();
             var filter = Builders<Documento>.Filter.Eq("id", documento.id);
             var update = Builders<Documento>.Update
                 .Set("tipo", documento.tipo)
@@ -72,7 +83,8 @@ namespace SISDOMI.Services
                 ReturnDocument = ReturnDocument.After
             });
             documento = doc as FichaIngresoEducativa;
-            return documento;
+            fichaIngresoDTO = await fichaIngresoSocialService.obtenerResidienteFichaIngreso(documento.id);
+            return fichaIngresoDTO;
         }
 
         public FichaIngresoEducativa GetByResidenteId(string idResidente)

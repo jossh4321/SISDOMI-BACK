@@ -17,8 +17,9 @@ namespace SISDOMI.Services
         private readonly ExpedienteService expedienteService;
         private readonly IDocument document;
         private readonly RolService rolService;
-        
-        public PlanIntervencionIndividualService(ISysdomiDatabaseSettings settings, ExpedienteService expedienteService, IDocument document, RolService rolService)
+        private readonly FaseService faseService;
+
+        public PlanIntervencionIndividualService(ISysdomiDatabaseSettings settings, ExpedienteService expedienteService, IDocument document, RolService rolService, FaseService faseService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -27,6 +28,7 @@ namespace SISDOMI.Services
 
             this.expedienteService = expedienteService;
             this.rolService = rolService;
+            this.faseService = faseService;
             this.document = document;
         }
 
@@ -39,7 +41,27 @@ namespace SISDOMI.Services
            // listPlanIntervencionIndividuals =_documentos.AsQueryable().OfType<PlanIntervencionIndividual>().ToList();
 
             //Para obtener un tipo específico usando el match
-            var matchPlan = new BsonDocument("$match", new BsonDocument("tipo", "PlanIntervencionIndividual"));
+            var matchPlan = new BsonDocument("$match",
+                                             new BsonDocument("$expr",
+                                                               new BsonDocument("$or",
+                                                               new BsonArray 
+                                                               {
+                                                                   new BsonDocument("$eq",
+                                                                   new BsonArray {
+                                                                       "$tipo",
+                                                                       "PlanIntervencionIndividualEducativo"
+                                                                   }),
+                                                                   new BsonDocument("$eq",
+                                                                   new BsonArray {
+                                                                       "$tipo",
+                                                                       "PlanIntervencionIndividualSocial"
+                                                                   }),
+                                                                   new BsonDocument("$eq",
+                                                                   new BsonArray {
+                                                                       "$tipo",
+                                                                       "PlanIntervencionIndividualPsicologico"
+                                                                   })
+                                                               })));
 
             //Para obtener los datos del residente usando el lookup
             var lookupPlan = new BsonDocument("$lookup", new BsonDocument
@@ -212,12 +234,17 @@ namespace SISDOMI.Services
                                                                 "$area",
                                                                 "$$area"
                                                             }),
-                                                            new BsonDocument("$ne",
-                                                            new BsonArray
-                                                            {
+                                                            new BsonDocument("$not",
+                                                            new BsonDocument("$in",
+                                                            new BsonArray {
                                                                 "$tipo",
-                                                                "PlanIntervencionIndividual"
-                                                            })
+                                                                new BsonArray
+                                                                {
+                                                                    "PlanIntervencionIndividualPsicologico",
+                                                                    "PlanIntervencionIndividualSocial",
+                                                                    "PlanIntervencionIndividualEducativo"
+                                                                }
+                                                            }))
                                                         })))
                                                     }
                                               },
@@ -275,7 +302,7 @@ namespace SISDOMI.Services
             };
 
             await expedienteService.UpdateDocuments(documentoExpediente, expediente.id);
-
+            Fase fase = faseService.ModifyStateForDocument(planIntervencionIndividual.planintervencionindividual.idresidente, planIntervencionIndividual.planintervencionindividual.fase, planIntervencionIndividual.planintervencionindividual.area, planIntervencionIndividual.planintervencionindividual.tipo);
             return planIntervencionIndividual.planintervencionindividual;
         }
 
