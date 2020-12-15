@@ -306,7 +306,7 @@ namespace SISDOMI.Services
                                                     new BsonDocument("$in",
                                                     new BsonArray
                                                     {
-                                                        "$lastprogress.nombre",
+                                                        new BsonDocument("$toString", "$lastprogress.fase"),
                                                         "$documentos.fase"
                                                     }),
                                                     false
