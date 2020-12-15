@@ -637,7 +637,7 @@ namespace SISDOMI.Services
                                     { "estado", dtoFase.estadodocumentoanterior }
                                 }
                             })),
-                            new BsonDocument("fases.progreso.educativa.documentos",
+                            new BsonDocument("fases.progreso."+dtoFase.area+".documentos",
                             new BsonDocument("$not",
                             new BsonDocument("$in",
                             new BsonArray
@@ -645,7 +645,7 @@ namespace SISDOMI.Services
                                 new BsonDocument
                                 {
                                     { "tipo", dtoFase.documentoactual },
-                                    { "estado", "Registrado" }
+                                    { "estado", "Completo" }
                                 }
                             })))
                         }));
@@ -671,4 +671,3 @@ namespace SISDOMI.Services
 
         }
     }
-}

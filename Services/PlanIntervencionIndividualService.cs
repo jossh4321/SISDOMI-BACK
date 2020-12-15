@@ -17,8 +17,9 @@ namespace SISDOMI.Services
         private readonly ExpedienteService expedienteService;
         private readonly IDocument document;
         private readonly RolService rolService;
-        
-        public PlanIntervencionIndividualService(ISysdomiDatabaseSettings settings, ExpedienteService expedienteService, IDocument document, RolService rolService)
+        private readonly FaseService faseService;
+
+        public PlanIntervencionIndividualService(ISysdomiDatabaseSettings settings, ExpedienteService expedienteService, IDocument document, RolService rolService, FaseService faseService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -27,6 +28,7 @@ namespace SISDOMI.Services
 
             this.expedienteService = expedienteService;
             this.rolService = rolService;
+            this.faseService = faseService;
             this.document = document;
         }
 
@@ -300,7 +302,7 @@ namespace SISDOMI.Services
             };
 
             await expedienteService.UpdateDocuments(documentoExpediente, expediente.id);
-
+            Fase fase = faseService.ModifyStateForDocument(planIntervencionIndividual.planintervencionindividual.idresidente, planIntervencionIndividual.planintervencionindividual.fase, planIntervencionIndividual.planintervencionindividual.area, planIntervencionIndividual.planintervencionindividual.tipo);
             return planIntervencionIndividual.planintervencionindividual;
         }
 

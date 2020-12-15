@@ -52,6 +52,21 @@ namespace SISDOMI.Controllers
 
             return imageUrl;
         }
+        [HttpPut("archivos/pdf/{*urlarchivo}")]
+        public async Task<ActionResult<String>> PutArchivo(string urlarchivo, IFormFile file)
+        {
+            String imageUrl;
+            try
+            {
+                imageUrl = await mediaService.ModificarListaArchivos(file, urlarchivo);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+
+            return imageUrl;
+        }
         //talleres
         [HttpPost("talleres")]
         public async Task<ActionResult<String>> PostImageTalleres(IFormFile file)
@@ -101,6 +116,22 @@ namespace SISDOMI.Controllers
             }
 
             return imageUrl;
+        }
+        [HttpPost("archivos/pdf/delete")]
+        public async Task<ActionResult<String>> DeleteFilePdf(List<String> listaUrls)
+        {
+            String imageUrl;
+            try
+            {
+                await mediaService.EliminarListaArchivos(listaUrls);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+
+            return "completado";
         }
 
 

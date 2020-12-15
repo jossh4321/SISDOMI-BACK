@@ -90,5 +90,28 @@ namespace SISDOMI.Services
 
             return urlImage;
         }
+
+        public async Task<String> ModificarListaArchivos(IFormFile mediaInfo, string urlfirma)
+        {
+            String urlImage = "";
+
+            using (var stream = new MemoryStream())
+            {
+                await mediaInfo.CopyToAsync(stream);
+                urlImage = await fileStorage.EditFile(stream.ToArray(), "pdf", "archivos", urlfirma);
+            }
+
+            return urlImage;
+        }
+
+        public async Task EliminarListaArchivos(List<String> listaFirmas)
+        {
+            String urlImage = "";
+
+            listaFirmas.ForEach(async x => 
+            {
+               await fileStorage.DeleteFile(x, "archivos");
+            });
+        }
     }
 }
