@@ -46,6 +46,27 @@ namespace SISDOMI.DTOs
         public object contenido { get; set; }
     }
 
+    public class FichaIngresoDetalleDTO
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string id { get; set; }
+        [BsonElement("tipo")]
+        public string tipo { get; set; }
+        [BsonElement("historialcontenido")]
+        public List<string> historialContenido { get; set; }
+        [BsonElement("creadordocumento")]
+        public Usuario creadorDocumento { get; set; }
+        [BsonElement("fechacreacion")]
+        public DateTime fechaCreacion { get; set; }
+        [BsonElement("area")]
+        public string area { get; set; }
+        [BsonElement("fase")]
+        public string fase { get; set; }
+        public Object contenido { get; set; }
+        public Residentes residente { get; set; }
+    }
+
     public class FamiliarIngreso
     {
         public List<String> motivoingreso { get; set; } = new List<String>();

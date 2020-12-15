@@ -100,6 +100,11 @@ namespace SISDOMI.Controllers
            {
            return await _fichaIngresoSocialService.obtenerResidientesFichaIngreso();
            }
+        [HttpGet("fichaingreso/detalle/{id}")]
+        public async Task<ActionResult<FichaIngresoDetalleDTO>> GetFichaIngresoResidenteDetalle(string id)
+        {
+            return await documentoService.getFichaIngresoDetalleDtoById(id);
+        }
 
         [HttpGet("fichaingreso/idficha/{id}")]
         public Object getFichaIngresoGenericaPorId(string id)
