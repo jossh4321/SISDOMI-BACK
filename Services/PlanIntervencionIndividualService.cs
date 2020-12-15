@@ -39,7 +39,27 @@ namespace SISDOMI.Services
            // listPlanIntervencionIndividuals =_documentos.AsQueryable().OfType<PlanIntervencionIndividual>().ToList();
 
             //Para obtener un tipo específico usando el match
-            var matchPlan = new BsonDocument("$match", new BsonDocument("tipo", "PlanIntervencionIndividual"));
+            var matchPlan = new BsonDocument("$match",
+                                             new BsonDocument("$expr",
+                                                               new BsonDocument("$or",
+                                                               new BsonArray 
+                                                               {
+                                                                   new BsonDocument("$eq",
+                                                                   new BsonArray {
+                                                                       "$tipo",
+                                                                       "PlanIntervencionIndividualEducativo"
+                                                                   }),
+                                                                   new BsonDocument("$eq",
+                                                                   new BsonArray {
+                                                                       "$tipo",
+                                                                       "PlanIntervencionIndividualSocial"
+                                                                   }),
+                                                                   new BsonDocument("$eq",
+                                                                   new BsonArray {
+                                                                       "$tipo",
+                                                                       "PlanIntervencionIndividualPsicologico"
+                                                                   })
+                                                               })));
 
             //Para obtener los datos del residente usando el lookup
             var lookupPlan = new BsonDocument("$lookup", new BsonDocument
@@ -212,12 +232,17 @@ namespace SISDOMI.Services
                                                                 "$area",
                                                                 "$$area"
                                                             }),
-                                                            new BsonDocument("$ne",
-                                                            new BsonArray
-                                                            {
+                                                            new BsonDocument("$not",
+                                                            new BsonDocument("$in",
+                                                            new BsonArray {
                                                                 "$tipo",
-                                                                "PlanIntervencionIndividual"
-                                                            })
+                                                                new BsonArray
+                                                                {
+                                                                    "PlanIntervencionIndividualPsicologico",
+                                                                    "PlanIntervencionIndividualSocial",
+                                                                    "PlanIntervencionIndividualEducativo"
+                                                                }
+                                                            }))
                                                         })))
                                                     }
                                               },

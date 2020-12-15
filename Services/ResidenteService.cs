@@ -241,11 +241,17 @@ namespace SISDOMI.Services
                                                                         "$$residenteid",
                                                                         new BsonDocument("$toObjectId", "$idresidente")
                                                                     }),
-                                                                    new BsonDocument("$eq",
+                                                                    new BsonDocument("$in",
                                                                     new BsonArray
                                                                     {
                                                                         "$tipo",
-                                                                        "PlanIntervencionIndividual"
+                                                                        new BsonArray
+                                                                        {
+                                                                            "PlanIntervencionIndividualEducativo",
+                                                                            "PlanIntervencionIndividualSocial",
+                                                                            "PlanIntervencionIndividualPsicologico"
+                                                                        }
+                                                                        
                                                                     }),
                                                                     new BsonDocument("$eq",
                                                                     new BsonArray
@@ -398,7 +404,9 @@ namespace SISDOMI.Services
                                                             "$tipo",
                                                             new BsonArray
                                                             {
-                                                                "PlanIntervencionIndividual",
+                                                                "PlanIntervencionIndividualPsicologico",
+                                                                "PlanIntervencionIndividualSocial",
+                                                                "PlanIntervencionIndividualEducativo",
                                                                 "InformeEducativoInicial",
                                                                 "InformeEducativoEvolutivo",
                                                                 "InformeEducativoFinal",

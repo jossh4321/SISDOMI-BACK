@@ -70,7 +70,7 @@ namespace SISDOMI.Services
                                                    "Informe" + area + "Inicial",
                                                    "Informe" + area + "Evolutivo",
                                                    "Informe" + area + "Final",
-                                                   "PlanIntervencionIndividual"
+                                                   "PlanIntervencionIndividual" + area
                                                }
                                            })
 
