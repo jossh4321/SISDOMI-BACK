@@ -59,8 +59,8 @@ namespace SISDOMI.Services
 
             DocumentoExpediente docexpe = new DocumentoExpediente()
             {
-                tipo = fichaIngresoEducativa.tipo,
-                iddocumento = fichaIngresoEducativa.id
+                tipo = documento.tipo,
+                iddocumento = documento.id
             };
 
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
