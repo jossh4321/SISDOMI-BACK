@@ -64,7 +64,7 @@ namespace SISDOMI.Services
             res.estado = residente.estado;
             _residente.InsertOne(res);
             Expediente expediente = new Expediente();
-            var fase= generarProgresoFase(residente, res.id);
+            var fase = generarProgresoFase(residente, res.id);
             expediente.idresidente = res.id;
             expediente.fechainicio = residente.fechaIngreso;
             await saveExpediente(expediente);
@@ -90,11 +90,11 @@ namespace SISDOMI.Services
                         new Documentos() { estado = "Pendiente", tipo = "InformeSeguimientoEducativo" },
                     }
             };
-            if (residente.progreso.Count() > 1 )
+            if (residente.progreso.Count() > 1)
             {
                 fase.progreso.Add(new ProgresoFase());
                 if (residente.progreso[1].fase == 2)
-                {   
+                {
                     fase.progreso[1].educativa = new ContenidoFase()
                     {
                         estado = "incompleto",
@@ -179,7 +179,7 @@ namespace SISDOMI.Services
 
         public Residentes ModifyUser(ResidenteFaseDTO residenteFase)
         {
-            if(residenteFase.promocion == true)
+            if (residenteFase.promocion == true)
             {
                 Fase fase = new Fase();
                 //fase.progreso.Add(residenteFase.progresoFase);
@@ -208,7 +208,7 @@ namespace SISDOMI.Services
             {
                 ReturnDocument = ReturnDocument.After
             });
-            
+
 
 
             return residenteFase.residente;
@@ -251,7 +251,7 @@ namespace SISDOMI.Services
                                                                             "PlanIntervencionIndividualSocial",
                                                                             "PlanIntervencionIndividualPsicologico"
                                                                         }
-                                                                        
+
                                                                     }),
                                                                     new BsonDocument("$eq",
                                                                     new BsonArray
@@ -671,3 +671,4 @@ namespace SISDOMI.Services
 
         }
     }
+}
