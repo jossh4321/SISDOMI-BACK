@@ -47,6 +47,7 @@ namespace SISDOMI.Entities
     {
         public string numero { get; set; }
         public string referentefamiliar { get; set; }
+        public string parentesco { get; set; }
     }
 }
 
