@@ -37,13 +37,18 @@ namespace SISDOMI.Controllers
 
 
         [HttpPut("modificarperfil")]
-        public async Task<ActionResult<Usuario>> ModificarUsuario(Usuario usuario)
+        public async Task<ActionResult<Usuario>> ModificarUsuario([FromQuery] string tipo,Usuario usuario)
         {
-            if (!string.IsNullOrWhiteSpace(usuario.datos.imagen))
+
+            Usuario usuariobd = new Usuario();
+            usuariobd = _Perfilservice.GetById(usuario.id);
+
+            if (!string.IsNullOrWhiteSpace(usuario.datos.imagen) && tipo != "url")
             {
                 var profileimg = Convert.FromBase64String(usuario.datos.imagen);
-                usuario.datos.imagen = await _fileStorage.SaveFile(profileimg, "jpg", "usuarios");
+                usuario.datos.imagen = await _fileStorage.EditFile(profileimg, "jpg", "usuarios", usuariobd.datos.imagen);
             }
+
             Usuario MPerfil = _Perfilservice.ModifyUser(usuario);
             return MPerfil;
         }
