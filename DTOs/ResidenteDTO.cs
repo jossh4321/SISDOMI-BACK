@@ -57,6 +57,7 @@ namespace SISDOMI.DTOs
         public Residentes residente { get; set; }
         public ProgresoFase? progresoFase { get; set; }
         public bool promocion { get; set; }
+        public int faseAnterior { get; set; }
     }
 
     public class ResidenteFaseDocumentoDTO
