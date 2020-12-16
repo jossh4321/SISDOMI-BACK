@@ -614,7 +614,19 @@ namespace SISDOMI.Services
 
         public async Task<List<Residentes>> ListResidentByFaseAndDocument(ResidenteFaseDocumentoDTO dtoFase)
         {
-
+            if(dtoFase.estadodocumentoactual == null)
+            {
+                dtoFase.estadodocumentoactual = "Completo";
+            }
+            if(dtoFase.fasedocumentoanterior == null)
+            {
+                dtoFase.fasedocumentoanterior = "";
+            }
+            else
+            {
+                dtoFase.fasedocumentoanterior = (Convert.ToInt32(dtoFase.fasedocumentoanterior)-1) + ".";
+            }
+            string fase = Convert.ToString(Convert.ToInt32(dtoFase.fase) - 1);
             List<Residentes> listResidentes;
 
             var fields = new BsonDocument("$addFields",
@@ -650,7 +662,7 @@ namespace SISDOMI.Services
                         {
                             new BsonDocument("ultimafase.fase", Convert.ToInt32(dtoFase.fase)),
                             new BsonDocument("fases.progreso."+dtoFase.area+".estado", "incompleto"),
-                            new BsonDocument("fases.progreso."+dtoFase.area+".documentos",
+                            new BsonDocument("fases.progreso."+dtoFase.fasedocumentoanterior+dtoFase.area+".documentos",
                             new BsonDocument("$in",
                             new BsonArray
                             {
@@ -660,7 +672,7 @@ namespace SISDOMI.Services
                                     { "estado", dtoFase.estadodocumentoanterior }
                                 }
                             })),
-                            new BsonDocument("fases.progreso."+dtoFase.area+".documentos",
+                            new BsonDocument("fases.progreso."+fase+"."+dtoFase.area+".documentos",
                             new BsonDocument("$not",
                             new BsonDocument("$in",
                             new BsonArray
@@ -668,7 +680,7 @@ namespace SISDOMI.Services
                                 new BsonDocument
                                 {
                                     { "tipo", dtoFase.documentoactual },
-                                    { "estado", "Completo" }
+                                    { "estado", dtoFase.estadodocumentoactual }
                                 }
                             })))
                         }));
