@@ -1,37 +1,36 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using SISDOMI.DTOs;
 using SISDOMI.Entities;
+using SISDOMI.Helpers;
+using SISDOMI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MongoDB.Bson;
-using SISDOMI.DTOs;
 
-namespace SISDOMI.Services
-{
-    public class SeguimientoEducativoService
-    {
+namespace SISDOMI.Services {
+    public class FichaEvaluacionDiagnosticoEducativoService {
         private readonly IMongoCollection<Documento> _documentos;
         private readonly IMongoCollection<Expediente> _expedientes;
-        private readonly FaseService faseService;
 
-        public SeguimientoEducativoService(ISysdomiDatabaseSettings settings, FaseService faseService)
-        {
+        public FichaEvaluacionDiagnosticoEducativoService(ISysdomiDatabaseSettings settings) {
+
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _documentos = database.GetCollection<Documento>("documentos");
             _expedientes = database.GetCollection<Expediente>("expedientes");
-            this.faseService = faseService;
         }
-        public async Task<List<SeguimientoDTO>> GetAll()
-        {
+
+        public async Task<List<FichaEvaluacionDiagnosticoEducativoDTO>> GetAll() {
+
             var match = new BsonDocument("$match",
-                       new BsonDocument("tipo",
-                       new BsonDocument("$in",
-                       new BsonArray
-                       {
-                        "InformeSeguimientoEducativo"
-                       })));
+                      new BsonDocument("tipo",
+                      new BsonDocument("$in",
+                      new BsonArray
+                      {
+                        "FichaEvaluacionDiagnosticoEducativo"
+                      })));
             var addfield = new BsonDocument("$addFields",
                            new BsonDocument
                            {
@@ -77,31 +76,35 @@ namespace SISDOMI.Services
                                         }) }
                           });
 
-            List<SeguimientoDTO> listainformes = new List<SeguimientoDTO>();
+            List<FichaEvaluacionDiagnosticoEducativoDTO> listainformes = new List<FichaEvaluacionDiagnosticoEducativoDTO>();
 
             listainformes = await _documentos.Aggregate()
                             .AppendStage<dynamic>(match)
                             .AppendStage<dynamic>(addfield)
                             .AppendStage<dynamic>(lookup)
                             .AppendStage<dynamic>(unwind)
-                            .AppendStage<SeguimientoDTO>(project)
+                            .AppendStage<FichaEvaluacionDiagnosticoEducativoDTO>(project)
                             .ToListAsync();
             return listainformes;
         }
-       //Este metodo puede ser usado para traeer cualquier tipo de documento con su contenido
-        public async Task<DocumentoDTO> GetById(string id)
-        {
-            var match = new BsonDocument("$match",
-                        new BsonDocument("_id",
-                        new ObjectId(id)));
 
-            DocumentoDTO documento = new DocumentoDTO();
-            documento = await _documentos.Aggregate()
-                            .AppendStage<DocumentoDTO>(match)
-                            .FirstAsync();
-            return documento;
-        }
-        public async Task<InformeSeguimientoEducativo> RegistrarInformeSE(InformeSeguimientoEducativo informe)
+
+    
+
+    public async Task<DocumentoDTO> GetById(string id)
+    {
+        var match = new BsonDocument("$match",
+                    new BsonDocument("_id",
+                    new ObjectId(id)));
+
+        DocumentoDTO documento = new DocumentoDTO();
+        documento = await _documentos.Aggregate()
+                        .AppendStage<DocumentoDTO>(match)
+                        .FirstAsync();
+        return documento;
+    }
+
+        public async Task<FichaEvaluacionDiagnosticoEducativo> RegistrarFichaEvaluacionDE(FichaEvaluacionDiagnosticoEducativo informe)
         {
             await _documentos.InsertOneAsync(informe);
             DocumentoExpediente docexpe = new DocumentoExpediente()
@@ -111,11 +114,10 @@ namespace SISDOMI.Services
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
             _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
-            Fase fase = faseService.ModifyStateForDocument(informe.idresidente, informe.fase, informe.area, informe.tipo);
             return informe;
         }
-        //Modificar Informes
-        public async Task <InformeSeguimientoEducativo> ModificarInformeSE(InformeSeguimientoEducativo informe)
+
+        public async Task<FichaEvaluacionDiagnosticoEducativo> ModificarFichaEvaluacionDE(FichaEvaluacionDiagnosticoEducativo informe)
         {
             var filter = Builders<Documento>.Filter.Eq("id", informe.id);
             var update = Builders<Documento>.Update
@@ -130,8 +132,5 @@ namespace SISDOMI.Services
             _documentos.UpdateOne(filter, update);
             return informe;
         }
-
-
     }
-    
 }

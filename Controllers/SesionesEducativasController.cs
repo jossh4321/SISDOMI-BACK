@@ -26,7 +26,7 @@ namespace SISDOMI.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<SesionEducativa>>> GetAll()
+        public async Task<ActionResult<List<SesionEducativaDTOInicial>>> GetAll()
         {
             return await _sesionducativaService.GetAll();
         }
@@ -44,11 +44,17 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPost("")]
-        public async Task<ActionResult<SesionEducativa>> PostSesionesEducativas( [FromBody] SesionEducativa sesioneseducativas)
+        public async Task<ActionResult<SesionEducativa>> PostSesionesEducativas([FromBody] SesionEducativa sesioneseducativas)
         {
-
-            SesionEducativa objetosesioneducativa = _sesionducativaService.CreateSesionEducativa(sesioneseducativas);
-            return objetosesioneducativa;
+            foreach (var item in sesioneseducativas.contenido.participantes)
+            {
+                if (!string.IsNullOrWhiteSpace(item.firma))
+                {
+                    var imgfirma = Convert.FromBase64String(item.firma);
+                    item.firma = await _fileStorage.SaveFile(imgfirma, "png", "sesiones");
+                }
+            }
+            return await _sesionducativaService.CreateSesionEducativa(sesioneseducativas);
         }
 
         [HttpPut("")]
