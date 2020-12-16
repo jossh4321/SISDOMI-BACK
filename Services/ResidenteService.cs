@@ -185,8 +185,30 @@ namespace SISDOMI.Services
                 //fase.progreso.Add(residenteFase.progresoFase);
                 var filter2 = Builders<Fase>.Filter.Eq("idresidente", residenteFase.residente.id);
                 var update2 = Builders<Fase>.Update
-                    .Push("progreso", residenteFase.progresoFase);
-                _documentofase.FindOneAndUpdate<Fase>(filter2, update2);
+                    .Set("progreso.$[elem].documentotransicion.fecha", residenteFase.progresoFase.documentotransicion.fecha)
+                    .Set("progreso.$[elem].documentotransicion.idcreador", residenteFase.progresoFase.documentotransicion.idcreador)
+                    .Set("progreso.$[elem].documentotransicion.observaciones", residenteFase.progresoFase.documentotransicion.observaciones)
+                    .Set("progreso.$[elem].documentotransicion.firma.urlfirma", residenteFase.progresoFase.documentotransicion.firma.urlfirma)
+                    .Set("progreso.$[elem].documentotransicion.firma.nombre", residenteFase.progresoFase.documentotransicion.firma.nombre)
+                    .Set("progreso.$[elem].documentotransicion.firma.cargo", residenteFase.progresoFase.documentotransicion.firma.cargo);
+                var arrayFilter = new List<ArrayFilterDefinition>();
+
+                arrayFilter.Add(new BsonDocumentArrayFilterDefinition<Fase>(new BsonDocument("elem.fase", residenteFase.faseAnterior)));
+                _documentofase.FindOneAndUpdate(filter2, update2, new FindOneAndUpdateOptions<Fase>
+                {
+                    ArrayFilters = arrayFilter
+                });
+
+                residenteFase.progresoFase.documentotransicion.fecha = new DateTime();
+                residenteFase.progresoFase.documentotransicion.idcreador = "";
+                residenteFase.progresoFase.documentotransicion.observaciones = "";
+                residenteFase.progresoFase.documentotransicion.firma.urlfirma = "";
+                residenteFase.progresoFase.documentotransicion.firma.nombre = "";
+                residenteFase.progresoFase.documentotransicion.firma.cargo = "";
+
+                var update3 = Builders<Fase>.Update.Push("progreso", residenteFase.progresoFase);
+
+                _documentofase.FindOneAndUpdate(filter2,update3);
             }
             var filter = Builders<Residentes>.Filter.Eq("id", residenteFase.residente.id);
             var update = Builders<Residentes>.Update

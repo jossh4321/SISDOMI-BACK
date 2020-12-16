@@ -56,16 +56,23 @@ namespace SISDOMI.Controllers
         [HttpPut("")]
         public async Task<ActionResult<Residentes>> PutResidente(ResidenteFaseDTO residenteFase)  //MODIFICAR RESIDENTE
         {
-            if(residenteFase.promocion == true)
+            try
             {
-                if (!string.IsNullOrWhiteSpace(residenteFase.progresoFase.documentotransicion.firma.urlfirma))
+                if (residenteFase.promocion == true)
                 {
-                    var imgfirma = Convert.FromBase64String(residenteFase.progresoFase.documentotransicion.firma.urlfirma);
-                    residenteFase.progresoFase.documentotransicion.firma.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "sesiones");
+                    if (!string.IsNullOrWhiteSpace(residenteFase.progresoFase.documentotransicion.firma.urlfirma))
+                    {
+                        var imgfirma = Convert.FromBase64String(residenteFase.progresoFase.documentotransicion.firma.urlfirma);
+                        residenteFase.progresoFase.documentotransicion.firma.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "sesiones");
+                    }
                 }
-            }  
-            Residentes objetoresidente = _residenteservice.ModifyUser(residenteFase);
-            return objetoresidente;
+                Residentes objetoresidente = _residenteservice.ModifyUser(residenteFase);
+                return objetoresidente;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
         }
 
         [HttpGet("planes/area/{area}")]
