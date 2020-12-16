@@ -20,11 +20,13 @@ namespace SISDOMI.Controllers
     {
         private readonly SeguimientoEducativoService _seguimientoeducativoservice;
         private readonly IFileStorage _fileStorage;
+        private readonly FaseService faseService;
 
-        public SeguimientoEducativoController(SeguimientoEducativoService seguimientoeducativoservice, IFileStorage fileStorage)
+        public SeguimientoEducativoController(SeguimientoEducativoService seguimientoeducativoservice, IFileStorage fileStorage, FaseService faseService)
         {
             _seguimientoeducativoservice = seguimientoeducativoservice;
             _fileStorage = fileStorage;
+            this.faseService = faseService;
         }
 
         [HttpGet("all")]

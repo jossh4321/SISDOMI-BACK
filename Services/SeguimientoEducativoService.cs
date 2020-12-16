@@ -13,13 +13,15 @@ namespace SISDOMI.Services
     {
         private readonly IMongoCollection<Documento> _documentos;
         private readonly IMongoCollection<Expediente> _expedientes;
-    
-        public SeguimientoEducativoService(ISysdomiDatabaseSettings settings)
+        private readonly FaseService faseService;
+
+        public SeguimientoEducativoService(ISysdomiDatabaseSettings settings, FaseService faseService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _documentos = database.GetCollection<Documento>("documentos");
             _expedientes = database.GetCollection<Expediente>("expedientes");
+            this.faseService = faseService;
         }
         public async Task<List<SeguimientoDTO>> GetAll()
         {
@@ -109,6 +111,7 @@ namespace SISDOMI.Services
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
             _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+            Fase fase = faseService.ModifyStateForDocument(informe.idresidente, informe.fase, informe.area, informe.tipo);
             return informe;
         }
         //Modificar Informes

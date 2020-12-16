@@ -13,6 +13,7 @@ namespace SISDOMI.Services
     public class FichaIngresoEducativoService
     {
         private readonly IMongoCollection<Documento> _documentos;
+        private readonly IMongoCollection<Expediente> _expedientes;
         private readonly ExpedienteService expedienteService;
         private readonly FichaIngresoSocialService fichaIngresoSocialService;
         private readonly FaseService faseService;
@@ -27,6 +28,7 @@ namespace SISDOMI.Services
             var database = client.GetDatabase(settings.DatabaseName);
 
             _documentos = database.GetCollection<Documento>("documentos");
+            _expedientes = database.GetCollection<Expediente>("expedientes");
 
             this.expedienteService = expedienteService;
             this.fichaIngresoSocialService = fichaIngresoSocialService;
@@ -54,6 +56,16 @@ namespace SISDOMI.Services
             documento.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, documento.tipo, expediente.documentos.Count + 1);
             await _documentos.InsertOneAsync(documento);
             FichaIngresoDTO fichaIngresoEducativa =  await fichaIngresoSocialService.obtenerResidienteFichaIngreso(documento.id);
+
+            DocumentoExpediente docexpe = new DocumentoExpediente()
+            {
+                tipo = documento.tipo,
+                iddocumento = documento.id
+            };
+
+            UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == documento.idresidente, updateExpediente);
+
             Fase fase = faseService.ModifyStateForDocument(documento.idresidente, documento.fase, documento.area, documento.tipo);
             return fichaIngresoEducativa;
         }
