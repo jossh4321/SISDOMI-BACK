@@ -52,6 +52,14 @@ namespace SISDOMI.Controllers
         [HttpPut("fichaingresosocial")]
         public async Task<ActionResult<FichaIngresoDTO>> PutFichaIngresoSocial(FichaIngresoSocial  documento)
         {
+            if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
+            {
+                if (!documento.contenido.firma.urlfirma.Contains("https://"))
+                {
+                    var imgfirma = Convert.FromBase64String(documento.contenido.firma.urlfirma);
+                    documento.contenido.firma.urlfirma = await _fileStorage.SaveFile(imgfirma, "jpg", "fichaingreso");
+                }
+            }
             FichaIngresoDTO objetofichaSocial = await _fichaIngresoSocialService.ModifyFichaIngresoSocial(documento);
             return objetofichaSocial;
         }
