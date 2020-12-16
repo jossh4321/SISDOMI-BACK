@@ -71,10 +71,17 @@ namespace SISDOMI.Controllers
             return objetofichaEducativa;
         }
         [HttpPut("fichaingresopsicologica")]
-        public ActionResult<FichaIngresoPsicologica> PutFichaIngresoPsicologica(FichaIngresoPsicologica  documento)
+        public async Task<ActionResult<FichaIngresoDTO>> PutFichaIngresoPsicologica(FichaIngresoPsicologica  documento)
         {
-            FichaIngresoPsicologica objetofichaPsicologica = _fichaIngresoPsicologicaService.ModifyFichaIngresoPsicologica(documento);
-            return objetofichaPsicologica;
+            if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
+            {
+                if (!documento.contenido.firma.urlfirma.Contains("https://") && !documento.contenido.firma.urlfirma.Contains("http://"))
+                {
+                    var imgfirma = Convert.FromBase64String(documento.contenido.firma.urlfirma);
+                    documento.contenido.firma.urlfirma = await _fileStorage.SaveFile(imgfirma, "jpg", "fichaingreso");
+                }
+            }
+            return await _fichaIngresoPsicologicaService.ModifyFichaIngresoPsicologica(documento);
         }
         [HttpPost("fichaeducativaingreso")]
         public async Task<ActionResult<FichaIngresoDTO>> PostFichaIngresoEducativa(FichaIngresoEducativa  documento)

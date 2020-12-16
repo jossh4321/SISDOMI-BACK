@@ -56,9 +56,8 @@ namespace SISDOMI.Services
             documento = _documentos.AsQueryable().OfType<FichaIngresoPsicologica>().ToList().Find(documento => documento.id == id);
             return documento;
         }
-        public FichaIngresoPsicologica  ModifyFichaIngresoPsicologica(FichaIngresoPsicologica documento)
+        public async Task<FichaIngresoDTO> ModifyFichaIngresoPsicologica(FichaIngresoPsicologica documento)
         {
-            
             var filter = Builders<Documento>.Filter.Eq("id", documento.id);
             var update = Builders<Documento>.Update
                 .Set("tipo", documento.tipo)
@@ -74,7 +73,9 @@ namespace SISDOMI.Services
                 ReturnDocument = ReturnDocument.After
             });
             documento = doc as FichaIngresoPsicologica;
-            return documento;
+            FichaIngresoDTO fichaIngresoDTO = new FichaIngresoDTO();
+            fichaIngresoDTO = await fichaIngresoSocialService.obtenerResidienteFichaIngreso(documento.id);
+            return fichaIngresoDTO;
         }
     }
 }
