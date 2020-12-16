@@ -37,7 +37,7 @@ namespace SISDOMI.Services
             return listFichaIngresoSocial;
         }
         //
-        public async Task<FichaIngresoSocial> CreateFichaIngresoSocial(FichaIngresoSocial documento)
+        public async Task<FichaIngresoDTO> CreateFichaIngresoSocial(FichaIngresoSocial documento)
         {
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
             Expediente expediente = await expedienteService.GetByResident(documento.idresidente);
@@ -49,7 +49,10 @@ namespace SISDOMI.Services
                 iddocumento = documento.id
             };
             await expedienteService.UpdateDocuments(docexpe, expediente.id);
-            return documento;
+
+            FichaIngresoDTO fichaIngreso = await obtenerResidienteFichaIngreso(documento.id);
+            //Fase fase = faseService.ModifyStateForDocument(documento.idresidente, documento.fase, documento.area, documento.tipo); cuando se añada a la fase
+            return fichaIngreso;
         }
         public FichaIngresoSocial GetById(string id)
         {
@@ -57,7 +60,7 @@ namespace SISDOMI.Services
             documento = _documentos.AsQueryable().OfType<FichaIngresoSocial>().ToList().Find(documento => documento.id == id);
             return documento;
         }
-        public FichaIngresoSocial ModifyFichaIngresoSocial(FichaIngresoSocial documento)
+        public async Task<FichaIngresoDTO> ModifyFichaIngresoSocial(FichaIngresoSocial documento)
         {
             var filter = Builders<Documento>.Filter.Eq("id", documento.id);
             var update = Builders<Documento>.Update
@@ -74,7 +77,9 @@ namespace SISDOMI.Services
                 ReturnDocument = ReturnDocument.After
             });
             documento = doc as FichaIngresoSocial;
-            return documento;
+            FichaIngresoDTO fichaIngresoDTO = new FichaIngresoDTO();
+            fichaIngresoDTO = await obtenerResidienteFichaIngreso(documento.id);
+            return fichaIngresoDTO;
         }
         public async Task<FichaIngresoDTO> obtenerResidienteFichaIngreso(string id)
         {

@@ -202,11 +202,11 @@ namespace SISDOMI.Entities
         public String diagnosticosocial { get; set; }
         public String planintervencion { get; set; }
         public String codigodocumento { get; set; }
-        public List<Firma> firmas { get; set; } = new List<Firma>();
+        public Firma firma { get; set; } = new Firma();
     }
     public class ContenidoFichaIngresoPsicologica
     {
-        public List<Firma> firmas { get; set; } = new List<Firma>();
+        public Firma firma { get; set; } = new Firma();
         public String responsableturno { get; set; }
         public List<PadresFichaIngreso> padres { get; set; } = new List<PadresFichaIngreso>();
         public List<HermanosFichaIngreso> hermanos { get; set; } = new List<HermanosFichaIngreso>();
@@ -222,8 +222,6 @@ namespace SISDOMI.Entities
         public Actividades actividades  { get; set; } = new Actividades();
         public String codigodocumento { get; set; }
         public String observaciones { get; set; }
-
-
     }
     public class PlanIntervencionIndividualEducativo : Documento
     {
