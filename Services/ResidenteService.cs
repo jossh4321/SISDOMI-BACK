@@ -100,6 +100,7 @@ namespace SISDOMI.Services
                         estado = "incompleto",
                         documentos = new List<Documentos>()
                         {
+                            new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualEducativo" },
                             new Documentos() { estado = "Pendiente", tipo = "InformeEducativoEvolutivo" },
                         }
                     };
