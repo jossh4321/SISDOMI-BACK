@@ -81,6 +81,19 @@ namespace SISDOMI.Services
             return usuario;
         }
 
+        public Usuario ModifyPassword(string id, string nuevacontrasena)
+        {
+            Usuario usuario = new Usuario();
+            var filter = Builders<Usuario>.Filter.Eq("id", id);
+            var update = Builders<Usuario>.Update
+                .Set("clave", nuevacontrasena);
+            usuario = _usuarios.FindOneAndUpdate<Usuario>(filter, update, new FindOneAndUpdateOptions<Usuario>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
+            return usuario;
+        }
+
         public async Task<UsuarioDTO_UnwindRol> ObtenerUsuarioRol(string id)
         {
             var match = new BsonDocument("$match",
@@ -393,6 +406,5 @@ namespace SISDOMI.Services
             usuario = _usuarios.Find(usuario => usuario.rol == idrol).ToList();
             return usuario;
         }
-
     }
 }
