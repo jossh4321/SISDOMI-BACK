@@ -54,7 +54,7 @@ namespace SISDOMI.Controllers
         {
             if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
             {
-                if (!documento.contenido.firma.urlfirma.Contains("https://"))
+                if (!documento.contenido.firma.urlfirma.Contains("https://") && !documento.contenido.firma.urlfirma.Contains("http://"))
                 {
                     var imgfirma = Convert.FromBase64String(documento.contenido.firma.urlfirma);
                     documento.contenido.firma.urlfirma = await _fileStorage.SaveFile(imgfirma, "jpg", "fichaingreso");
@@ -73,13 +73,12 @@ namespace SISDOMI.Controllers
         [HttpPut("fichaingresopsicologica")]
         public ActionResult<FichaIngresoPsicologica> PutFichaIngresoPsicologica(FichaIngresoPsicologica  documento)
         {
-
             FichaIngresoPsicologica objetofichaPsicologica = _fichaIngresoPsicologicaService.ModifyFichaIngresoPsicologica(documento);
             return objetofichaPsicologica;
         }
         [HttpPost("fichaeducativaingreso")]
-        public async Task<ActionResult<FichaIngresoDTO>> PostFichaIngresoEducativa(FichaIngresoEducativa  documento) {
-
+        public async Task<ActionResult<FichaIngresoDTO>> PostFichaIngresoEducativa(FichaIngresoEducativa  documento)
+        {
            FichaIngresoDTO objetofichaEducativa = await _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);
            return objetofichaEducativa;
         }
@@ -95,10 +94,14 @@ namespace SISDOMI.Controllers
         }
 
         [HttpPost("fichaingresopsicologicacrear")]
-        public ActionResult<FichaIngresoPsicologica> PostFichaIngresoPsicologica(FichaIngresoPsicologica  documento)
+        public async Task<ActionResult<FichaIngresoDTO>> PostFichaIngresoPsicologica(FichaIngresoPsicologica  documento)
         {
-          FichaIngresoPsicologica  objetofichaPsicologica =_fichaIngresoPsicologicaService.CreateFichaIngresoPsicologica(documento);
-            return objetofichaPsicologica;
+            if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
+            {
+                var imgfirma = Convert.FromBase64String(documento.contenido.firma.urlfirma);
+                documento.contenido.firma.urlfirma = await _fileStorage.SaveFile(imgfirma, "jpg", "fichaingreso");
+            }
+            return await _fichaIngresoPsicologicaService.CreateFichaIngresoPsicologica(documento);
         }
         [HttpGet("all/fichaingresoresidente")]
        public async Task<ActionResult<List<FichaIngresoDTO>>> GetFichaIngresoResidente()

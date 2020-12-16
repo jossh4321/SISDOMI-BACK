@@ -14,7 +14,8 @@ namespace SISDOMI.Services
         private readonly IMongoCollection<Documento> _documentos;
         private readonly ExpedienteService expedienteService;
         private readonly IDocument document;
-        public FichaIngresoPsicologicaService(ISysdomiDatabaseSettings settings, ExpedienteService expedienteService, IDocument document)
+        private readonly FichaIngresoSocialService fichaIngresoSocialService;
+        public FichaIngresoPsicologicaService(ISysdomiDatabaseSettings settings, FichaIngresoSocialService fichaIngresoSocialService, ExpedienteService expedienteService, IDocument document)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -23,6 +24,7 @@ namespace SISDOMI.Services
 
             this.expedienteService = expedienteService;
             this.document = document;
+            this.fichaIngresoSocialService = fichaIngresoSocialService;
         }
         public List<FichaIngresoPsicologica> GetAll()
         {
@@ -32,10 +34,21 @@ namespace SISDOMI.Services
 
             return listFichaIngresoPsicologica;
         }
-        public FichaIngresoPsicologica CreateFichaIngresoPsicologica(FichaIngresoPsicologica documento)
+        public async Task<FichaIngresoDTO> CreateFichaIngresoPsicologica(FichaIngresoPsicologica documento)
         {
-            _documentos.InsertOne(documento);
-            return documento;
+            DateTime DateNow = DateTime.UtcNow.AddHours(-5);
+            Expediente expediente = await expedienteService.GetByResident(documento.idresidente);
+            documento.contenido.codigodocumento = document.CreateCodeDocument(DateNow, documento.tipo, expediente.documentos.Count + 1);
+            await _documentos.InsertOneAsync(documento);
+            DocumentoExpediente docexpe = new DocumentoExpediente()
+            {
+                tipo = documento.tipo,
+                iddocumento = documento.id
+            };
+            await expedienteService.UpdateDocuments(docexpe, expediente.id);
+            FichaIngresoDTO fichaIngreso = await fichaIngresoSocialService.obtenerResidienteFichaIngreso(documento.id);
+            //Fase fase = faseService.ModifyStateForDocument(documento.idresidente, documento.fase, documento.area, documento.tipo); cuando se añada a la fase
+            return fichaIngreso; 
         }
         public FichaIngresoPsicologica GetById(string id)
         {
