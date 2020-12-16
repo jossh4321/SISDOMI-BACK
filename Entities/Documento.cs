@@ -202,7 +202,7 @@ namespace SISDOMI.Entities
         public String diagnosticosocial { get; set; }
         public String planintervencion { get; set; }
         public String codigodocumento { get; set; }
-        public List<Firma> firmas { get; set; } = new List<Firma>();
+        public Firma firma { get; set; } = new Firma();
     }
     public class ContenidoFichaIngresoPsicologica
     {
