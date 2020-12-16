@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using SISDOMI.DTOs;
+using SISDOMI.Helpers;
 
 namespace SISDOMI.Services
 {
@@ -13,15 +14,20 @@ namespace SISDOMI.Services
     {
         private readonly IMongoCollection<Documento> _documentos;
         private readonly IMongoCollection<Expediente> _expedientes;
+        private readonly ExpedienteService expedienteService;
         private readonly FaseService faseService;
+        private readonly IDocument document;
 
-        public SeguimientoEducativoService(ISysdomiDatabaseSettings settings, FaseService faseService)
+
+        public SeguimientoEducativoService(ISysdomiDatabaseSettings settings, FaseService faseService, IDocument document, ExpedienteService expedienteService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _documentos = database.GetCollection<Documento>("documentos");
+            this.expedienteService = expedienteService;
             _expedientes = database.GetCollection<Expediente>("expedientes");
             this.faseService = faseService;
+            this.document = document;
         }
         public async Task<List<SeguimientoDTO>> GetAll()
         {
@@ -103,6 +109,10 @@ namespace SISDOMI.Services
         }
         public async Task<InformeSeguimientoEducativo> RegistrarInformeSE(InformeSeguimientoEducativo informe)
         {
+            DateTime DateNow = DateTime.UtcNow.AddHours(-5);
+            Expediente expediente = await expedienteService.GetByResident(informe.idresidente);
+            informe.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, informe.tipo, expediente.documentos.Count + 1);
+
             await _documentos.InsertOneAsync(informe);
             DocumentoExpediente docexpe = new DocumentoExpediente()
             {

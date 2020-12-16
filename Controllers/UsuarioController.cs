@@ -71,6 +71,13 @@ namespace SISDOMI.Controllers
             return objetousuario;
         }
 
+        [HttpPut("clave")]
+        public ActionResult<Usuario> ModificarClaveUsuario([FromQuery] string id, [FromQuery] string nuevacontrasena)
+        {
+            Usuario objetousuario = _usuarioservice.ModifyPassword(id, nuevacontrasena);
+            return objetousuario;
+        }
+
         [HttpDelete("")]
         public async Task<ActionResult<String>> EliminarUsuario([FromQuery] string id)
         {
@@ -118,7 +125,6 @@ namespace SISDOMI.Controllers
         public ActionResult<List<Usuario>> GetUsuarioxRol([FromQuery] string idRol)
         {
             return _usuarioservice.GetByRol(idRol);
-        }
-
+        }       
     }
 }
