@@ -766,7 +766,6 @@ namespace SISDOMI.Services
             });
 
 
-
             var bsonDocumentFases = RegisterCondDocumentType(residenteFasesDocumentosDTO, 0);
 
 
