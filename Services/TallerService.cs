@@ -146,7 +146,7 @@ namespace SISDOMI.Services
 
         //MODIFICACIONES
         
-        public async Task<TallerEscuelaPadres> PutTallerEP(TallerEscuelaPadres taller)
+        public async Task<Taller> PutTallerEP(TallerEscuelaPadres taller)
         {
             var filter = Builders<TallerDTO>.Filter.Eq("id", taller.id);
             var update = Builders<TallerDTO>.Update
@@ -157,10 +157,11 @@ namespace SISDOMI.Services
 
             await _talleres.UpdateOneAsync(filter, update);
 
-            return taller;
+            Taller mitaller = await GetById(taller.id);
+            return mitaller;
 
         }
-        public async Task<TallerEducativo> PutTallerE(TallerEducativo taller)
+        public async Task<Taller> PutTallerE(TallerEducativo taller)
         {
             var filter = Builders<TallerDTO>.Filter.Eq("id", taller.id);
             var update = Builders<TallerDTO>.Update
@@ -171,10 +172,11 @@ namespace SISDOMI.Services
 
             await _talleres.UpdateOneAsync(filter, update);
 
-            return taller;
+            Taller mitaller = await GetById(taller.id);
+            return mitaller;
 
         }
-        public async Task<TallerFormativoEgreso> PutTallerFE(TallerFormativoEgreso taller)
+        public async Task<Taller> PutTallerFE(TallerFormativoEgreso taller)
         {
             var filter = Builders<TallerDTO>.Filter.Eq("id", taller.id);
             var update = Builders<TallerDTO>.Update
@@ -185,8 +187,8 @@ namespace SISDOMI.Services
 
             await _talleres.UpdateOneAsync(filter, update);
 
-            return taller;
-
+            Taller mitaller = await GetById(taller.id);
+            return mitaller;
         }
     }
 }
