@@ -63,9 +63,11 @@ namespace SISDOMI.DTOs
     public class ResidenteFaseDocumentoDTO
     {
         public string fase { get; set; }
+        public string fasedocumentoanterior { get; set; }
         public string area { get; set; }
         public string documentoanterior { get; set; }
         public string documentoactual { get; set; }
+        public string estadodocumentoactual { get; set; }
         public string estadodocumentoanterior { get; set; }
         //public List<string> documentos { get; set; }
     }
@@ -77,5 +79,19 @@ namespace SISDOMI.DTOs
         public string observaciones { get; set; }
         public Firma firma { get; set; }
 
+    }
+
+    public class ResidenteFasesDocumentosDTO
+    {
+        public List<Int32> fases { get; set; }
+        public String area { get; set; }
+        public List<DocumentoEstado> documentoEstadosAnteriores { get; set; }
+        public List<DocumentoEstado> documentoEstadosActuales { get; set; }
+        
+        public class DocumentoEstado
+        {
+            public String tipo { get; set; }
+            public String estado { get; set; }
+        } 
     }
 }
