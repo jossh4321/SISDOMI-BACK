@@ -80,4 +80,18 @@ namespace SISDOMI.DTOs
         public Firma firma { get; set; }
 
     }
+
+    public class ResidenteFasesDocumentosDTO
+    {
+        public List<Int32> fases { get; set; }
+        public String area { get; set; }
+        public List<DocumentoEstado> documentoEstadosAnteriores { get; set; }
+        public List<DocumentoEstado> documentoEstadosActuales { get; set; }
+        
+        public class DocumentoEstado
+        {
+            public String tipo { get; set; }
+            public String estado { get; set; }
+        } 
+    }
 }

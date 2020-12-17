@@ -154,5 +154,20 @@ namespace SISDOMI.Controllers
             }
         }
 
+        [HttpPost("all/fases/documentos")]
+        public async Task<ActionResult<List<Residentes>>> GetAllByFasesAndDocuments([FromBody] ResidenteFasesDocumentosDTO residenteFasesDocumentosDTO)
+        {
+            try
+            {
+                List<Residentes> residentes = await _residenteservice.ListResidentesByFasesAndEvalutesDocuments(residenteFasesDocumentosDTO);
+
+                return residentes;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
     }
 }
