@@ -88,62 +88,77 @@ namespace SISDOMI.Services
 
             var setTypeAge = new BsonDocument("$set",
                              new BsonDocument("tipoedad",
-                             new BsonDocument("$cond",
-                             new BsonArray
-                             {
-                                 new BsonDocument("$and",
-                                 new BsonArray 
+                             new BsonDocument("$switch",
+                             new BsonDocument {
                                  {
-                                     new BsonDocument("$gte",
-                                     new BsonArray {
-                                         "$edad",
-                                         0
-                                     }),
-                                     new BsonDocument("$lte",
-                                     new BsonArray {
-                                         "$edad",
-                                         5
-                                     })
-                                 }),
-                                 "0-5",
-                                 new BsonDocument("$cond",
-                                 new BsonArray
-                                 {
-                                     new BsonDocument("$and",
+                                     "branches",
                                      new BsonArray
                                      {
-                                         new BsonDocument("$gte",
-                                         new BsonArray {
-                                             "$edad",
-                                             6
-                                         }),
-                                         new BsonDocument("$lte",
-                                         new BsonArray {
-                                             "$edad",
-                                             11
-                                         })
-                                     }),
-                                     "6-11",
-                                     new BsonDocument("$cond",
-                                     new BsonArray {
-                                         new BsonDocument("$and",
-                                         new BsonArray {
-                                             
-                                             new BsonDocument("$gte",
-                                             new BsonArray {
-                                                 "$edad",
-                                                 12
-                                             }),
-                                             new BsonDocument("$lte",
-                                             new BsonArray {
-                                                 "$edad",
-                                                 17
+                                         new BsonDocument
+                                         {
+                                             { "case",
+                                             new BsonDocument("$and",
+                                             new BsonArray
+                                             {
+                                                 new BsonDocument("$gte",
+                                                 new BsonArray {
+                                                     "$edad",
+                                                     0
+                                                 }),
+                                                 new BsonDocument("$lte",
+                                                 new BsonArray {
+                                                     "$edad",
+                                                     5
+                                                 })
                                              })
-                                         }),
-                                         "12-17", ">=18"
-                                     })
-                                 })
+                                             },
+                                             {"then", "0-5" }
+                                         },
+                                         new BsonDocument
+                                         {
+                                             { "case",
+                                             new BsonDocument("$and",
+                                             new BsonArray
+                                             {
+                                                 new BsonDocument("$gte",
+                                                 new BsonArray {
+                                                     "$edad",
+                                                     6
+                                                 }),
+                                                 new BsonDocument("$lte",
+                                                 new BsonArray {
+                                                     "$edad",
+                                                     11
+                                                 })
+                                             })
+                                             },
+                                             { "then", "6-11" }
+                                         },
+                                         new BsonDocument
+                                         {
+                                             { "case",
+                                                new BsonDocument("$and",
+                                                new BsonArray {
+
+                                                    new BsonDocument("$gte",
+                                                    new BsonArray {
+                                                        "$edad",
+                                                        12
+                                                    }),
+                                                    new BsonDocument("$lte",
+                                                    new BsonArray {
+                                                        "$edad",
+                                                        17
+                                                    })
+                                                })
+                                             },
+                                             { "then", "12-17" }
+                                         }
+                                     }
+                                 },
+                                 { "default", ">=18" }
                              })));
+                             
 
             var groupTypeAge = new BsonDocument("$group",
                                new BsonDocument {

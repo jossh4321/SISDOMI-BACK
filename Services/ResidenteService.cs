@@ -8,6 +8,7 @@ using MongoDB.Bson;
 using SISDOMI.DTOs;
 using Microsoft.AspNetCore.Mvc.Formatters.Xml;
 using static SISDOMI.DTOs.ResidenteDTO;
+using static SISDOMI.DTOs.ResidenteFasesDocumentosDTO;
 
 namespace SISDOMI.Services
 {
@@ -705,5 +706,149 @@ namespace SISDOMI.Services
             return listResidentes;
 
         }
+
+        public async Task<List<Residentes>> ListResidentesByFasesAndEvalutesDocuments(ResidenteFasesDocumentosDTO residenteFasesDocumentosDTO)
+        {
+            List<Residentes> lstResidentes;
+
+            var lookupFases = new BsonDocument("$lookup",
+                              new BsonDocument
+                              {
+                                  { "from", "fases" },
+                                  { "let", new BsonDocument("residenteid", "$_id")},
+                                  { "pipeline",
+                                    new BsonArray { 
+                                        new BsonDocument("$match",
+                                        new BsonDocument("$expr",
+                                        new BsonDocument("$eq",
+                                        new BsonArray {
+                                            "$$residenteid",
+                                            new BsonDocument("$toObjectId", "$idresidente")
+                                        })))
+                                    } 
+                                  },
+                                  { "as", "fases" }
+                              });
+
+            var unwindFase = new BsonDocument("$unwind",
+                             new BsonDocument
+                             {
+                                 { "path", "$fases" },
+                                 { "preserveNullAndEmptyArrays", true }
+                             });
+
+            var addProgressField = new BsonDocument("$addFields",
+                                   new BsonDocument
+                                   {
+                                       { "ultimafase",
+                                         new BsonDocument("$arrayElemAt",
+                                         new BsonArray {
+                                             "$progreso",
+                                             -1
+                                         })
+                                       },
+                                       {
+                                           "fases",
+                                           new BsonDocument("$arrayElemAt",
+                                           new BsonArray
+                                           {
+                                               "$fases.progreso",
+                                               -1
+                                           })
+                                       }
+                                   });
+
+            BsonArray bsonArray = new BsonArray();
+
+            residenteFasesDocumentosDTO.fases.ForEach((fase) =>
+            {
+                bsonArray.Add(fase);
+            });
+
+
+            var bsonDocumentFases = RegisterCondDocumentType(residenteFasesDocumentosDTO, 0);
+
+
+            var matchFasesAndDocumentType = new BsonDocument("$match",
+                                            new BsonDocument("$expr",
+                                            new BsonDocument("$and",
+                                            new BsonArray
+                                            {
+                                                new BsonDocument("$in",
+                                                new BsonArray
+                                                {
+                                                    "$ultimafase.fase",
+                                                    bsonArray
+                                                }),
+                                                new BsonDocument("$eq",
+                                                new BsonArray
+                                                {
+                                                    "$fases." + residenteFasesDocumentosDTO.area  + ".estado",
+                                                    "incompleto"
+                                                }),
+                                                bsonDocumentFases
+                                            })));
+
+            var projectResidents = new BsonDocument("$project",
+                                   new BsonDocument
+                                   {
+                                       { "fases", 0 },
+                                       { "ultimafase", 0 }
+                                   });
+
+            lstResidentes = await _residente.Aggregate()
+                                    .AppendStage<dynamic>(lookupFases)
+                                    .AppendStage<dynamic>(unwindFase)
+                                    .AppendStage<dynamic>(addProgressField)
+                                    .AppendStage<dynamic>(matchFasesAndDocumentType)
+                                    .AppendStage<Residentes>(projectResidents)
+                                    .ToListAsync();
+
+            return lstResidentes;
+        }
+
+
+        public BsonDocument RegisterCondDocumentType(ResidenteFasesDocumentosDTO residenteFasesDocumentosDTO, Int32 index)
+        {
+            if(index == residenteFasesDocumentosDTO.documentoEstadosAnteriores.Count)
+            {
+                return new BsonDocument();
+            }
+            else
+            {
+                return new BsonDocument("$cond",
+                new BsonArray
+                {
+                    new BsonDocument("$eq",
+                    new BsonArray {
+                          "$ultimafase.fase",
+                          index + 1
+                    }),
+                    new BsonDocument("$and",
+                    new BsonArray {
+                        new BsonDocument("$in",
+                        new BsonArray { 
+                            new BsonDocument {
+                                { "tipo", residenteFasesDocumentosDTO.documentoEstadosAnteriores.ElementAt(index).tipo },
+                                { "estado", residenteFasesDocumentosDTO.documentoEstadosAnteriores.ElementAt(index).estado }
+                            },
+                            "$fases." + residenteFasesDocumentosDTO.area + ".documentos"
+                        }),
+                        new BsonDocument("$not",
+                        new BsonDocument("$in",
+                        new BsonArray { 
+                            new BsonDocument
+                            {
+                                { "tipo", residenteFasesDocumentosDTO.documentoEstadosActuales.ElementAt(index).tipo },
+                                { "estado", residenteFasesDocumentosDTO.documentoEstadosActuales.ElementAt(index).estado }
+                            },
+                             "$fases." + residenteFasesDocumentosDTO.area + ".documentos"
+                        }))
+                    }),
+                    RegisterCondDocumentType(residenteFasesDocumentosDTO, index + 1)
+                });
+            }
+        }
+
     }
 }

@@ -37,13 +37,12 @@ namespace SISDOMI.Services
         }
 
 
-
-        public Usuario ModifyUser(Usuario usuario)
+        public async Task<Usuario> ModifyUser(Usuario usuario)
         {
             var filter = Builders<Usuario>.Filter.Eq("id", usuario.id);
             var update = Builders<Usuario>.Update
                 .Set("datos", usuario.datos);
-            usuario = _usuarios.FindOneAndUpdate<Usuario>(filter, update, new FindOneAndUpdateOptions<Usuario>
+            usuario = await _usuarios.FindOneAndUpdateAsync<Usuario>(filter, update, new FindOneAndUpdateOptions<Usuario>
             {
                 ReturnDocument = ReturnDocument.After
             });
