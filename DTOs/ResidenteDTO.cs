@@ -94,4 +94,10 @@ namespace SISDOMI.DTOs
             public String estado { get; set; }
         } 
     }
+
+    public class ResidenteProgresoDTO : Residentes
+    {
+        public List<Fase> fases { get; set; } = new List<Fase>();
+        public Expediente expediente { get; set; }
+    }
 }

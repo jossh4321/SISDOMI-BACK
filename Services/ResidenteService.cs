@@ -850,5 +850,65 @@ namespace SISDOMI.Services
             }
         }
 
+        public async Task<Object> getResidenteProgresoDTO(string idresidente)
+        {
+                    var match = new BsonDocument("$match",
+                                    new BsonDocument("_id",
+                                    new ObjectId(idresidente)));
+                    var lookup1 = new BsonDocument("$lookup",
+                                        new BsonDocument
+                                            {
+                                            { "from", "fases" },
+                                            { "let",
+                                    new BsonDocument("idres", "$_id") },
+                                            { "pipeline",
+                                    new BsonArray
+                                            {
+                                                new BsonDocument("$match",
+                                                new BsonDocument("$expr",
+                                                new BsonDocument("$eq",
+                                                new BsonArray
+                                                            {
+                                                                "$idresidente",
+                                                                new BsonDocument("$toString", "$$idres")
+                                                            })))
+                                            } },
+                                            { "as", "fases" }
+                                            });
+                    var unwind1 = new BsonDocument("$unwind",
+                                        new BsonDocument("path", "$fases"));
+                    var lookup2 = new BsonDocument("$lookup",
+                                        new BsonDocument
+                                            {
+                                            { "from", "expedientes" },
+                                            { "let",
+                                    new BsonDocument("idres", "$_id") },
+                                            { "pipeline",
+                                    new BsonArray
+                                            {
+                                                new BsonDocument("$match",
+                                                new BsonDocument("$expr",
+                                                new BsonDocument("$eq",
+                                                new BsonArray
+                                                            {
+                                                                "$idresidente",
+                                                                new BsonDocument("$toString", "$$idres")
+                                                            })))
+                                            } },
+                                            { "as", "expediente" }
+                                            });
+                    var unwind2 = new BsonDocument("$unwind",
+                                    new BsonDocument("path", "$expediente"));
+
+            Object listaResidenteProgresoDTO = await _residente.Aggregate()
+                    .AppendStage<dynamic>(match)
+                    .AppendStage<dynamic>(lookup1)
+                    .AppendStage<dynamic>(unwind1)
+                    .AppendStage<dynamic>(lookup2)
+                    .AppendStage<Object>(unwind2).SingleOrDefaultAsync();
+            return listaResidenteProgresoDTO;
+
+            }
+
     }
 }
