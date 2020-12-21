@@ -15,5 +15,6 @@ namespace SISDOMI.Entities
         public string direccion { get; set; }
         public string email { get; set; }
         public string imagen { get; set; }
+        public string firma{ get; set; }
     }
 }
