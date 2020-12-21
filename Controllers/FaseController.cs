@@ -25,6 +25,12 @@ namespace SISDOMI.Controllers
             _faseservice = faseservice;
         }
 
+        [HttpGet("id")]
+        public ActionResult<Fase> Get([FromQuery] string id) //obtiene un residente segun su id
+        {
+            return _faseservice.GetByIdResidente(id);
+        }
+
         [HttpPut("")]
         public ActionResult<Fase> PutResidente(Fase documentofase)
         {

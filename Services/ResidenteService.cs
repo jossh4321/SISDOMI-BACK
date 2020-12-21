@@ -581,6 +581,7 @@ namespace SISDOMI.Services
                         { "apellido", 1 },
                         { "tipodocumento", 1 },
                         { "numerodocumento", 1 },
+                        { "sexo", 1 },
                         { "lastprogreso",
                 new BsonDocument("$arrayElemAt",
                 new BsonArray
@@ -599,6 +600,7 @@ namespace SISDOMI.Services
                         { "_id", 1 },
                         { "nombre", 1 },
                         { "apellido", 1 },
+                        { "sexo", 1 },
                         { "tipodocumento", 1 },
                         { "numerodocumento", 1 }
                     });
