@@ -236,5 +236,183 @@ namespace SISDOMI.Services
             return lstEstadisticaModalidadGradoDTOs;
         }
 
+        public async Task<EstadisticaResidenteProgresoDTO> GetStadisticProgressResidentByArea(String idResidente, String area)
+        {
+            EstadisticaResidenteProgresoDTO estadisticaResidenteProgresoDTO;
+
+            var matchResident = new BsonDocument("$match",
+                                new BsonDocument("$expr",
+                                new BsonDocument("$eq",
+                                new BsonArray
+                                {
+                                    "$_id",
+                                    new BsonDocument("$toObjectId", idResidente)
+                                })));
+
+            var lookupFases = new BsonDocument("$lookup",
+                              new BsonDocument
+                              {
+                                  { "from", "fases" },
+                                  {
+                                      "let",
+                                      new BsonDocument("residenteid", "$_id")
+                                  },
+                                  {
+                                      "pipeline",
+                                      new BsonArray
+                                      {
+                                          new BsonDocument("$match",
+                                          new BsonDocument("$expr",
+                                          new BsonDocument("$eq",
+                                          new BsonArray 
+                                          {
+                                              new BsonDocument("$toObjectId", "$idresidente"),
+                                              "$$residenteid"
+                                          })))
+                                      }
+                                  },
+                                  { "as", "fases" }
+                              });
+
+            var unwindFase = new BsonDocument("$unwind",
+                             new BsonDocument("path", "$fases"));
+
+            var unwindProgreso = new BsonDocument("$unwind",
+                                 new BsonDocument("path", "$fases.progreso"));
+
+            var projectFaseProgreso = new BsonDocument("$project",
+                                      new BsonDocument
+                                      {
+                                          { "_id", 1 },
+                                          { "documentosfase", "$fases.progreso." + area },
+                                          { "fase", "$fases.progreso.fase" },
+                                          { "progreso", 1 }
+                                      });
+
+            var unwindFaseDocuments = new BsonDocument("$unwind",
+                                  new BsonDocument("path", "$documentosfase.documentos"));
+
+            var lookupDocuments = new BsonDocument("$lookup",
+                                  new BsonDocument
+                                  {
+                                      { "from", "documentos" },
+                                      {
+                                          "let",
+                                          new BsonDocument
+                                          {
+                                              { "residenteid", "$_id" },
+                                              { "tipo", "$documentosfase.documentos.tipo" },
+                                              { "fase", "$fase" }
+                                          }
+                                      },
+                                      {
+                                          "pipeline",
+                                          new BsonArray
+                                          {
+                                              new BsonDocument("$match",
+                                              new BsonDocument("$expr",
+                                              new BsonDocument("$and",
+                                              new BsonArray
+                                              {
+                                                  new BsonDocument("$eq",
+                                                  new BsonArray
+                                                  {
+                                                       new BsonDocument("$toObjectId", "$idresidente"),
+                                                       "$$residenteid"
+                                                  }),
+                                                  new BsonDocument("$eq",
+                                                  new BsonArray
+                                                  {
+                                                      "$tipo",
+                                                      "$$tipo"
+                                                  }),
+                                                  new BsonDocument("$eq",
+                                                  new BsonArray
+                                                  {
+                                                      new BsonDocument("$toInt", "$fase"),
+                                                      "$$fase"
+                                                  })
+
+                                              }))),
+                                              new BsonDocument("$project",
+                                              new BsonDocument
+                                              {
+                                                  { "_id", 0 },
+                                                  { "tipo", 1 },
+                                                  { "fase", 1 },
+                                                  { "fechacreacion", 1 }
+                                              })
+                                          }
+                                      },
+                                      { "as", "documentos" }
+                                  });
+
+            var unwindDocuments = new BsonDocument("$unwind",
+                                  new BsonDocument
+                                      {
+                                        {"path", "$documentos" },
+                                        { "preserveNullAndEmptyArrays", true }
+                                      });
+
+            var groupFaseDocument = new BsonDocument("$group",
+                                    new BsonDocument
+                                    {
+                                        { "_id", "$fase" },
+                                        { "documentos",
+                                          new BsonDocument("$push",
+                                          new BsonDocument
+                                          {
+                                              { "tipo", "$documentos.tipo" },
+                                              { "fechacreacion", "$documentos.fechacreacion" }
+                                          })
+                                        },
+                                        { "id", new BsonDocument("$first", "$_id") },
+                                        { "progreso", new BsonDocument("$first", "$progreso") }
+                                    });
+
+            var groupFaseProgreso = new BsonDocument("$group",
+                                    new BsonDocument
+                                    {
+                                        { "_id", "$id" },
+                                        {
+                                            "fases",
+                                            new BsonDocument("$push",
+                                            new BsonDocument
+                                            {
+                                                { "fase", "$_id" },
+                                                { "documentos", "$documentos" }
+                                            })
+                                        },
+                                        {
+                                            "progreso",
+                                            new BsonDocument("$first", "$progreso")
+                                        }
+                                    });
+
+            var projectResidentProgress = new BsonDocument("$project",
+                                          new BsonDocument
+                                          {
+                                              { "_id", 0 },
+                                              { "fases", 1 },
+                                              { "progreso", 1 }
+                                          });
+
+            estadisticaResidenteProgresoDTO =await _residentes.Aggregate()
+                                                .AppendStage<dynamic>(matchResident)
+                                                .AppendStage<dynamic>(lookupFases)
+                                                .AppendStage<dynamic>(unwindFase)
+                                                .AppendStage<dynamic>(unwindProgreso)
+                                                .AppendStage<dynamic>(projectFaseProgreso)
+                                                .AppendStage<dynamic>(unwindFaseDocuments)
+                                                .AppendStage<dynamic>(lookupDocuments)
+                                                .AppendStage<dynamic>(unwindDocuments)
+                                                .AppendStage<dynamic>(groupFaseDocument)
+                                                .AppendStage<dynamic>(groupFaseProgreso)
+                                                .AppendStage<EstadisticaResidenteProgresoDTO>(projectResidentProgress)
+                                                .FirstOrDefaultAsync();
+
+            return estadisticaResidenteProgresoDTO;
+        }
+
     }
 }

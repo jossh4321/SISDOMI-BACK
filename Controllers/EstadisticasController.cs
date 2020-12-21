@@ -70,5 +70,21 @@ namespace SISDOMI.Controllers
             }
         }
 
+        [HttpGet("residente/{idResidente}/area/{area}")]
+        public async Task<ActionResult<EstadisticaResidenteProgresoDTO>> GetStadisticProgressResidentByArea(String idResidente, String area)
+        {
+            try
+            {
+                EstadisticaResidenteProgresoDTO estadisticaResidenteProgresoDTO = await _estadisticasService.GetStadisticProgressResidentByArea(idResidente, area);
+
+                return estadisticaResidenteProgresoDTO;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
+
     }
 }
