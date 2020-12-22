@@ -366,8 +366,6 @@ namespace SISDOMI.Entities
         public String numerooficio { get; set; }
         [BsonElement("observaciones")]
         public String observaciones { get; set; }
-        [BsonElement("firmas")]
-        public List<Firmas> firmas { get; set; }
 
     }
 
