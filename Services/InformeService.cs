@@ -120,6 +120,7 @@ namespace SISDOMI.Services
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
             Expediente expediente = await expedienteService.GetByResident(informe.idresidente);
             informe.contenido.codigodocumento = document.CreateCodeDocument(DateNow, informe.tipo, expediente.documentos.Count + 1);
+            //informe.fechacreacion = DateNow;
             await _documentos.InsertOneAsync(informe);
             DocumentoExpediente docexpe = new DocumentoExpediente()
             {

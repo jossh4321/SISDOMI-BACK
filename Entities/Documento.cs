@@ -39,7 +39,7 @@ namespace SISDOMI.Entities
         [BsonElement("creadordocumento")]
         public string creadordocumento { get; set; }
         [BsonElement("fechacreacion")]
-        public DateTime fechacreacion { get; set; }
+        public DateTime? fechacreacion { get; set; }
         [BsonElement("area")]
         public string area { get; set; }
         [BsonElement("fase")]
@@ -59,6 +59,7 @@ namespace SISDOMI.Entities
         public string codigodocumento { get; set; }
         public string lugarevaluacion { get; set; }
         public string evaluador { get; set; }
+        public DateTime fechaevaluacion { get; set; }
     }
 
     public class InformeEducativoInicial : Documento

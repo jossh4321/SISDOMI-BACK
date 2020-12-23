@@ -46,12 +46,17 @@ namespace SISDOMI.Controllers
                 var profileimg = Convert.FromBase64String(usuario.datos.imagen);
                 usuario.datos.imagen = await _fileStorage.SaveFile(profileimg, "jpg", "usuarios");
             }
+            if (!string.IsNullOrWhiteSpace(usuario.datos.firma))
+            {
+                var signImg= Convert.FromBase64String(usuario.datos.firma);
+                usuario.datos.firma = await _fileStorage.SaveFile(signImg, "jpg", "firmas");
+            }
             Usuario objetousuario = _usuarioservice.CreateUser(usuario);
             return objetousuario;
         }
 
         [HttpPut("")]
-        public async Task<ActionResult<Usuario>> ModificarUsuario([FromQuery] string tipo, [FromQuery] string modificado, Usuario usuario)
+        public async Task<ActionResult<Usuario>> ModificarUsuario([FromQuery] string tipo, [FromQuery] string tipoFirma, Usuario usuario)
         {
             Usuario usuariobd = new Usuario();
             usuariobd = _usuarioservice.GetById(usuario.id);
@@ -60,6 +65,11 @@ namespace SISDOMI.Controllers
             {
                 var profileimg = Convert.FromBase64String(usuario.datos.imagen);
                 usuario.datos.imagen = await _fileStorage.EditFile(profileimg, "jpg", "usuarios",usuariobd.datos.imagen);
+            }
+            if (!string.IsNullOrWhiteSpace(usuario.datos.firma) && tipoFirma != "url")
+            {
+                var signImg = Convert.FromBase64String(usuario.datos.firma);
+                usuario.datos.firma = await _fileStorage.EditFile(signImg, "jpg", "firmas", usuariobd.datos.firma);
             }
             Usuario objetousuario = _usuarioservice.ModifyUser(usuario);
             return objetousuario;

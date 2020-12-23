@@ -41,7 +41,8 @@ namespace SISDOMI.Controllers
         [HttpPost("informeei")]
         public async Task<ActionResult<InformeEducativoInicial>> CrearInformeEI(InformeEducativoInicial informe)        
         {
-            foreach(var item in informe.contenido.firmas)
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
+            foreach (var item in informe.contenido.firmas)
             {
                 if (!string.IsNullOrWhiteSpace(item.urlfirma))
                 {
@@ -54,6 +55,7 @@ namespace SISDOMI.Controllers
         [HttpPost("informeee")]
         public async Task<ActionResult<InformeEducativoEvolutivo>> CrearInformeEE(InformeEducativoEvolutivo informe)
         {
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
             foreach (var item in informe.contenido.firmas)
             {
                 if (!string.IsNullOrWhiteSpace(item.urlfirma))
@@ -67,6 +69,7 @@ namespace SISDOMI.Controllers
         [HttpPost("informesi")]
         public async Task<ActionResult<InformeSocialInicial>> CrearInformeSI(InformeSocialInicial informe)
         {
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
             foreach (var item in informe.contenido.firmas)
             {
                 if (!string.IsNullOrWhiteSpace(item.urlfirma))
@@ -80,6 +83,7 @@ namespace SISDOMI.Controllers
         [HttpPost("informese")]
         public async Task<ActionResult<InformeSocialEvolutivo>> CrearInformeSE(InformeSocialEvolutivo informe)
         {
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
             foreach (var item in informe.contenido.firmas)
             {
                 if (!string.IsNullOrWhiteSpace(item.urlfirma))
@@ -90,10 +94,11 @@ namespace SISDOMI.Controllers
             }
             return await _informeService.RegistrarInformeSE(informe);
         }
-        //falta el psicologico inicial 0-0 -> ya no uwu
+        
         [HttpPost("informepi")]
         public async Task<ActionResult<InformePsicologicoInicial>> CrearInformePI(InformePsicologicoInicial informe)
         {
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
             foreach (var item in informe.contenido.firmas)
             {
                 if (!string.IsNullOrWhiteSpace(item.urlfirma))
@@ -108,6 +113,7 @@ namespace SISDOMI.Controllers
         [HttpPost("informepe")]
         public async Task<ActionResult<InformePsicologicoEvolutivo>> CrearInformePE(InformePsicologicoEvolutivo informe)
         {
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
             foreach (var item in informe.contenido.firmas)
             {
                 if (!string.IsNullOrWhiteSpace(item.urlfirma))
@@ -122,7 +128,7 @@ namespace SISDOMI.Controllers
         //PUT
         [HttpPut("informeei")]
         public async Task<ActionResult<InformeEducativoInicial>> ModificarInformeEI(InformeEducativoInicial informe)
-        {
+        {         
             foreach (var item in informe.contenido.firmas)
             {
                 if (!string.IsNullOrWhiteSpace(item.urlfirma) && !item.urlfirma.Contains("http"))
