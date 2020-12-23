@@ -43,7 +43,8 @@ using System.Threading.Tasks;namespace SISDOMI.Controllers
                 
         }
         [HttpPut("update")]
-        public ActionResult<Documento> PutExternamiento(ActaExternamiento documento) {
+        public ActionResult<Documento> PutExternamiento(ActaExternamiento documento)
+        {
             try
             {
                 Documento UpdateActa = _ActaExternamientoService.Update(documento);
@@ -56,7 +57,7 @@ using System.Threading.Tasks;namespace SISDOMI.Controllers
 
         }
         [HttpPost("register")]
-        public async Task<ActionResult<ActaExternamiento>> PostExternamiento(ActaExternamiento actaExternamiento) {
+        public async Task<ActionResult<ActaExternamiento>> PostExternamiento(ActaExternamiento actaExternamiento) {            
             try
             {
                 return await _ActaExternamientoService.Register(actaExternamiento);

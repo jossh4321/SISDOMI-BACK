@@ -117,6 +117,7 @@ namespace SISDOMI.Services
 
         public async Task<InformeEducativoInicial> RegistrarInformeEI(InformeEducativoInicial informe)
         {
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
             Expediente expediente = await expedienteService.GetByResident(informe.idresidente);
             informe.contenido.codigodocumento = document.CreateCodeDocument(DateNow, informe.tipo, expediente.documentos.Count + 1);
@@ -134,6 +135,7 @@ namespace SISDOMI.Services
         }
         public async Task<InformeEducativoEvolutivo> RegistrarInformeEE(InformeEducativoEvolutivo informe)
         {
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
             Expediente expediente = await expedienteService.GetByResident(informe.idresidente);
             informe.contenido.codigodocumento = document.CreateCodeDocument(DateNow, informe.tipo, expediente.documentos.Count + 1);
@@ -148,7 +150,8 @@ namespace SISDOMI.Services
             return informe;
         }
         public async Task<InformeSocialInicial> RegistrarInformeSI(InformeSocialInicial informe)
-        {            
+        {
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
             Expediente expediente = await expedienteService.GetByResident(informe.idresidente);
             informe.contenido.codigodocumento = document.CreateCodeDocument(DateNow, informe.tipo, expediente.documentos.Count + 1);
@@ -164,6 +167,7 @@ namespace SISDOMI.Services
         }
         public async Task<InformeSocialEvolutivo> RegistrarInformeSE(InformeSocialEvolutivo informe)
         {
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
             Expediente expediente = await expedienteService.GetByResident(informe.idresidente);
             informe.contenido.codigodocumento = document.CreateCodeDocument(DateNow, informe.tipo, expediente.documentos.Count + 1);
@@ -181,6 +185,7 @@ namespace SISDOMI.Services
         //falta el PsicologicoInicial -> ya está nwn
         public async Task<InformePsicologicoInicial> RegistrarInformePI(InformePsicologicoInicial informe)
         {
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
             Expediente expediente = await expedienteService.GetByResident(informe.idresidente);
             informe.contenido.codigodocumento = document.CreateCodeDocument(DateNow, informe.tipo, expediente.documentos.Count + 1);
@@ -197,6 +202,7 @@ namespace SISDOMI.Services
 
         public async Task<InformePsicologicoEvolutivo> RegistrarInformePE(InformePsicologicoEvolutivo informe)
         {
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
             Expediente expediente = await expedienteService.GetByResident(informe.idresidente);
             informe.contenido.codigodocumento = document.CreateCodeDocument(DateNow, informe.tipo, expediente.documentos.Count + 1);

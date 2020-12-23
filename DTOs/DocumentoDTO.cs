@@ -16,7 +16,7 @@ namespace SISDOMI.DTOs
         public string tipo { get; set; }
         public List<string> historialcontenido { get; set; }
         public string creadordocumento { get; set; }
-        public DateTime fechacreacion { get; set; }
+        public DateTime? fechacreacion { get; set; }
         public string area { get; set; }
         public string fase { get; set; }
         public string idresidente { get; set; }
@@ -42,7 +42,7 @@ namespace SISDOMI.DTOs
         public String area { get; set; }
         public String fase { get; set; }
         public String estado { get; set; }
-        public DateTime fechacreacion { get; set; }
+        public DateTime? fechacreacion { get; set; }
         public Object contenido { get; set; }
         public Residentes residente { get; set; }
         public String creador { get; set; }

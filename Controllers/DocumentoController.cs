@@ -51,7 +51,7 @@ namespace SISDOMI.Controllers
         }
         [HttpPut("fichaingresosocial")]
         public async Task<ActionResult<FichaIngresoDTO>> PutFichaIngresoSocial(FichaIngresoSocial  documento)
-        {
+        {         
             if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
             {
                 if (!documento.contenido.firma.urlfirma.Contains("https://") && !documento.contenido.firma.urlfirma.Contains("http://"))
@@ -85,13 +85,13 @@ namespace SISDOMI.Controllers
         }
         [HttpPost("fichaeducativaingreso")]
         public async Task<ActionResult<FichaIngresoDTO>> PostFichaIngresoEducativa(FichaIngresoEducativa  documento)
-        {
-           FichaIngresoDTO objetofichaEducativa = await _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);
+        {          
+            FichaIngresoDTO objetofichaEducativa = await _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);
            return objetofichaEducativa;
         }
         [HttpPost("fichaingresosocialcrear")]
         public async Task<ActionResult<FichaIngresoDTO>> PostFichaIngresoSocial(FichaIngresoSocial documento)
-        {
+        {         
             if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
             {
                 var imgfirma = Convert.FromBase64String(documento.contenido.firma.urlfirma);
@@ -102,7 +102,7 @@ namespace SISDOMI.Controllers
 
         [HttpPost("fichaingresopsicologicacrear")]
         public async Task<ActionResult<FichaIngresoDTO>> PostFichaIngresoPsicologica(FichaIngresoPsicologica  documento)
-        {
+        {            
             if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
             {
                 var imgfirma = Convert.FromBase64String(documento.contenido.firma.urlfirma);

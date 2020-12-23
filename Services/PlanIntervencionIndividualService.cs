@@ -283,6 +283,7 @@ namespace SISDOMI.Services
         // Plan de Intervención Educativo
         public async Task<PlanIntervencionIndividualEducativo> CreateIndividualInterventionPlan(PlanResidente planIntervencionIndividual)
         {
+            planIntervencionIndividual.planintervencionindividual.fechacreacion = DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
 
             Expediente expediente =await expedienteService.GetByResident(planIntervencionIndividual.idresidente);
@@ -343,6 +344,7 @@ namespace SISDOMI.Services
         //Plan Intervencion Psicologica
         public async Task<PlanIntervencionIndividualPsicologico> CreatePsycologicalInterventionPlan(PlanResidentePsicologico planResidentePsicologico)
         {
+            planResidentePsicologico.planIntervencionIndividualPsicologico.fechacreacion =  DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
 
             Expediente expediente = await expedienteService.GetByResident(planResidentePsicologico.idresidente);
@@ -403,6 +405,7 @@ namespace SISDOMI.Services
         //Plan Intervencion Social
         public async Task<PlanIntervencionIndividualSocial> CreateSocialInterventionPlan(PlanResidenteSocial planResidenteSocial)
         {
+            planResidenteSocial.planIntervencionIndividualSocial.fechacreacion = DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
 
             Expediente expediente = await expedienteService.GetByResident(planResidenteSocial.idresidente);

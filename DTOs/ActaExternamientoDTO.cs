@@ -16,7 +16,7 @@ namespace SISDOMI.DTOs
         public string tipo { get; set; }
          public List<string> historialcontenido { get; set; }
         public string creadordocumento { get; set; }
-        public DateTime fechacreacion { get; set; }
+        public DateTime? fechacreacion { get; set; }
         public string area { get; set; }
            public string fase { get; set; }
         public string responsable { get; set; }

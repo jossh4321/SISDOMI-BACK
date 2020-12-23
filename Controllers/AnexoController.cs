@@ -45,9 +45,9 @@ namespace SISDOMI.Controllers
 
         [HttpPost()]
         public async Task<ActionResult<Anexo>> PostAnexo(Anexo anexo)
-        {
+        {            
             try
-            {
+            {               
                 return await _anexoService.CreateAnexo(anexo);
             }
             catch (Exception ex)

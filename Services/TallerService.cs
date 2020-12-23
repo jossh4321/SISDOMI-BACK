@@ -114,18 +114,21 @@ namespace SISDOMI.Services
         //Creacion de talleres
         public TallerEscuelaPadres CreateTEP(TallerEscuelaPadres mitaller)
         {
+            mitaller.fechaCreacion = DateTime.UtcNow.AddHours(-5);
             _talleres.InsertOne(mitaller);
             return mitaller;
         }
 
         public TallerEducativo CreateTE(TallerEducativo mitaller)
         {
+            mitaller.fechaCreacion = DateTime.UtcNow.AddHours(-5);
             _talleres.InsertOne(mitaller);
             return mitaller;
         }
 
         public TallerFormativoEgreso CreateTFE(TallerFormativoEgreso mitaller)
         {
+            mitaller.fechaCreacion = DateTime.UtcNow.AddHours(-5);
             _talleres.InsertOne(mitaller);
             return mitaller;
         }

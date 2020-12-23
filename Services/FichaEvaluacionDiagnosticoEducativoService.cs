@@ -106,6 +106,7 @@ namespace SISDOMI.Services {
 
         public async Task<FichaEvaluacionDiagnosticoEducativo> RegistrarFichaEvaluacionDE(FichaEvaluacionDiagnosticoEducativo informe)
         {
+            informe.fechacreacion = DateTime.UtcNow.AddHours(-5);
             await _documentos.InsertOneAsync(informe);
             DocumentoExpediente docexpe = new DocumentoExpediente()
             {
