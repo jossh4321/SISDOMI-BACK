@@ -169,5 +169,21 @@ namespace SISDOMI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
+
+        [HttpGet("progreso/{idresidente}")]
+        public async Task<ActionResult<Object>> GetResidenteProgresoDtoPorId(string idresidente)
+        {
+            try
+            {
+                Object residentes = await _residenteservice.getResidenteProgresoDTO(idresidente);
+
+                return residentes;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
     }
 }
