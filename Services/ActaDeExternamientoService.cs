@@ -115,15 +115,15 @@ namespace SISDOMI.Services
 
         public async Task<ActaExternamiento> Register(ActaExternamiento actaExternamiento)
         {
+            actaExternamiento.fechacreacion = DateTime.UtcNow.AddHours(-5);
+
             DateTime dateTime = DateTime.UtcNow.AddHours(-5);
 
             Expediente expediente = await expedienteService.GetByResident(actaExternamiento.idresidente);
 
-            actaExternamiento.creadordocumento = document.CreateCodeDocument(dateTime, actaExternamiento.tipo, expediente.documentos.Count + 1);
+            //actaExternamiento.creadordocumento = document.CreateCodeDocument(dateTime, actaExternamiento.tipo, expediente.documentos.Count + 1);
 
-            Rol rol = await rolService.Get(actaExternamiento.contenido.firmas.ElementAt(0).cargo);
-            
-            actaExternamiento.contenido.firmas.ElementAt(0).cargo = rol.nombre;
+         
             
             await _documentos.InsertOneAsync(actaExternamiento);
 
