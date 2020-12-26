@@ -188,12 +188,13 @@ namespace SISDOMI.Services
                 {"estado", 1 },
                 { "contenido", 1},
                 { "residente", 1},
-                { "creador", new BsonDocument("$concat", new BsonArray{ 
+                { "creador", new BsonDocument("$toString", "$creador._id") }
+                /*{ "creador", new BsonDocument("$concat", new BsonArray{ 
                                                             "$creador.datos.nombre",
                                                             " ",
                                                             "$creador.datos.apellido"
                                                          }) 
-                }
+                }*/
             });
 
             var lookupDocumentosNotPlan = new BsonDocument("$lookup",
