@@ -171,8 +171,8 @@ namespace SISDOMI.Entities
         public List<String> indicadores { get; set; }
         [BsonElement("metas")]
         public List<String> metas { get; set; }
-        [BsonElement("firmas")]
-        public List<Firma> firmas { get; set; }
+        //[BsonElement("firmas")]
+        //public List<Firma> firmas { get; set; }
         [BsonElement("titulo")]
         public String titulo { get; set; }
         [BsonElement("codigodocumento")]
@@ -258,8 +258,8 @@ namespace SISDOMI.Entities
         public String codigoDocumento { get; set; }
         [BsonElement("titulo")]
         public String titulo { get; set; }
-        [BsonElement("firmas")]
-        public List<Firma> firmas { get; set; }
+        //[BsonElement("firmas")]
+        //public List<Firma> firmas { get; set; }
 
     }
 
@@ -284,8 +284,8 @@ namespace SISDOMI.Entities
         public List<String> indicadores { get; set; }
         [BsonElement("metas")]
         public List<String> metas { get; set; }
-        [BsonElement("firmas")]
-        public List<Firma> firmas { get; set; }
+        //[BsonElement("firmas")]
+        //public List<Firma> firmas { get; set; }
         [BsonElement("codigodocumento")]
         public String codigoDocumento { get; set; }
         [BsonElement("titulo")]

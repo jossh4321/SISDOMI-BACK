@@ -291,9 +291,9 @@ namespace SISDOMI.Services
 
             planIntervencionIndividual.planintervencionindividual.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, planIntervencionIndividual.planintervencionindividual.tipo, expediente.documentos.Count + 1);
 
-            Rol rol = await rolService.Get(planIntervencionIndividual.planintervencionindividual.contenido.firmas.ElementAt(0).cargo);
+            //Rol rol = await rolService.Get(planIntervencionIndividual.planintervencionindividual.contenido.firmas.ElementAt(0).cargo);
 
-            planIntervencionIndividual.planintervencionindividual.contenido.firmas.ElementAt(0).cargo = rol.nombre;
+            //planIntervencionIndividual.planintervencionindividual.contenido.firmas.ElementAt(0).cargo = rol.nombre;
 
             await _documentos.InsertOneAsync(planIntervencionIndividual.planintervencionindividual);
 
@@ -352,9 +352,9 @@ namespace SISDOMI.Services
 
             planResidentePsicologico.planIntervencionIndividualPsicologico.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, planResidentePsicologico.planIntervencionIndividualPsicologico.tipo, expediente.documentos.Count + 1);
 
-            Rol rol = await rolService.Get(planResidentePsicologico.planIntervencionIndividualPsicologico.contenido.firmas.ElementAt(0).cargo);
+            //Rol rol = await rolService.Get(planResidentePsicologico.planIntervencionIndividualPsicologico.contenido.firmas.ElementAt(0).cargo);
 
-            planResidentePsicologico.planIntervencionIndividualPsicologico.contenido.firmas.ElementAt(0).cargo = rol.nombre;
+            //planResidentePsicologico.planIntervencionIndividualPsicologico.contenido.firmas.ElementAt(0).cargo = rol.nombre;
 
             await _documentos.InsertOneAsync(planResidentePsicologico.planIntervencionIndividualPsicologico);
 
@@ -365,7 +365,7 @@ namespace SISDOMI.Services
             };
 
             await expedienteService.UpdateDocuments(documentoExpediente, expediente.id);
-
+            Fase fase = faseService.ModifyStateForDocument(planResidentePsicologico.planIntervencionIndividualPsicologico.idresidente, planResidentePsicologico.planIntervencionIndividualPsicologico.fase, planResidentePsicologico.planIntervencionIndividualPsicologico.area, planResidentePsicologico.planIntervencionIndividualPsicologico.tipo);
             return planResidentePsicologico.planIntervencionIndividualPsicologico;
         }
 
@@ -413,9 +413,9 @@ namespace SISDOMI.Services
 
             planResidenteSocial.planIntervencionIndividualSocial.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, planResidenteSocial.planIntervencionIndividualSocial.tipo, expediente.documentos.Count + 1);
 
-            Rol rol = await rolService.Get(planResidenteSocial.planIntervencionIndividualSocial.contenido.firmas.ElementAt(0).cargo);
+            //Rol rol = await rolService.Get(planResidenteSocial.planIntervencionIndividualSocial.contenido.firmas.ElementAt(0).cargo);
 
-            planResidenteSocial.planIntervencionIndividualSocial.contenido.firmas.ElementAt(0).cargo = rol.nombre;
+            //planResidenteSocial.planIntervencionIndividualSocial.contenido.firmas.ElementAt(0).cargo = rol.nombre;
 
             await _documentos.InsertOneAsync(planResidenteSocial.planIntervencionIndividualSocial);
 
@@ -426,7 +426,7 @@ namespace SISDOMI.Services
             };
 
             await expedienteService.UpdateDocuments(documentoExpediente, expediente.id);
-
+            Fase fase = faseService.ModifyStateForDocument(planResidenteSocial.planIntervencionIndividualSocial.idresidente, planResidenteSocial.planIntervencionIndividualSocial.fase, planResidenteSocial.planIntervencionIndividualSocial.area, planResidenteSocial.planIntervencionIndividualSocial.tipo);
             return planResidenteSocial.planIntervencionIndividualSocial;
         }
 
