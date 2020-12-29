@@ -51,6 +51,7 @@ namespace SISDOMI.Services
         }
         public async  Task<FichaIngresoDTO> CreateFichaIngresoEducativo(FichaIngresoEducativa documento)
         {
+            documento.fechacreacion = DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
             Expediente expediente = await expedienteService.GetByResident(documento.idresidente);
             documento.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, documento.tipo, expediente.documentos.Count + 1);

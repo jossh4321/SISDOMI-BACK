@@ -91,6 +91,28 @@ namespace SISDOMI.Services
                         new Documentos() { estado = "Pendiente", tipo = "InformeSeguimientoEducativo" },
                     }
             };
+            fase.progreso[0].social = new ContenidoFase()
+            {
+                estado = "incompleto",
+                documentos = new List<Documentos>()
+                    {
+                        new Documentos() { estado = "Pendiente", tipo = "FichaSocialIngreso" },
+                        new Documentos() { estado = "Pendiente", tipo = "InformeSocialInicial" },
+                        new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualSocial" },
+                        new Documentos() { estado = "Pendiente", tipo = "InformeSocialEvolutivo" },
+                    }
+            };
+            fase.progreso[0].psicologica = new ContenidoFase()
+            {
+                estado = "incompleto",
+                documentos = new List<Documentos>()
+                    {
+                        new Documentos() { estado = "Pendiente", tipo = "FichaPsicologicaIngreso" },
+                        new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoInicial" },
+                        new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualPsicologico" },
+                        new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoEvolutivo" },
+                    }
+            };
             if (residente.progreso.Count() > 1)
             {
                 fase.progreso.Add(new ProgresoFase());
@@ -105,6 +127,24 @@ namespace SISDOMI.Services
                             new Documentos() { estado = "Pendiente", tipo = "InformeEducativoEvolutivo" },
                         }
                     };
+                    fase.progreso[1].social = new ContenidoFase()
+                    {
+                        estado = "incompleto",
+                        documentos = new List<Documentos>()
+                        {
+                            new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualSocial" },
+                            new Documentos() { estado = "Pendiente", tipo = "InformeSocialEvolutivo" },
+                        }
+                    };
+                    fase.progreso[1].psicologica = new ContenidoFase()
+                    {
+                        estado = "incompleto",
+                        documentos = new List<Documentos>()
+                        {
+                            new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualPsicologico" },
+                            new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoEvolutivo" },
+                        }
+                    };
                 }
                 else if (residente.progreso[1].fase == 3)
                 {
@@ -114,6 +154,23 @@ namespace SISDOMI.Services
                         documentos = new List<Documentos>()
                         {
                             new Documentos() { estado = "Pendiente", tipo = "InformeEducativoFinal" },
+                        }
+                    };
+                    fase.progreso[1].social = new ContenidoFase()
+                    {
+                        estado = "incompleto",
+                        documentos = new List<Documentos>()
+                        {
+                            new Documentos() { estado = "Pendiente", tipo = "InformeSocialFinal" },
+                            new Documentos() { estado = "Pendiente", tipo = "ActaExternamiento" },
+                        }
+                    };
+                    fase.progreso[1].psicologica = new ContenidoFase()
+                    {
+                        estado = "incompleto",
+                        documentos = new List<Documentos>()
+                        {
+                            new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoFinal" },
                         }
                     };
                 }
@@ -127,6 +184,23 @@ namespace SISDOMI.Services
                     documentos = new List<Documentos>()
                     {
                         new Documentos() { estado = "Pendiente", tipo = "InformeEducativoFinal" },
+                    }
+                };
+                fase.progreso[2].social = new ContenidoFase()
+                {
+                    estado = "icompleto",
+                    documentos = new List<Documentos>()
+                    {
+                        new Documentos() { estado = "Pendiente", tipo = "InformeSocialFinal" },
+                        new Documentos() { estado = "Pendiente", tipo = "ActaExternamiento" },
+                    }
+                };
+                fase.progreso[2].psicologica = new ContenidoFase()
+                {
+                    estado = "icompleto",
+                    documentos = new List<Documentos>()
+                    {
+                        new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoFinal" },
                     }
                 };
             }

@@ -14,7 +14,7 @@ namespace SISDOMI.DTOs
         [BsonRepresentation(BsonType.ObjectId)]
         public String id { get; set; }
         [BsonElement("fechacreacion")]
-        public DateTime fechaCreacion { get; set; }
+        public DateTime? fechaCreacion { get; set; }
         [BsonElement("titulo")]
         public String titulo { get; set; }
         [BsonElement("tipo")]

@@ -25,7 +25,7 @@ namespace SISDOMI.Entities
         [BsonElement("idcreador")]
         public string idcreador { get; set; }
         [BsonElement("fechacreacion")]
-        public DateTime fechacreacion { get; set; }
+        public DateTime? fechacreacion { get; set; }
         [BsonElement("area")]
         public string area { get; set; }
         [BsonElement("enlaces")]

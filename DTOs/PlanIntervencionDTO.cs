@@ -13,7 +13,7 @@ namespace SISDOMI.DTOs
         [BsonRepresentation(BsonType.ObjectId)]
         public String id { get; set; }
         
-        public DateTime fechacreacion { get; set; }
+        public DateTime? fechacreacion { get; set; }
         public String area { get; set; }
         public String fase { get; set; }
         public String estado { get; set; }

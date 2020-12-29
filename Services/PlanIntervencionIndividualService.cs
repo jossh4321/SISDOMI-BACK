@@ -188,12 +188,13 @@ namespace SISDOMI.Services
                 {"estado", 1 },
                 { "contenido", 1},
                 { "residente", 1},
-                { "creador", new BsonDocument("$concat", new BsonArray{ 
+                { "creador", new BsonDocument("$toString", "$creador._id") }
+                /*{ "creador", new BsonDocument("$concat", new BsonArray{ 
                                                             "$creador.datos.nombre",
                                                             " ",
                                                             "$creador.datos.apellido"
                                                          }) 
-                }
+                }*/
             });
 
             var lookupDocumentosNotPlan = new BsonDocument("$lookup",
@@ -283,15 +284,16 @@ namespace SISDOMI.Services
         // Plan de Intervención Educativo
         public async Task<PlanIntervencionIndividualEducativo> CreateIndividualInterventionPlan(PlanResidente planIntervencionIndividual)
         {
+            planIntervencionIndividual.planintervencionindividual.fechacreacion = DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
 
             Expediente expediente =await expedienteService.GetByResident(planIntervencionIndividual.idresidente);
 
             planIntervencionIndividual.planintervencionindividual.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, planIntervencionIndividual.planintervencionindividual.tipo, expediente.documentos.Count + 1);
 
-            Rol rol = await rolService.Get(planIntervencionIndividual.planintervencionindividual.contenido.firmas.ElementAt(0).cargo);
+            //Rol rol = await rolService.Get(planIntervencionIndividual.planintervencionindividual.contenido.firmas.ElementAt(0).cargo);
 
-            planIntervencionIndividual.planintervencionindividual.contenido.firmas.ElementAt(0).cargo = rol.nombre;
+            //planIntervencionIndividual.planintervencionindividual.contenido.firmas.ElementAt(0).cargo = rol.nombre;
 
             await _documentos.InsertOneAsync(planIntervencionIndividual.planintervencionindividual);
 
@@ -343,15 +345,16 @@ namespace SISDOMI.Services
         //Plan Intervencion Psicologica
         public async Task<PlanIntervencionIndividualPsicologico> CreatePsycologicalInterventionPlan(PlanResidentePsicologico planResidentePsicologico)
         {
+            planResidentePsicologico.planIntervencionIndividualPsicologico.fechacreacion =  DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
 
             Expediente expediente = await expedienteService.GetByResident(planResidentePsicologico.idresidente);
 
             planResidentePsicologico.planIntervencionIndividualPsicologico.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, planResidentePsicologico.planIntervencionIndividualPsicologico.tipo, expediente.documentos.Count + 1);
 
-            Rol rol = await rolService.Get(planResidentePsicologico.planIntervencionIndividualPsicologico.contenido.firmas.ElementAt(0).cargo);
+            //Rol rol = await rolService.Get(planResidentePsicologico.planIntervencionIndividualPsicologico.contenido.firmas.ElementAt(0).cargo);
 
-            planResidentePsicologico.planIntervencionIndividualPsicologico.contenido.firmas.ElementAt(0).cargo = rol.nombre;
+            //planResidentePsicologico.planIntervencionIndividualPsicologico.contenido.firmas.ElementAt(0).cargo = rol.nombre;
 
             await _documentos.InsertOneAsync(planResidentePsicologico.planIntervencionIndividualPsicologico);
 
@@ -362,7 +365,7 @@ namespace SISDOMI.Services
             };
 
             await expedienteService.UpdateDocuments(documentoExpediente, expediente.id);
-
+            Fase fase = faseService.ModifyStateForDocument(planResidentePsicologico.planIntervencionIndividualPsicologico.idresidente, planResidentePsicologico.planIntervencionIndividualPsicologico.fase, planResidentePsicologico.planIntervencionIndividualPsicologico.area, planResidentePsicologico.planIntervencionIndividualPsicologico.tipo);
             return planResidentePsicologico.planIntervencionIndividualPsicologico;
         }
 
@@ -403,15 +406,16 @@ namespace SISDOMI.Services
         //Plan Intervencion Social
         public async Task<PlanIntervencionIndividualSocial> CreateSocialInterventionPlan(PlanResidenteSocial planResidenteSocial)
         {
+            planResidenteSocial.planIntervencionIndividualSocial.fechacreacion = DateTime.UtcNow.AddHours(-5);
             DateTime DateNow = DateTime.UtcNow.AddHours(-5);
 
             Expediente expediente = await expedienteService.GetByResident(planResidenteSocial.idresidente);
 
             planResidenteSocial.planIntervencionIndividualSocial.contenido.codigoDocumento = document.CreateCodeDocument(DateNow, planResidenteSocial.planIntervencionIndividualSocial.tipo, expediente.documentos.Count + 1);
 
-            Rol rol = await rolService.Get(planResidenteSocial.planIntervencionIndividualSocial.contenido.firmas.ElementAt(0).cargo);
+            //Rol rol = await rolService.Get(planResidenteSocial.planIntervencionIndividualSocial.contenido.firmas.ElementAt(0).cargo);
 
-            planResidenteSocial.planIntervencionIndividualSocial.contenido.firmas.ElementAt(0).cargo = rol.nombre;
+            //planResidenteSocial.planIntervencionIndividualSocial.contenido.firmas.ElementAt(0).cargo = rol.nombre;
 
             await _documentos.InsertOneAsync(planResidenteSocial.planIntervencionIndividualSocial);
 
@@ -422,7 +426,7 @@ namespace SISDOMI.Services
             };
 
             await expedienteService.UpdateDocuments(documentoExpediente, expediente.id);
-
+            Fase fase = faseService.ModifyStateForDocument(planResidenteSocial.planIntervencionIndividualSocial.idresidente, planResidenteSocial.planIntervencionIndividualSocial.fase, planResidenteSocial.planIntervencionIndividualSocial.area, planResidenteSocial.planIntervencionIndividualSocial.tipo);
             return planResidenteSocial.planIntervencionIndividualSocial;
         }
 

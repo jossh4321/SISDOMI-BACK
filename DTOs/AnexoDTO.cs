@@ -19,7 +19,7 @@ namespace SISDOMI.DTOs
         public string residente { get; set; }
         public string idcreador { get; set; }
         public string creador { get; set; }
-        public DateTime fechacreacion { get; set; }
+        public DateTime? fechacreacion { get; set; }
         public string area { get; set; }
         public List<Enlace> enlaces { get; set; }
     }

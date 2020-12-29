@@ -20,7 +20,7 @@ namespace SISDOMI.DTOs
         [BsonElement("creadordocumento")]
         public string creadordocumento { get; set; }
         [BsonElement("fechacreacion")]
-        public DateTime fechacreacion { get; set; }
+        public DateTime? fechacreacion { get; set; }
         [BsonElement("area")]
         public string area { get; set; }
         [BsonElement("fase")]
@@ -58,7 +58,7 @@ namespace SISDOMI.DTOs
         [BsonElement("creadordocumento")]
         public Usuario creadorDocumento { get; set; }
         [BsonElement("fechacreacion")]
-        public DateTime fechaCreacion { get; set; }
+        public DateTime? fechaCreacion { get; set; }
         [BsonElement("area")]
         public string area { get; set; }
         [BsonElement("fase")]

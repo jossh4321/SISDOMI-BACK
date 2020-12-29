@@ -15,7 +15,7 @@ namespace SISDOMI.DTOs
         public string id { get; set; }
         public string titulo { get; set; }
         public string idcreador { get; set; }
-        public DateTime fechacreacion { get; set; }
+        public DateTime? fechacreacion { get; set; }
         public string area { get; set; }
         public ContenidoSesionEducativaDTO contenido { get; set; }
         public string tipo { get; set; }
@@ -60,7 +60,7 @@ namespace SISDOMI.DTOs
         public string idCreador { get; set; }
 
         [BsonElement("fechacreacion")]
-        public DateTime fechaCreacion { get; set; }
+        public DateTime? fechaCreacion { get; set; }
 
         [BsonElement("area")]
         public string area { get; set; }

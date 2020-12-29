@@ -215,9 +215,8 @@ namespace SISDOMI.Services
         }
 
         public async Task<ActionResult<Anexo>> CreateAnexo(Anexo anexo)
-        {
-            DateTime DateNow = DateTime.UtcNow.AddHours(-5);
-            anexo.fechacreacion = DateNow;
+        {            
+            anexo.fechacreacion = DateTime.UtcNow.AddHours(-5);
             await _anexos.InsertOneAsync(anexo);
             return anexo;
         }

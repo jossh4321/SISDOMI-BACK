@@ -121,7 +121,9 @@ namespace SISDOMI.Services
 
             Expediente expediente = await expedienteService.GetByResident(actaExternamiento.idresidente);
 
-        
+            //actaExternamiento.creadordocumento = document.CreateCodeDocument(dateTime, actaExternamiento.tipo, expediente.documentos.Count + 1);
+
+         
             
             await _documentos.InsertOneAsync(actaExternamiento);
 

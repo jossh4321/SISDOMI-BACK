@@ -13,7 +13,7 @@ namespace SISDOMI.DTOs
             [BsonRepresentation(BsonType.ObjectId)]
             public string id { get; set; }
             public string tipo { get; set; }
-            public DateTime fechacreacion { get; set; }
+            public DateTime? fechacreacion { get; set; }
             public string estado { get; set; }
             public string codigodocumento { get; set; }
             public string nombrecompleto { get; set; }
