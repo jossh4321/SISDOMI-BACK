@@ -163,6 +163,7 @@ namespace SISDOMI.Services
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
             _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+            Fase fase = faseService.ModifyStateForDocument(informe.idresidente, informe.fase, informe.area, informe.tipo);
             return informe;
         }
         public async Task<InformeSocialEvolutivo> RegistrarInformeSE(InformeSocialEvolutivo informe)
@@ -179,6 +180,7 @@ namespace SISDOMI.Services
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
             _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+            Fase fase = faseService.ModifyStateForDocument(informe.idresidente, informe.fase, informe.area, informe.tipo);
             return informe;
         }
 
@@ -197,6 +199,7 @@ namespace SISDOMI.Services
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
             _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+            Fase fase = faseService.ModifyStateForDocument(informe.idresidente, informe.fase, informe.area, informe.tipo);
             return informe;
         }
 
@@ -214,6 +217,7 @@ namespace SISDOMI.Services
             };
             UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
             _expedientes.FindOneAndUpdate(x => x.idresidente == informe.idresidente, updateExpediente);
+            Fase fase = faseService.ModifyStateForDocument(informe.idresidente, informe.fase, informe.area, informe.tipo);
             return informe;
         }
 
