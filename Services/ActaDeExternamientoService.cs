@@ -121,9 +121,9 @@ namespace SISDOMI.Services
 
             actaExternamiento.creadordocumento = document.CreateCodeDocument(dateTime, actaExternamiento.tipo, expediente.documentos.Count + 1);
 
-            Rol rol = await rolService.Get(actaExternamiento.contenido.firmas.ElementAt(0).cargo);
+            //Rol rol = await rolService.Get(actaExternamiento.contenido.firmas.ElementAt(0).cargo);
             
-            actaExternamiento.contenido.firmas.ElementAt(0).cargo = rol.nombre;
+            //actaExternamiento.contenido.firmas.ElementAt(0).cargo = rol.nombre;
             
             await _documentos.InsertOneAsync(actaExternamiento);
 
