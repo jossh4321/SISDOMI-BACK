@@ -57,7 +57,6 @@ namespace SISDOMI.Entities
         public List<AnexosDocumento> anexos { get; set; }     
         public string codigodocumento { get; set; }
         public string lugarevaluacion { get; set; }
-        public string evaluador { get; set; }
         public DateTime fechaevaluacion { get; set; }
     }
 
@@ -75,7 +74,6 @@ namespace SISDOMI.Entities
         public InstitucionEducativa iereinsersion { get; set; }
         public List<AnexosDocumento> anexos { get; set; }
         public string codigodocumento { get; set; }
-        public string evaluador { get; set; }
         public DateTime fechaevaluacion { get; set; }
     }
     public class InformeEducativoEvolutivo : Documento
@@ -96,7 +94,6 @@ namespace SISDOMI.Entities
         public List<string> recomendaciones { get; set; }
         public List<AnexosDocumento> anexos { get; set; }      
         public string codigodocumento { get; set; }
-        public string evaluador { get; set; }
     }
     public class InformeSocialInicial : Documento
     {
@@ -110,7 +107,6 @@ namespace SISDOMI.Entities
         public List<string> recomendaciones { get; set; }
         public List<AnexosDocumento> anexos { get; set; }
         public string codigodocumento { get; set; }
-        public string evaluador { get; set; }
     }
     public class InformeSocialEvolutivo : Documento
     {
@@ -125,7 +121,6 @@ namespace SISDOMI.Entities
         public List<string> recomendaciones { get; set; }
         public List<string> conclusiones { get; set; }  
         public string codigodocumento { get; set; }
-        public string evaluador { get; set; }
         public DateTime fechaevaluacion { get; set; }
     }
     public class InformePsicologicoInicial : Documento
@@ -143,7 +138,6 @@ namespace SISDOMI.Entities
         public List<string> recomendaciones { get; set; }
         public List<AnexosDocumento> anexos { get; set; }
         public string codigodocumento { get; set; }
-        public string evaluador { get; set; }
         public DateTime fechaevaluacion { get; set; }
     }
     public class InformePsicologicoEvolutivo : Documento
