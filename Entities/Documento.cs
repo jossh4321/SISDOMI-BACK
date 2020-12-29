@@ -173,9 +173,7 @@ namespace SISDOMI.Entities
         public String codigoDocumento { get; set; }
     }
     public class ContenidoFichaIngresoEducativo {
-        public Procedencia ieprocedencia { get; set; } = new Procedencia();
-        [BsonElement("responsableturno")]
-        public String responsableTurno { get; set; }
+        public Procedencia ieprocedencia { get; set; } = new Procedencia();        
         public List<String> observaciones { get; set; } = new List<String>();
         [BsonElement("codigodocumento")]
         public String codigoDocumento { get; set; }
@@ -196,8 +194,7 @@ namespace SISDOMI.Entities
     }
     public class ContenidoFichaIngresoPsicologica
     {
-        //public Firma firma { get; set; } = new Firma();
-        public String responsableturno { get; set; }
+        //public Firma firma { get; set; } = new Firma();        
         public List<PadresFichaIngreso> padres { get; set; } = new List<PadresFichaIngreso>();
         public List<HermanosFichaIngreso> hermanos { get; set; } = new List<HermanosFichaIngreso>();
         public Escolaridad  escolaridad { get; set; } = new Escolaridad ();
