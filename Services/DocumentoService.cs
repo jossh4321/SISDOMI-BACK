@@ -277,6 +277,20 @@ namespace SISDOMI.Services
 
 
 
-    }
+        }
+        public async Task<List<DocumentoDTO>> GetByIdResidenteAndTipo(String tipodoc, String residenteid)
+        {
+            var match = new BsonDocument("$match",
+                        new BsonDocument
+                        {
+                            { "tipo", tipodoc },
+                            { "idresidente", residenteid }
+                        });
+            List<DocumentoDTO> documento = new List<DocumentoDTO>();
+            documento = await _documentos.Aggregate()
+                            .AppendStage<DocumentoDTO>(match)
+                            .ToListAsync();
+            return documento;
+        }
     }
 }
