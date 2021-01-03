@@ -85,10 +85,10 @@ namespace SISDOMI.Services
                 estado = "incompleto",
                 documentos = new List<Documentos>()
                     {
-                        new Documentos() { estado = "Pendiente", tipo = "FichaEducativaIngreso" },
-                        new Documentos() { estado = "Pendiente", tipo = "InformeEducativoInicial" },
-                        new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualEducativo" },
-                        new Documentos() { estado = "Pendiente", tipo = "InformeSeguimientoEducativo" },
+                        new Documentos() { estado = residente.progreso[0].estado == "omitido" ? "omitido" : "Pendiente", tipo = "FichaEducativaIngreso" },
+                        new Documentos() { estado = residente.progreso[0].estado == "omitido" ? "omitido" : "Pendiente", tipo = "InformeEducativoInicial" },
+                        new Documentos() { estado = residente.progreso[0].estado == "omitido" ? "omitido" : "Pendiente", tipo = "PlanIntervencionIndividualEducativo" },
+                        new Documentos() { estado = residente.progreso[0].estado == "omitido" ? "omitido" : "Pendiente", tipo = "InformeSeguimientoEducativo" },
                     }
             };
             fase.progreso[0].social = new ContenidoFase()
@@ -96,10 +96,10 @@ namespace SISDOMI.Services
                 estado = "incompleto",
                 documentos = new List<Documentos>()
                     {
-                        new Documentos() { estado = "Pendiente", tipo = "FichaSocialIngreso" },
-                        new Documentos() { estado = "Pendiente", tipo = "InformeSocialInicial" },
-                        new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualSocial" },
-                        new Documentos() { estado = "Pendiente", tipo = "InformeSocialEvolutivo" },
+                        new Documentos() { estado = residente.progreso[0].estado == "omitido" ? "omitido" : "Pendiente", tipo = "FichaSocialIngreso" },
+                        new Documentos() { estado = residente.progreso[0].estado == "omitido" ? "omitido" : "Pendiente", tipo = "InformeSocialInicial" },
+                        new Documentos() { estado = residente.progreso[0].estado == "omitido" ? "omitido" : "Pendiente", tipo = "PlanIntervencionIndividualSocial" },
+                        new Documentos() { estado = residente.progreso[0].estado == "omitido" ? "omitido" : "Pendiente", tipo = "InformeSocialEvolutivo" },
                     }
             };
             fase.progreso[0].psicologica = new ContenidoFase()
@@ -107,10 +107,10 @@ namespace SISDOMI.Services
                 estado = "incompleto",
                 documentos = new List<Documentos>()
                     {
-                        new Documentos() { estado = "Pendiente", tipo = "FichaPsicologicaIngreso" },
-                        new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoInicial" },
-                        new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualPsicologico" },
-                        new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoEvolutivo" },
+                        new Documentos() { estado = residente.progreso[0].estado == "omitido" ? "omitido" : "Pendiente", tipo = "FichaPsicologicaIngreso" },
+                        new Documentos() { estado = residente.progreso[0].estado == "omitido" ? "omitido" : "Pendiente", tipo = "InformePsicologicoInicial" },
+                        new Documentos() { estado = residente.progreso[0].estado == "omitido" ? "omitido" : "Pendiente", tipo = "PlanIntervencionIndividualPsicologico" },
+                        new Documentos() { estado = residente.progreso[0].estado == "omitido" ? "omitido" : "Pendiente", tipo = "InformePsicologicoEvolutivo" },
                     }
             };
             if (residente.progreso.Count() > 1)
@@ -123,8 +123,8 @@ namespace SISDOMI.Services
                         estado = "incompleto",
                         documentos = new List<Documentos>()
                         {
-                            new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualEducativo" },
-                            new Documentos() { estado = "Pendiente", tipo = "InformeEducativoEvolutivo" },
+                            new Documentos() { estado = residente.progreso[1].estado == "omitido" ? "omitido" : "Pendiente", tipo = "PlanIntervencionIndividualEducativo" },
+                            new Documentos() { estado = residente.progreso[1].estado == "omitido" ? "omitido" : "Pendiente", tipo = "InformeEducativoEvolutivo" },
                         }
                     };
                     fase.progreso[1].social = new ContenidoFase()
@@ -132,8 +132,8 @@ namespace SISDOMI.Services
                         estado = "incompleto",
                         documentos = new List<Documentos>()
                         {
-                            new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualSocial" },
-                            new Documentos() { estado = "Pendiente", tipo = "InformeSocialEvolutivo" },
+                            new Documentos() { estado = residente.progreso[1].estado == "omitido" ? "omitido" : "Pendiente", tipo = "PlanIntervencionIndividualSocial" },
+                            new Documentos() { estado = residente.progreso[1].estado == "omitido" ? "omitido" : "Pendiente", tipo = "InformeSocialEvolutivo" },
                         }
                     };
                     fase.progreso[1].psicologica = new ContenidoFase()
@@ -141,8 +141,8 @@ namespace SISDOMI.Services
                         estado = "incompleto",
                         documentos = new List<Documentos>()
                         {
-                            new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualPsicologico" },
-                            new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoEvolutivo" },
+                            new Documentos() { estado = residente.progreso[1].estado == "omitido" ? "omitido" : "Pendiente", tipo = "PlanIntervencionIndividualPsicologico" },
+                            new Documentos() { estado = residente.progreso[1].estado == "omitido" ? "omitido" : "Pendiente", tipo = "InformePsicologicoEvolutivo" },
                         }
                     };
                 }
@@ -153,7 +153,7 @@ namespace SISDOMI.Services
                         estado = "incompleto",
                         documentos = new List<Documentos>()
                         {
-                            new Documentos() { estado = "Pendiente", tipo = "InformeEducativoFinal" },
+                            new Documentos() { estado = residente.progreso[1].estado == "omitido" ? "omitido" : "Pendiente", tipo = "InformeEducativoFinal" },
                         }
                     };
                     fase.progreso[1].social = new ContenidoFase()
@@ -161,8 +161,8 @@ namespace SISDOMI.Services
                         estado = "incompleto",
                         documentos = new List<Documentos>()
                         {
-                            new Documentos() { estado = "Pendiente", tipo = "InformeSocialFinal" },
-                            new Documentos() { estado = "Pendiente", tipo = "ActaExternamiento" },
+                            new Documentos() { estado = residente.progreso[1].estado == "omitido" ? "omitido" : "Pendiente", tipo = "InformeSocialFinal" },
+                            new Documentos() { estado = residente.progreso[1].estado == "omitido" ? "omitido" : "Pendiente", tipo = "ActaExternamiento" },
                         }
                     };
                     fase.progreso[1].psicologica = new ContenidoFase()
@@ -170,7 +170,7 @@ namespace SISDOMI.Services
                         estado = "incompleto",
                         documentos = new List<Documentos>()
                         {
-                            new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoFinal" },
+                            new Documentos() { estado = residente.progreso[1].estado == "omitido" ? "omitido" : "Pendiente", tipo = "InformePsicologicoFinal" },
                         }
                     };
                 }
@@ -180,7 +180,7 @@ namespace SISDOMI.Services
                 fase.progreso.Add(new ProgresoFase());
                 fase.progreso[2].educativa = new ContenidoFase()
                 {
-                    estado = "icompleto",
+                    estado = "incompleto",
                     documentos = new List<Documentos>()
                     {
                         new Documentos() { estado = "Pendiente", tipo = "InformeEducativoFinal" },
@@ -188,7 +188,7 @@ namespace SISDOMI.Services
                 };
                 fase.progreso[2].social = new ContenidoFase()
                 {
-                    estado = "icompleto",
+                    estado = "incompleto",
                     documentos = new List<Documentos>()
                     {
                         new Documentos() { estado = "Pendiente", tipo = "InformeSocialFinal" },
@@ -197,7 +197,7 @@ namespace SISDOMI.Services
                 };
                 fase.progreso[2].psicologica = new ContenidoFase()
                 {
-                    estado = "icompleto",
+                    estado = "incompleto",
                     documentos = new List<Documentos>()
                     {
                         new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoFinal" },
@@ -209,7 +209,7 @@ namespace SISDOMI.Services
                 fase.progreso.Add(new ProgresoFase());
                 fase.progreso[3].educativa = new ContenidoFase()
                 {
-                    estado = "icompleto",
+                    estado = "incompleto",
                     documentos = new List<Documentos>()
                     {
                         new Documentos() { estado = "Pendiente", tipo = "NO SE QUE DOCUMENTO VA AQUI" },
