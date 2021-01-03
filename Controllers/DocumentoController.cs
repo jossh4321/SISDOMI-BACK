@@ -169,5 +169,21 @@ namespace SISDOMI.Controllers
             FichaIngresoEducativa fichaIngresoEducativa = _fichaIngresoEducativoService.GetByResidenteId(idresidente);
             return fichaIngresoEducativa;
         }
+
+        [HttpGet("{tipodoc}/residente/{residenteid}")]
+        public async Task<ActionResult<List<DocumentoDTO>>> GetDocumentoByTypeAndResident(String tipodoc, String residenteid)
+        {
+            try
+            {
+                List<DocumentoDTO> documentos = await documentoService.GetByIdResidenteAndTipo(tipodoc, residenteid);
+
+                return documentos;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
     }
 }
