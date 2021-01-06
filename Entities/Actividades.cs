@@ -20,8 +20,8 @@ namespace SISDOMI.Entities
         public string descripcion { get; set; }
         [BsonElement("fechacreacion")]
         public DateTime fechacreacion { get; set; }
-        [BsonElement("creadordocumento")]
-        public string creadordocumento { get; set; }
+        [BsonElement("idcreador")]
+        public string idcreador { get; set; }
         public ContenidoActividad contenido { get; set; } = new ContenidoActividad();
     }
     public class ContenidoActividad

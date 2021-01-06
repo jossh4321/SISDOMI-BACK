@@ -17,13 +17,13 @@ namespace SISDOMI.DTOs
         public string nombre { get; set; }
         public string descripcion { get; set; }
         public DateTime fechacreacion { get; set; }
-        public string creadordocumento { get; set; }
+        public string idcreador { get; set; }
         public Object contenido { get; set; }
     }
 
     public class ActividadDTOConsulta : ActividadDTO
     {
-        public string nombrecreador { get; set; }
+        public string creador { get; set; }
         public int totalparticipantes { get; set; }
     }
 }
