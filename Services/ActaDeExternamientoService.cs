@@ -104,6 +104,9 @@ namespace SISDOMI.Services
                 .Set("fase",documento.fase)
                 .Set("estado","modificado")
                 .Set("contenido.entidaddisposicion", documento.contenido.entidaddisposicion)
+                 .Set("contenido.numeroresolucion", documento.contenido.numeroresolucion)
+                  .Set("contenido.numerooficio", documento.contenido.numerooficio)
+                   .Set("contenido.observaciones", documento.contenido.observaciones)
                 ;
            var documentoUpdate = _documentos.FindOneAndUpdate<Documento>(filterId, update, new FindOneAndUpdateOptions<Documento>
             {
