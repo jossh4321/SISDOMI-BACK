@@ -99,11 +99,14 @@ namespace SISDOMI.Services
 
             var filterId = Builders<Documento>.Filter.Eq("id", documento.id);
             var update = Builders<Documento>.Update
-                .Set("responsable", documento.contenido.responsable)
+                .Set("contenido.responsable", documento.contenido.responsable)
                 .Set("estado",documento.estado)
                 .Set("fase",documento.fase)
                 .Set("estado","modificado")
-                .Set("entidaddisposicion", documento.contenido.entidaddisposicion)
+                .Set("contenido.entidaddisposicion", documento.contenido.entidaddisposicion)
+                 .Set("contenido.numeroresolucion", documento.contenido.numeroresolucion)
+                  .Set("contenido.numerooficio", documento.contenido.numerooficio)
+                   .Set("contenido.observaciones", documento.contenido.observaciones)
                 ;
            var documentoUpdate = _documentos.FindOneAndUpdate<Documento>(filterId, update, new FindOneAndUpdateOptions<Documento>
             {
