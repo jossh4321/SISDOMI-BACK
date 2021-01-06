@@ -18,7 +18,7 @@ namespace SISDOMI.Controllers
     [Route("api/[controller]")]
     public class PerfilController : ControllerBase
     {
-
+        private readonly UsuarioService _usuarioservice;
         private readonly PerfilService _Perfilservice;
         private readonly IFileStorage _fileStorage;
         public PerfilController(PerfilService perfilService, IFileStorage fileStorage)

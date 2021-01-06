@@ -43,6 +43,7 @@ namespace SISDOMI.Services
             var update = Builders<Usuario>.Update
                 .Set("usuario", usuario.usuario)
                 .Set("datos", usuario.datos);
+
             usuario = await _usuarios.FindOneAndUpdateAsync<Usuario>(filter, update, new FindOneAndUpdateOptions<Usuario>
             {
                 ReturnDocument = ReturnDocument.After
