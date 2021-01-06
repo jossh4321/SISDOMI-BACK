@@ -85,10 +85,10 @@ namespace SISDOMI.Services
                 estado = "incompleto",
                 documentos = new List<Documentos>()
                     {
-                        new Documentos() { estado = "Pendiente", tipo = "FichaEducativaIngreso" },
-                        new Documentos() { estado = "Pendiente", tipo = "InformeEducativoInicial" },
-                        new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualEducativo" },
-                        new Documentos() { estado = "Pendiente", tipo = "InformeSeguimientoEducativo" },
+                        new Documentos() { estado = "Pendiente", tipo = "FichaEducativaIngreso", fechaestimada = DateTime.Today },
+                        new Documentos() { estado = "Pendiente", tipo = "InformeEducativoInicial",fechaestimada = DateTime.Today.AddMonths(1)  },
+                        new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualEducativo", fechaestimada = DateTime.Today.AddMonths(2)  },
+                        new Documentos() { estado = "Pendiente", tipo = "InformeSeguimientoEducativo",fechaestimada = DateTime.Today.AddMonths(3)  },
                     }
             };
             fase.progreso[0].social = new ContenidoFase()
