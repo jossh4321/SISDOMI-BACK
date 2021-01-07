@@ -42,27 +42,27 @@ namespace SISDOMI.Controllers
         [HttpPost("fichaEvaluacionDE")]
         public async Task<ActionResult<FichaEvaluacionDiagnosticoEducativo>> CrearFichaEvaluacionDE(FichaEvaluacionDiagnosticoEducativo informe)
         {           
-            foreach (var item in informe.contenido.firmas)
-            {
-                if (!string.IsNullOrWhiteSpace(item.urlfirma))
-                {
-                    var imgfirma = Convert.FromBase64String(item.urlfirma);
-                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
-                }
-            }
+         //   foreach (var item in informe.contenido.firmas)
+         //   {
+         //       if (!string.IsNullOrWhiteSpace(item.urlfirma))
+          //      {
+         //           var imgfirma = Convert.FromBase64String(item.urlfirma);
+         //           item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+         //       }
+          //  }
             return await _diagnosticoeducativoservice.RegistrarFichaEvaluacionDE(informe);
         }
         [HttpPut("fichaEvaluacionDE")]
         public async Task<ActionResult<FichaEvaluacionDiagnosticoEducativo>> ModificarFichaEvaluacionDE(FichaEvaluacionDiagnosticoEducativo informe)
         {
-            foreach (var item in informe.contenido.firmas)
-            {
-                if (!string.IsNullOrWhiteSpace(item.urlfirma) && !item.urlfirma.Contains("http"))
-                {
-                    var imgfirma = Convert.FromBase64String(item.urlfirma);
-                    item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
-                }
-            }
+         //   foreach (var item in informe.contenido.firmas)
+         //   {
+         //       if (!string.IsNullOrWhiteSpace(item.urlfirma) && !item.urlfirma.Contains("http"))
+         //       {
+         //           var imgfirma = Convert.FromBase64String(item.urlfirma);
+          //          item.urlfirma = await _fileStorage.SaveFile(imgfirma, "png", "informes");
+           //     }
+          //  }
             return await _diagnosticoeducativoservice.ModificarFichaEvaluacionDE(informe);
         }
     }
