@@ -177,11 +177,17 @@ namespace SISDOMI.Services
                 { "contenido", 1},
                 { "fechacreacion", 1 },
                 { "residente", 1},
-                { "creador", new BsonDocument("$concat", new BsonArray{
+                { "creador", 
+                    new BsonDocument
+                    {
+                        { "nombres", new BsonDocument("$concat", new BsonArray{
                                                             "$creador.datos.nombre",
                                                             " ",
                                                             "$creador.datos.apellido"
-                                                         })
+                                                         }) 
+                        },
+                        { "firma", "$creador.datos.firma" }
+                    }
                 }
             });
 
