@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using SISDOMI.Helpers;
 using SISDOMI.Services;
 using Microsoft.OpenApi.Models;
+using SISDOMI.Hubs;
 
 namespace SISDOMI
 {
@@ -66,6 +67,7 @@ namespace SISDOMI
             services.AddScoped<MediaService>();
             services.AddScoped<RolService>();
             services.AddScoped<FaseService>();
+            services.AddScoped<NotificacionService>();
             services.AddScoped<AnexoService>();
             services.AddScoped<ActaDeExternamientoService>();
             services.AddScoped<DocumentoService>();
@@ -128,6 +130,8 @@ namespace SISDOMI
                 });
 
             });
+            //Notificaciones:
+            //services.AddSignalR();
 
         }
 
@@ -159,6 +163,8 @@ namespace SISDOMI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                //Notificaciones:
+                //endpoints.MapHub<NotificationHub>("/NotificationHub");
             });
         }
     }
