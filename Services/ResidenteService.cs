@@ -83,7 +83,7 @@ namespace SISDOMI.Services
             int totalProgreso = residente.progreso.Count;
             fase.progreso[0].educativa = new ContenidoFase()
             {
-                estado = "incompleto",
+                estado = totalProgreso > 1 ? "omitido" : "incompleto",
                 documentos = new List<Documentos>()
                     {
                         new Documentos() { estado = totalProgreso > 1 ? "omitido" : "Pendiente", tipo = "FichaEducativaIngreso", fechaestimada = DateTime.Today },
@@ -94,7 +94,7 @@ namespace SISDOMI.Services
             };
             fase.progreso[0].social = new ContenidoFase()
             {
-                estado = "incompleto",
+                estado = totalProgreso > 1 ? "omitido" : "incompleto",
                 documentos = new List<Documentos>()
                     {
                         new Documentos() { estado = totalProgreso > 1 ? "omitido" : "Pendiente", tipo = "FichaSocialIngreso" , fechaestimada = DateTime.Today},
@@ -105,7 +105,7 @@ namespace SISDOMI.Services
             };
             fase.progreso[0].psicologica = new ContenidoFase()
             {
-                estado = "incompleto",
+                estado = totalProgreso > 1 ? "omitido" : "incompleto",
                 documentos = new List<Documentos>()
                     {
                         new Documentos() { estado = totalProgreso > 1 ? "omitido" : "Pendiente", tipo = "FichaPsicologicaIngreso", fechaestimada = DateTime.Today },
@@ -121,7 +121,7 @@ namespace SISDOMI.Services
                 {
                     fase.progreso[1].educativa = new ContenidoFase()
                     {
-                        estado = "incompleto",
+                        estado = totalProgreso > 2 ? "omitido" : "incompleto",
                         documentos = new List<Documentos>()
                         {
                             new Documentos() { estado = totalProgreso > 2 ? "omitido" : "Pendiente", tipo = "PlanIntervencionIndividualEducativo", fechaestimada = DateTime.Today },
@@ -130,7 +130,7 @@ namespace SISDOMI.Services
                     };
                     fase.progreso[1].social = new ContenidoFase()
                     {
-                        estado = "incompleto",
+                        estado = totalProgreso > 2 ? "omitido" : "incompleto",
                         documentos = new List<Documentos>()
                         {
                             new Documentos() { estado = totalProgreso > 2 ? "omitido" : "Pendiente", tipo = "PlanIntervencionIndividualSocial",fechaestimada = DateTime.Today },
@@ -139,7 +139,7 @@ namespace SISDOMI.Services
                     };
                     fase.progreso[1].psicologica = new ContenidoFase()
                     {
-                        estado = "incompleto",
+                        estado = totalProgreso > 2 ? "omitido" : "incompleto",
                         documentos = new List<Documentos>()
                         {
                             new Documentos() { estado = totalProgreso > 2 ? "omitido" : "Pendiente", tipo = "PlanIntervencionIndividualPsicologico", fechaestimada = DateTime.Today },
@@ -151,7 +151,7 @@ namespace SISDOMI.Services
                 {
                     fase.progreso[1].educativa = new ContenidoFase()
                     {
-                        estado = "incompleto",
+                        estado = totalProgreso > 2 ? "omitido" : "incompleto",
                         documentos = new List<Documentos>()
                         {
                             new Documentos() { estado = totalProgreso > 2 ? "omitido" : "Pendiente", tipo = "InformeEducativoFinal", fechaestimada = DateTime.Today },
@@ -159,7 +159,7 @@ namespace SISDOMI.Services
                     };
                     fase.progreso[1].social = new ContenidoFase()
                     {
-                        estado = "incompleto",
+                        estado = totalProgreso > 2 ? "omitido" : "incompleto",
                         documentos = new List<Documentos>()
                         {
                             new Documentos() { estado = totalProgreso > 2 ? "omitido" : "Pendiente", tipo = "InformeSocialFinal",fechaestimada = DateTime.Today },
@@ -168,7 +168,7 @@ namespace SISDOMI.Services
                     };
                     fase.progreso[1].psicologica = new ContenidoFase()
                     {
-                        estado = "incompleto",
+                        estado = totalProgreso > 2 ? "omitido" : "incompleto",
                         documentos = new List<Documentos>()
                         {
                             new Documentos() { estado = totalProgreso > 2 ? "omitido" : "Pendiente", tipo = "InformePsicologicoFinal",fechaestimada = DateTime.Today },
