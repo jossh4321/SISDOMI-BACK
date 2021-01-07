@@ -45,7 +45,13 @@ namespace SISDOMI.DTOs
         public DateTime? fechacreacion { get; set; }
         public Object contenido { get; set; }
         public Residentes residente { get; set; }
-        public String creador { get; set; }
+        public UsuarioFirma creador { get; set; }
+
+        public class UsuarioFirma
+        {
+            public String nombres { get; set; }
+            public String firma { get; set; }
+        }
     }
 
     public class BuscarExpedienteDocumentoDTO
