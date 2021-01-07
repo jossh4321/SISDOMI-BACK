@@ -41,7 +41,9 @@ namespace SISDOMI.Services
         {
             var filter = Builders<Usuario>.Filter.Eq("id", usuario.id);
             var update = Builders<Usuario>.Update
+                .Set("usuario", usuario.usuario)
                 .Set("datos", usuario.datos);
+
             usuario = await _usuarios.FindOneAndUpdateAsync<Usuario>(filter, update, new FindOneAndUpdateOptions<Usuario>
             {
                 ReturnDocument = ReturnDocument.After

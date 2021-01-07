@@ -52,14 +52,14 @@ namespace SISDOMI.Controllers
         [HttpPut("fichaingresosocial")]
         public async Task<ActionResult<FichaIngresoDTO>> PutFichaIngresoSocial(FichaIngresoSocial  documento)
         {         
-            if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
+            /*if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
             {
                 if (!documento.contenido.firma.urlfirma.Contains("https://") && !documento.contenido.firma.urlfirma.Contains("http://"))
                 {
                     var imgfirma = Convert.FromBase64String(documento.contenido.firma.urlfirma);
                     documento.contenido.firma.urlfirma = await _fileStorage.SaveFile(imgfirma, "jpg", "fichaingreso");
                 }
-            }
+            }*/
             FichaIngresoDTO objetofichaSocial = await _fichaIngresoSocialService.ModifyFichaIngresoSocial(documento);
             return objetofichaSocial;
         }
@@ -73,14 +73,14 @@ namespace SISDOMI.Controllers
         [HttpPut("fichaingresopsicologica")]
         public async Task<ActionResult<FichaIngresoDTO>> PutFichaIngresoPsicologica(FichaIngresoPsicologica  documento)
         {
-            if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
+            /*if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
             {
                 if (!documento.contenido.firma.urlfirma.Contains("https://") && !documento.contenido.firma.urlfirma.Contains("http://"))
                 {
                     var imgfirma = Convert.FromBase64String(documento.contenido.firma.urlfirma);
                     documento.contenido.firma.urlfirma = await _fileStorage.SaveFile(imgfirma, "jpg", "fichaingreso");
                 }
-            }
+            }*/
             return await _fichaIngresoPsicologicaService.ModifyFichaIngresoPsicologica(documento);
         }
         [HttpPost("fichaeducativaingreso")]
@@ -92,22 +92,22 @@ namespace SISDOMI.Controllers
         [HttpPost("fichaingresosocialcrear")]
         public async Task<ActionResult<FichaIngresoDTO>> PostFichaIngresoSocial(FichaIngresoSocial documento)
         {         
-            if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
+           /* if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
             {
                 var imgfirma = Convert.FromBase64String(documento.contenido.firma.urlfirma);
                 documento.contenido.firma.urlfirma = await _fileStorage.SaveFile(imgfirma, "jpg", "fichaingreso");
-            }
+            }*/
             return await _fichaIngresoSocialService.CreateFichaIngresoSocial(documento);
         }
 
         [HttpPost("fichaingresopsicologicacrear")]
         public async Task<ActionResult<FichaIngresoDTO>> PostFichaIngresoPsicologica(FichaIngresoPsicologica  documento)
         {            
-            if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
+            /*if (!string.IsNullOrWhiteSpace(documento.contenido.firma.urlfirma))
             {
                 var imgfirma = Convert.FromBase64String(documento.contenido.firma.urlfirma);
                 documento.contenido.firma.urlfirma = await _fileStorage.SaveFile(imgfirma, "jpg", "fichaingreso");
-            }
+            }*/
             return await _fichaIngresoPsicologicaService.CreateFichaIngresoPsicologica(documento);
         }
         [HttpGet("all/fichaingresoresidente")]
@@ -168,6 +168,22 @@ namespace SISDOMI.Controllers
         {
             FichaIngresoEducativa fichaIngresoEducativa = _fichaIngresoEducativoService.GetByResidenteId(idresidente);
             return fichaIngresoEducativa;
+        }
+
+        [HttpGet("{tipodoc}/residente/{residenteid}")]
+        public async Task<ActionResult<List<DocumentoDTO>>> GetDocumentoByTypeAndResident(String tipodoc, String residenteid)
+        {
+            try
+            {
+                List<DocumentoDTO> documentos = await documentoService.GetByIdResidenteAndTipo(tipodoc, residenteid);
+
+                return documentos;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
         }
     }
 }

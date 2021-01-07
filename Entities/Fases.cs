@@ -44,5 +44,6 @@ namespace SISDOMI.Entities
     {
         public string tipo { get; set; }
         public string estado { get; set; }
+        public DateTime fechaestimada { get; set; } = new DateTime();
     }
 }

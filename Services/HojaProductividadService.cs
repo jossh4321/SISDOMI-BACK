@@ -6,6 +6,7 @@ using SISDOMI.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SISDOMI.Services
@@ -26,6 +27,18 @@ namespace SISDOMI.Services
 
             var matchHoja = new BsonDocument("$match", new BsonDocument("idresidente", id));
 
+            var matchTipo = new BsonDocument("$match",
+                            new BsonDocument("tipo",
+                            new BsonDocument("$in",
+                            new BsonArray
+                            {
+                                new Regex("Inicial"),
+                                new Regex("PlanIntervencion"),
+                                new Regex("Evolutivo"),
+                                new Regex("Evaluacion"),
+                                new Regex("Final")
+                            })));
+
             var groupHoja = new BsonDocument("$group",
                             new BsonDocument
                             {
@@ -42,6 +55,7 @@ namespace SISDOMI.Services
                                 });
             hoja = await _documentos.Aggregate()
                                     .AppendStage<dynamic>(matchHoja)
+                                    .AppendStage<dynamic>(matchTipo)
                                     .AppendStage<dynamic>(groupHoja)
                                     .AppendStage<EstadisticaDTO>(projectHoja)
                                     .ToListAsync();

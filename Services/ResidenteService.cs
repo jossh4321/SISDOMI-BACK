@@ -85,10 +85,32 @@ namespace SISDOMI.Services
                 estado = "incompleto",
                 documentos = new List<Documentos>()
                     {
-                        new Documentos() { estado = "Pendiente", tipo = "FichaEducativaIngreso" },
-                        new Documentos() { estado = "Pendiente", tipo = "InformeEducativoInicial" },
-                        new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualEducativo" },
-                        new Documentos() { estado = "Pendiente", tipo = "InformeSeguimientoEducativo" },
+                        new Documentos() { estado = "Pendiente", tipo = "FichaEducativaIngreso", fechaestimada = DateTime.Today },
+                        new Documentos() { estado = "Pendiente", tipo = "InformeEducativoInicial",fechaestimada = DateTime.Today.AddMonths(1)  },
+                        new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualEducativo", fechaestimada = DateTime.Today.AddMonths(2)  },
+                        new Documentos() { estado = "Pendiente", tipo = "InformeSeguimientoEducativo",fechaestimada = DateTime.Today.AddMonths(3)  },
+                    }
+            };
+            fase.progreso[0].social = new ContenidoFase()
+            {
+                estado = "incompleto",
+                documentos = new List<Documentos>()
+                    {
+                        new Documentos() { estado = "Pendiente", tipo = "FichaSocialIngreso" , fechaestimada = DateTime.Today},
+                        new Documentos() { estado = "Pendiente", tipo = "InformeSocialInicial", fechaestimada = DateTime.Today.AddMonths(1) },
+                        new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualSocial", fechaestimada = DateTime.Today.AddMonths(2) },
+                        new Documentos() { estado = "Pendiente", tipo = "InformeSocialEvolutivo", fechaestimada = DateTime.Today.AddMonths(3) },
+                    }
+            };
+            fase.progreso[0].psicologica = new ContenidoFase()
+            {
+                estado = "incompleto",
+                documentos = new List<Documentos>()
+                    {
+                        new Documentos() { estado = "Pendiente", tipo = "FichaPsicologicaIngreso", fechaestimada = DateTime.Today },
+                        new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoInicial" ,fechaestimada = DateTime.Today.AddMonths(1)},
+                        new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualPsicologico" ,fechaestimada = DateTime.Today.AddMonths(2)},
+                        new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoEvolutivo" ,fechaestimada = DateTime.Today.AddMonths(3)},
                     }
             };
             if (residente.progreso.Count() > 1)
@@ -101,8 +123,26 @@ namespace SISDOMI.Services
                         estado = "incompleto",
                         documentos = new List<Documentos>()
                         {
-                            new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualEducativo" },
-                            new Documentos() { estado = "Pendiente", tipo = "InformeEducativoEvolutivo" },
+                            new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualEducativo", fechaestimada = DateTime.Today },
+                            new Documentos() { estado = "Pendiente", tipo = "InformeEducativoEvolutivo" , fechaestimada = DateTime.Today.AddMonths(1)},
+                        }
+                    };
+                    fase.progreso[1].social = new ContenidoFase()
+                    {
+                        estado = "incompleto",
+                        documentos = new List<Documentos>()
+                        {
+                            new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualSocial",fechaestimada = DateTime.Today },
+                            new Documentos() { estado = "Pendiente", tipo = "InformeSocialEvolutivo", fechaestimada = DateTime.Today.AddMonths(1) },
+                        }
+                    };
+                    fase.progreso[1].psicologica = new ContenidoFase()
+                    {
+                        estado = "incompleto",
+                        documentos = new List<Documentos>()
+                        {
+                            new Documentos() { estado = "Pendiente", tipo = "PlanIntervencionIndividualPsicologico", fechaestimada = DateTime.Today },
+                            new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoEvolutivo", fechaestimada = DateTime.Today.AddMonths(1) },
                         }
                     };
                 }
@@ -113,7 +153,24 @@ namespace SISDOMI.Services
                         estado = "incompleto",
                         documentos = new List<Documentos>()
                         {
-                            new Documentos() { estado = "Pendiente", tipo = "InformeEducativoFinal" },
+                            new Documentos() { estado = "Pendiente", tipo = "InformeEducativoFinal", fechaestimada = DateTime.Today },
+                        }
+                    };
+                    fase.progreso[1].social = new ContenidoFase()
+                    {
+                        estado = "incompleto",
+                        documentos = new List<Documentos>()
+                        {
+                            new Documentos() { estado = "Pendiente", tipo = "InformeSocialFinal",fechaestimada = DateTime.Today },
+                            new Documentos() { estado = "Pendiente", tipo = "ActaExternamiento", fechaestimada = DateTime.Today.AddMonths(1) },
+                        }
+                    };
+                    fase.progreso[1].psicologica = new ContenidoFase()
+                    {
+                        estado = "incompleto",
+                        documentos = new List<Documentos>()
+                        {
+                            new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoFinal",fechaestimada = DateTime.Today },
                         }
                     };
                 }
@@ -123,10 +180,27 @@ namespace SISDOMI.Services
                 fase.progreso.Add(new ProgresoFase());
                 fase.progreso[2].educativa = new ContenidoFase()
                 {
-                    estado = "icompleto",
+                    estado = "incompleto",
                     documentos = new List<Documentos>()
                     {
-                        new Documentos() { estado = "Pendiente", tipo = "InformeEducativoFinal" },
+                        new Documentos() { estado = "Pendiente", tipo = "InformeEducativoFinal", fechaestimada = DateTime.Today },
+                    }
+                };
+                fase.progreso[2].social = new ContenidoFase()
+                {
+                    estado = "incompleto",
+                    documentos = new List<Documentos>()
+                    {
+                        new Documentos() { estado = "Pendiente", tipo = "InformeSocialFinal", fechaestimada = DateTime.Today },
+                        new Documentos() { estado = "Pendiente", tipo = "ActaExternamiento", fechaestimada = DateTime.Today.AddMonths(1) },
+                    }
+                };
+                fase.progreso[2].psicologica = new ContenidoFase()
+                {
+                    estado = "incompleto",
+                    documentos = new List<Documentos>()
+                    {
+                        new Documentos() { estado = "Pendiente", tipo = "InformePsicologicoFinal", fechaestimada = DateTime.Today },
                     }
                 };
             }
@@ -135,7 +209,7 @@ namespace SISDOMI.Services
                 fase.progreso.Add(new ProgresoFase());
                 fase.progreso[3].educativa = new ContenidoFase()
                 {
-                    estado = "icompleto",
+                    estado = "incompleto",
                     documentos = new List<Documentos>()
                     {
                         new Documentos() { estado = "Pendiente", tipo = "NO SE QUE DOCUMENTO VA AQUI" },

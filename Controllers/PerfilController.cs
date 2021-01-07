@@ -18,7 +18,7 @@ namespace SISDOMI.Controllers
     [Route("api/[controller]")]
     public class PerfilController : ControllerBase
     {
-
+        private readonly UsuarioService _usuarioservice;
         private readonly PerfilService _Perfilservice;
         private readonly IFileStorage _fileStorage;
         public PerfilController(PerfilService perfilService, IFileStorage fileStorage)
@@ -47,8 +47,17 @@ namespace SISDOMI.Controllers
                            usuario.datos.imagen = await _fileStorage.SaveFile(imgfirma, "jpg", "usuario");
                         }
             }
+            if (!string.IsNullOrWhiteSpace(usuario.datos.firma))
+            {
+                if (!usuario.datos.firma.Contains("https://") && !usuario.datos.firma.Contains("http://"))
+                {
+                    var imgfirma = Convert.FromBase64String(usuario.datos.firma);
+                    usuario.datos.firma = await _fileStorage.SaveFile(imgfirma, "jpg", "usuario");
+                }
+            }
             return await _Perfilservice.ModifyUser(usuario);
         }
+       
 
     }
 

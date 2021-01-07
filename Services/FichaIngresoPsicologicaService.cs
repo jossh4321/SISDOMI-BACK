@@ -15,7 +15,8 @@ namespace SISDOMI.Services
         private readonly ExpedienteService expedienteService;
         private readonly IDocument document;
         private readonly FichaIngresoSocialService fichaIngresoSocialService;
-        public FichaIngresoPsicologicaService(ISysdomiDatabaseSettings settings, FichaIngresoSocialService fichaIngresoSocialService, ExpedienteService expedienteService, IDocument document)
+        private readonly FaseService faseService;
+        public FichaIngresoPsicologicaService(ISysdomiDatabaseSettings settings, FichaIngresoSocialService fichaIngresoSocialService, ExpedienteService expedienteService, IDocument document, FaseService faseService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -24,6 +25,7 @@ namespace SISDOMI.Services
 
             this.expedienteService = expedienteService;
             this.document = document;
+            this.faseService = faseService;
             this.fichaIngresoSocialService = fichaIngresoSocialService;
         }
         public List<FichaIngresoPsicologica> GetAll()
@@ -48,7 +50,7 @@ namespace SISDOMI.Services
             };
             await expedienteService.UpdateDocuments(docexpe, expediente.id);
             FichaIngresoDTO fichaIngreso = await fichaIngresoSocialService.obtenerResidienteFichaIngreso(documento.id);
-            //Fase fase = faseService.ModifyStateForDocument(documento.idresidente, documento.fase, documento.area, documento.tipo); cuando se añada a la fase
+            Fase fase = faseService.ModifyStateForDocument(documento.idresidente, documento.fase, documento.area, documento.tipo);
             return fichaIngreso; 
         }
         public FichaIngresoPsicologica GetById(string id)

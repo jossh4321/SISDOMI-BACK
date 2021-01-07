@@ -39,6 +39,7 @@ using System.Threading.Tasks;namespace SISDOMI.Controllers
             {
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
+                
             }
                 
         }

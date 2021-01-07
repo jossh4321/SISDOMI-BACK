@@ -54,11 +54,9 @@ namespace SISDOMI.Entities
         public string situacionacademica { get; set; }
         public string analisisacademico { get; set; }
         public List<string> conclusiones { get; set; }
-        public List<AnexosDocumento> anexos { get; set; }
-        public List<Firma> firmas { get; set; }        
+        public List<AnexosDocumento> anexos { get; set; }     
         public string codigodocumento { get; set; }
         public string lugarevaluacion { get; set; }
-        public string evaluador { get; set; }
         public DateTime fechaevaluacion { get; set; }
     }
 
@@ -75,10 +73,8 @@ namespace SISDOMI.Entities
         public List<string> recomendaciones { get; set; }
         public InstitucionEducativa iereinsersion { get; set; }
         public List<AnexosDocumento> anexos { get; set; }
-        public List<Firma> firmas { get; set; }
-        
         public string codigodocumento { get; set; }
-        public string evaluador { get; set; }
+        public DateTime fechaevaluacion { get; set; }
     }
     public class InformeEducativoEvolutivo : Documento
     {
@@ -96,10 +92,8 @@ namespace SISDOMI.Entities
         public string situacionactual { get; set; }
         public string diagnosticosocial { get; set; }
         public List<string> recomendaciones { get; set; }
-        public List<AnexosDocumento> anexos { get; set; }
-        public List<Firma> firmas { get; set; }        
+        public List<AnexosDocumento> anexos { get; set; }      
         public string codigodocumento { get; set; }
-        public string evaluador { get; set; }
     }
     public class InformeSocialInicial : Documento
     {
@@ -112,10 +106,7 @@ namespace SISDOMI.Entities
         public string diagnosticosocial { get; set; }
         public List<string> recomendaciones { get; set; }
         public List<AnexosDocumento> anexos { get; set; }
-        public List<Firma> firmas { get; set; }
-        public string idresidente { get; set; }
         public string codigodocumento { get; set; }
-        public string evaluador { get; set; }
     }
     public class InformeSocialEvolutivo : Documento
     {
@@ -128,10 +119,9 @@ namespace SISDOMI.Entities
         public string analisisactual { get; set; }
         public List<string> transtornos { get; set; }
         public List<string> recomendaciones { get; set; }
-        public List<string> conclusiones { get; set; }        
-        public List<Firma> firmas { get; set; }
+        public List<string> conclusiones { get; set; }  
         public string codigodocumento { get; set; }
-        public string evaluador { get; set; }
+        public DateTime fechaevaluacion { get; set; }
     }
     public class InformePsicologicoInicial : Documento
     {
@@ -147,9 +137,8 @@ namespace SISDOMI.Entities
         public string diagnostico { get; set; }
         public List<string> recomendaciones { get; set; }
         public List<AnexosDocumento> anexos { get; set; }
-        public List<Firma> firmas { get; set; }
         public string codigodocumento { get; set; }
-        public string evaluador { get; set; }
+        public DateTime fechaevaluacion { get; set; }
     }
     public class InformePsicologicoEvolutivo : Documento
     {
@@ -176,21 +165,19 @@ namespace SISDOMI.Entities
         public List<String> indicadores { get; set; }
         [BsonElement("metas")]
         public List<String> metas { get; set; }
-        [BsonElement("firmas")]
-        public List<Firma> firmas { get; set; }
+        //[BsonElement("firmas")]
+        //public List<Firma> firmas { get; set; }
         [BsonElement("titulo")]
         public String titulo { get; set; }
         [BsonElement("codigodocumento")]
         public String codigoDocumento { get; set; }
     }
     public class ContenidoFichaIngresoEducativo {
-        public Procedencia ieprocedencia { get; set; } = new Procedencia();
-        [BsonElement("responsableturno")]
-        public String responsableTurno { get; set; }
+        public Procedencia ieprocedencia { get; set; } = new Procedencia();        
         public List<String> observaciones { get; set; } = new List<String>();
         [BsonElement("codigodocumento")]
         public String codigoDocumento { get; set; }
-        public Firma firma { get; set; } = new Firma();
+        //public Firma firma { get; set; } = new Firma();
         
     }
     public class ContenidoFichaIngresoSocial
@@ -203,12 +190,11 @@ namespace SISDOMI.Entities
         public String diagnosticosocial { get; set; }
         public String planintervencion { get; set; }
         public String codigodocumento { get; set; }
-        public Firma firma { get; set; } = new Firma();
+        //public Firma firma { get; set; } = new Firma();
     }
     public class ContenidoFichaIngresoPsicologica
     {
-        public Firma firma { get; set; } = new Firma();
-        public String responsableturno { get; set; }
+        //public Firma firma { get; set; } = new Firma();        
         public List<PadresFichaIngreso> padres { get; set; } = new List<PadresFichaIngreso>();
         public List<HermanosFichaIngreso> hermanos { get; set; } = new List<HermanosFichaIngreso>();
         public Escolaridad  escolaridad { get; set; } = new Escolaridad ();
@@ -263,8 +249,8 @@ namespace SISDOMI.Entities
         public String codigoDocumento { get; set; }
         [BsonElement("titulo")]
         public String titulo { get; set; }
-        [BsonElement("firmas")]
-        public List<Firma> firmas { get; set; }
+        //[BsonElement("firmas")]
+        //public List<Firma> firmas { get; set; }
 
     }
 
@@ -289,8 +275,8 @@ namespace SISDOMI.Entities
         public List<String> indicadores { get; set; }
         [BsonElement("metas")]
         public List<String> metas { get; set; }
-        [BsonElement("firmas")]
-        public List<Firma> firmas { get; set; }
+        //[BsonElement("firmas")]
+        //public List<Firma> firmas { get; set; }
         [BsonElement("codigodocumento")]
         public String codigoDocumento { get; set; }
         [BsonElement("titulo")]
@@ -322,8 +308,8 @@ namespace SISDOMI.Entities
         public String añoEscolar { get; set;}
         [BsonElement("trimestre")]
         public List<Trimestre> trimestre { get; set; }
-        [BsonElement("firmas")]
-        public List<Firmas> firmas { get; set; }
+        //[BsonElement("firmas")]
+        //public List<Firmas> firmas { get; set; }
         [BsonElement("codigodocumento")]
         public String codigoDocumento { get; set; }
           
