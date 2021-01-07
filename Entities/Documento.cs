@@ -57,7 +57,6 @@ namespace SISDOMI.Entities
         public List<AnexosDocumento> anexos { get; set; }     
         public string codigodocumento { get; set; }
         public string lugarevaluacion { get; set; }
-        public DateTime fechaevaluacion { get; set; }
     }
 
     public class InformeEducativoInicial : Documento
@@ -74,7 +73,6 @@ namespace SISDOMI.Entities
         public InstitucionEducativa iereinsersion { get; set; }
         public List<AnexosDocumento> anexos { get; set; }
         public string codigodocumento { get; set; }
-        public DateTime fechaevaluacion { get; set; }
     }
     public class InformeEducativoEvolutivo : Documento
     {
