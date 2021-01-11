@@ -87,7 +87,14 @@ namespace SISDOMI.Controllers
         }
         [HttpPost("fichaeducativaingreso")]
         public async Task<ActionResult<FichaIngresoDTO>> PostFichaIngresoEducativa(FichaIngresoEducativa  documento)
-        {          
+        {
+            if (!string.IsNullOrWhiteSpace(documento.historialcontenido[0].url))
+            {
+                var solicitudBytes2 = Convert.FromBase64String(documento.historialcontenido[0].url);
+                documento.historialcontenido[0].url = await _fileStorage.SaveDoc(solicitudBytes2, "pdf", "archivos");
+            }
+            documento.historialcontenido[0].version = 1;
+            documento.historialcontenido[0].fechamodificacion = DateTime.UtcNow.AddHours(-5);
             FichaIngresoDTO objetofichaEducativa = await _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);
            return objetofichaEducativa;
         }

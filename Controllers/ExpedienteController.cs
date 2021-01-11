@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using SISDOMI.Services;
 using SISDOMI.DTOs;
+using SISDOMI.Entities;
 
 namespace SISDOMI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class ExpedienteController: ControllerBase
     {
         private readonly ExpedienteService expedienteService;
@@ -35,6 +35,11 @@ namespace SISDOMI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
                 
             }
+        }
+        [HttpGet("idresidente")]
+        public async Task<Expediente> Get([FromQuery] string idresidente)
+        {
+            return await expedienteService.GetByResident(idresidente);
         }
     }
 }

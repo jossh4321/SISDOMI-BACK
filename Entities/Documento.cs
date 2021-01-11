@@ -36,7 +36,7 @@ namespace SISDOMI.Entities
         [BsonElement("tipo")]
         public string tipo { get; set; }
         [BsonElement("historialcontenido")]
-        public List<string> historialcontenido { get; set; }
+        public List<HistorialContenido> historialcontenido { get; set; }
         [BsonElement("creadordocumento")]
         public string creadordocumento { get; set; }
         [BsonElement("fechacreacion")]
@@ -431,6 +431,12 @@ namespace SISDOMI.Entities
         [BsonElement("observaciones")]
         public string observaciones { get; set; }
 
+    }
+    public class HistorialContenido
+    {
+        public int version { get; set; }
+        public DateTime fechamodificacion { get; set; }
+        public string url { get; set; }
     }
     /// >:(
 
