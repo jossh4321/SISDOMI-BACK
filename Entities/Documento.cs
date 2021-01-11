@@ -26,7 +26,8 @@ namespace SISDOMI.Entities
        typeof(PlanIntervencionIndividualSocial),
        typeof(ActaExternamiento),
        typeof(InformeSeguimientoEducativo),
-       typeof(FichaEvaluacionDiagnosticoEducativo))]
+       typeof(FichaEvaluacionDiagnosticoEducativo),
+        typeof(EntrevistaFamiliar))]
     public class Documento
     {
         [BsonId]
@@ -412,7 +413,25 @@ namespace SISDOMI.Entities
         public String tipo { get; set; } //POSITIVO-NEGATIVO
         public String descripcion { get; set; }
     }
+    public class EntrevistaFamiliar : Documento
+    {
+        public ContenidoEntrevistaFamiliar contenido { get; set; } = new ContenidoEntrevistaFamiliar();
+    }
+    public class ContenidoEntrevistaFamiliar
+    {
 
+        [BsonElement("fechaentrevista")]
+        public DateTime? fechaEntrevista { get; set; }
+        [BsonElement("nombreapoderado")]
+        public string nombreApoderado { get; set; }
+        [BsonElement("apellidoapoderado")]
+        public string apellidoApoderado { get; set; }
+        [BsonElement("dniapoderado")]
+        public string dniApoderado { get; set; }
+        [BsonElement("observaciones")]
+        public string observaciones { get; set; }
+
+    }
     /// >:(
 
 }

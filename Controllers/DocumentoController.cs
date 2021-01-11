@@ -20,12 +20,14 @@ namespace SISDOMI.Controllers
         private readonly FichaIngresoSocialService _fichaIngresoSocialService;
         private readonly FichaIngresoEducativoService _fichaIngresoEducativoService;
         private readonly FichaIngresoPsicologicaService _fichaIngresoPsicologicaService ;
+        private readonly EntrevistaFamiliarService _entrevistaFamiliarService;
         private readonly DocumentoService documentoService;
         private readonly IFileStorage _fileStorage;
 
         public DocumentoController(IFileStorage fileStorage, FichaIngresoSocialService fichaIngresoSocialService, FichaIngresoEducativoService fichaIngresoEducativoService,FichaIngresoPsicologicaService  fichaIngresoPsicologicaService,
-                                   DocumentoService documentoService)
+                                   DocumentoService documentoService, EntrevistaFamiliarService entrevistaFamiliarService)
         {
+            _entrevistaFamiliarService = entrevistaFamiliarService;
             _fichaIngresoSocialService = fichaIngresoSocialService;
             _fichaIngresoEducativoService = fichaIngresoEducativoService;
             _fichaIngresoPsicologicaService = fichaIngresoPsicologicaService;
@@ -185,5 +187,34 @@ namespace SISDOMI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
+        [HttpGet("all/entrevistaFamiliar")]
+
+        public ActionResult<List<EntrevistaFamiliar>> GetAllEntrevistaFamiliar()
+        {
+            return _entrevistaFamiliarService.GetAll();
+        }
+        [HttpGet("entrevistafamiliar/all")]
+        public ActionResult<List<EntrevistaFamiliar>> GetAll()
+        {
+            return _entrevistaFamiliarService.GetAll();
+        }
+        [HttpGet("entrevistafamiliar/iddoc/{id}")]
+        public EntrevistaFamiliar getEntrevistaFamiliarPorId(string id)
+        {
+            return _entrevistaFamiliarService.getByIdEntrevistaFamiliar(id);
+        }
+        [HttpPost("entrevistafamiliar")]
+        public async Task<ActionResult<EntrevistaFamiliar>> PostEntrevistaFamiliar(EntrevistaFamiliar documento)
+        {
+            EntrevistaFamiliar obj = await _entrevistaFamiliarService.CreateEntrevistaFamiliar(documento);
+            return obj;
+        }
+        [HttpPut("entrevistafamiliar")]
+        public ActionResult<EntrevistaFamiliar> PutEntrevistaFamiliar(EntrevistaFamiliar documento)
+        {
+            EntrevistaFamiliar objetofichaEducativa = _entrevistaFamiliarService.ModifyEntrevistaFamiliar(documento);
+            return objetofichaEducativa;
+        }
+
     }
 }
