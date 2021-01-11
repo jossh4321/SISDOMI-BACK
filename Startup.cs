@@ -77,6 +77,7 @@ namespace SISDOMI
             services.AddScoped<UbigeoService>();
             services.AddScoped<HojaProductividadService>();
             services.AddScoped<ActividadService>();
+            services.AddScoped<EntrevistaFamiliarService>();
 
             services.AddScoped<IFileStorage, AzureFileStorage>();
             services.AddScoped<IDocument, Document>();

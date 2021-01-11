@@ -59,4 +59,5 @@ namespace SISDOMI.DTOs
         public string idresidente { get; set; }
         public string tipo { get; set; }
     }
+    
 }
