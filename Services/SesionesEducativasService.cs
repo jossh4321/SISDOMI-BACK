@@ -66,7 +66,8 @@ namespace SISDOMI.Services
                             { "fechanacimiento", 0 },
                             { "numerodocumento", 0 },
                             { "tipodocumento", 0 },
-                            { "direccion", 0 }
+                            { "direccion", 0 },
+                            { "firma", 0 }
                         } }
                     } }
             });
