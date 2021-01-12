@@ -194,16 +194,11 @@ namespace SISDOMI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
-        [HttpGet("all/entrevistaFamiliar")]
-
-        public ActionResult<List<EntrevistaFamiliar>> GetAllEntrevistaFamiliar()
-        {
-            return _entrevistaFamiliarService.GetAll();
-        }
+        //ENTREVISTAS FAMILIARES
         [HttpGet("entrevistafamiliar/all")]
-        public ActionResult<List<EntrevistaFamiliar>> GetAll()
+        public async Task<ActionResult<List<EntrevistaFamiliarDTO>>> GetAll()
         {
-            return _entrevistaFamiliarService.GetAll();
+            return await _entrevistaFamiliarService.GetAll();
         }
         [HttpGet("entrevistafamiliar/iddoc/{id}")]
         public EntrevistaFamiliar getEntrevistaFamiliarPorId(string id)
