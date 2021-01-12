@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SISDOMI.DTOs;
 using SISDOMI.Entities;
+using SISDOMI.Helpers;
 using SISDOMI.Models;
 using SISDOMI.Services;
 using System;
@@ -18,10 +19,12 @@ namespace SISDOMI.Controllers
     public class PlanIntervencionController: ControllerBase
     {
         private readonly PlanIntervencionIndividualService _planIntervencionService;
+        private readonly IFileStorage _fileStorage;
 
-        public PlanIntervencionController(PlanIntervencionIndividualService planIntervencionIndividualService)
+        public PlanIntervencionController(PlanIntervencionIndividualService planIntervencionIndividualService, IFileStorage fileStorage)
         {
             _planIntervencionService = planIntervencionIndividualService;
+            _fileStorage = fileStorage;
         }
 
 
@@ -32,6 +35,13 @@ namespace SISDOMI.Controllers
         {
             try
             {
+                if (!string.IsNullOrWhiteSpace(planIntervencionIndividual.planintervencionindividual.historialcontenido[0].url))
+                {
+                    var solicitudBytes2 = Convert.FromBase64String(planIntervencionIndividual.planintervencionindividual.historialcontenido[0].url);
+                    planIntervencionIndividual.planintervencionindividual.historialcontenido[0].url = await _fileStorage.SaveDoc(solicitudBytes2, "pdf", "archivos");
+                }
+                planIntervencionIndividual.planintervencionindividual.historialcontenido[0].version = 1;
+                planIntervencionIndividual.planintervencionindividual.historialcontenido[0].fechamodificacion = DateTime.UtcNow.AddHours(-5);
                 return await _planIntervencionService.CreateIndividualInterventionPlan(planIntervencionIndividual);
             }
             catch (Exception ex)

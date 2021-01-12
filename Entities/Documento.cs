@@ -438,6 +438,18 @@ namespace SISDOMI.Entities
         public DateTime fechamodificacion { get; set; }
         public string url { get; set; }
     }
+
+    public class AvanceSeguimiento : Documento
+    {
+        public ContenidoAvanceSeguimiento contenido { get; set; } = new ContenidoAvanceSeguimiento();
+    }
+
+    public class ContenidoAvanceSeguimiento
+    {
+        public string observacion { get; set; }
+        public List<AnexosDocumento> anexos { get; set; }
+        public string codigodocumento { get; set; }
+    }
     /// >:(
 
 }
