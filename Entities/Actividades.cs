@@ -35,7 +35,6 @@ namespace SISDOMI.Entities
     public class ParticipanteActividad
     {
         public Usuaria usuaria { get; set; }
-        public string observacion { get; set; }
         public string cooperacion { get; set; }
         public string aprendizaje { get; set; }
         public string puntualidad { get; set; }

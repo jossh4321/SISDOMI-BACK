@@ -77,6 +77,20 @@ namespace SISDOMI.Services
             return listActividades;
         }
 
+        public async Task<Actividades> GetById(string id)
+        {
+            Actividades actividad;
+            var match = new BsonDocument("$match",
+                        new BsonDocument("_id",
+                        new ObjectId(id)));
+
+            
+             actividad = await _actividades.Aggregate()
+                            .AppendStage<Actividades>(match)
+                            .FirstAsync();
+            return actividad;
+        }
+
         public async Task<ActionResult<Actividades>> CreateActividad(Actividades actividad)
         {
             actividad.fechacreacion = DateTime.UtcNow.AddHours(-5);
