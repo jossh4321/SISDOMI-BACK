@@ -79,6 +79,9 @@ namespace SISDOMI.Services
                                 0
                             })) }
                             });
+            var match = new BsonDocument("$match",
+                                new BsonDocument("residentes",
+                                new BsonDocument("$gt", 0)));
             var sort = new BsonDocument("$sort",
                                 new BsonDocument
                                     {
@@ -88,6 +91,7 @@ namespace SISDOMI.Services
         listaUsuariosTiempo = await _residentes.Aggregate()
                 .AppendStage<dynamic>(addFields)
                 .AppendStage<dynamic>(group)
+                .AppendStage<dynamic>(match)
                 .AppendStage<Object>(sort)
                 .ToListAsync();
             return listaUsuariosTiempo;
