@@ -670,7 +670,11 @@ namespace SISDOMI.Services
                     });
 
             var matchResidents = new BsonDocument("$match",
-                new BsonDocument("lastprogreso.fase", Convert.ToInt32(fase)));
+                new BsonDocument
+                {
+                    { "lastprogreso.fase", Convert.ToInt32(fase) },
+                    { "lastprogreso.estado", "inicio" }
+                });
 
             var projectFinalResident = new BsonDocument("$project",
                 new BsonDocument
