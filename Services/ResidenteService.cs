@@ -835,6 +835,8 @@ namespace SISDOMI.Services
                                        }
                                    });
 
+            var setEstimatedDate = new BsonDocument("$set", new BsonDocument("fases." + residenteFasesDocumentosDTO.area + ".documentos.fechaestimada", BsonNull.Value));
+
             BsonArray bsonArray = new BsonArray();
 
             residenteFasesDocumentosDTO.fases.ForEach((fase) =>
@@ -877,6 +879,7 @@ namespace SISDOMI.Services
                                     .AppendStage<dynamic>(lookupFases)
                                     .AppendStage<dynamic>(unwindFase)
                                     .AppendStage<dynamic>(addProgressField)
+                                    .AppendStage<dynamic>(setEstimatedDate)
                                     .AppendStage<dynamic>(matchFasesAndDocumentType)
                                     .AppendStage<Residentes>(projectResidents)
                                     .ToListAsync();
@@ -907,7 +910,8 @@ namespace SISDOMI.Services
                         new BsonArray { 
                             new BsonDocument {
                                 { "tipo", residenteFasesDocumentosDTO.documentoEstadosAnteriores.ElementAt(index).tipo },
-                                { "estado", residenteFasesDocumentosDTO.documentoEstadosAnteriores.ElementAt(index).estado }
+                                { "estado", residenteFasesDocumentosDTO.documentoEstadosAnteriores.ElementAt(index).estado },
+                                { "fechaestimada", BsonNull.Value }
                             },
                             "$fases." + residenteFasesDocumentosDTO.area + ".documentos"
                         }),
@@ -917,7 +921,8 @@ namespace SISDOMI.Services
                             new BsonDocument
                             {
                                 { "tipo", residenteFasesDocumentosDTO.documentoEstadosActuales.ElementAt(index).tipo },
-                                { "estado", residenteFasesDocumentosDTO.documentoEstadosActuales.ElementAt(index).estado }
+                                { "estado", residenteFasesDocumentosDTO.documentoEstadosActuales.ElementAt(index).estado },
+                                { "fechaestimada", BsonNull.Value }
                             },
                              "$fases." + residenteFasesDocumentosDTO.area + ".documentos"
                         }))
