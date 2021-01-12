@@ -108,6 +108,8 @@ namespace SISDOMI.Services
                                                 "$progreso",
                                                 -1
                                             })));
+            var match = new BsonDocument("$match",
+                        new BsonDocument("estado", "En tratamiento"));
             var group = new BsonDocument("$group",
                             new BsonDocument
                                 {
@@ -157,6 +159,7 @@ namespace SISDOMI.Services
                                 });
             listaResidentesPorFase = await _residentes.Aggregate()
                 .AppendStage<dynamic>(addFields)
+                .AppendStage<dynamic>(match)
                 .AppendStage<Object>(group)
                 .ToListAsync();
             return listaResidentesPorFase;
