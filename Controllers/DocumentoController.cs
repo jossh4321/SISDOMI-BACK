@@ -222,6 +222,5 @@ namespace SISDOMI.Controllers
             EntrevistaFamiliar objetofichaEducativa = _entrevistaFamiliarService.ModifyEntrevistaFamiliar(documento);
             return objetofichaEducativa;
         }
-
     }
 }

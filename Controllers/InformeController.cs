@@ -126,5 +126,10 @@ namespace SISDOMI.Controllers
         {
             return await _informeService.ComprobarDocumento(documento);
         }
+        [HttpPost("avanceseguimiento")]
+        public async Task<ActionResult<AvanceSeguimiento>> CrearAvanceSeguimiento(AvanceSeguimiento docavance)
+        {
+            return await _informeService.RegistrarAvanceSeguimiento(docavance);
+        }
     }
 }

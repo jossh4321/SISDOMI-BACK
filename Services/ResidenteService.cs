@@ -213,7 +213,7 @@ namespace SISDOMI.Services
                     estado = "incompleto",
                     documentos = new List<Documentos>()
                     {
-                        new Documentos() { estado = "Pendiente", tipo = "NO SE QUE DOCUMENTO VA AQUI" },
+                        new Documentos() { estado = "Pendiente", tipo = "AvanceSeguimiento", fechaestimada = DateTime.Today },
                     }
                 };
             }
@@ -276,16 +276,19 @@ namespace SISDOMI.Services
                     ArrayFilters = arrayFilter
                 });
 
-                residenteFase.progresoFase.documentotransicion.fecha = new DateTime();
-                residenteFase.progresoFase.documentotransicion.idcreador = "";
-                residenteFase.progresoFase.documentotransicion.observaciones = "";
-                residenteFase.progresoFase.documentotransicion.firma.urlfirma = "";
-                residenteFase.progresoFase.documentotransicion.firma.nombre = "";
-                residenteFase.progresoFase.documentotransicion.firma.cargo = "";
+                if(residenteFase.faseAnterior != 4)
+                {
+                    residenteFase.progresoFase.documentotransicion.fecha = new DateTime();
+                    residenteFase.progresoFase.documentotransicion.idcreador = "";
+                    residenteFase.progresoFase.documentotransicion.observaciones = "";
+                    residenteFase.progresoFase.documentotransicion.firma.urlfirma = "";
+                    residenteFase.progresoFase.documentotransicion.firma.nombre = "";
+                    residenteFase.progresoFase.documentotransicion.firma.cargo = "";
 
-                var update3 = Builders<Fase>.Update.Push("progreso", residenteFase.progresoFase);
+                    var update3 = Builders<Fase>.Update.Push("progreso", residenteFase.progresoFase);
 
-                _documentofase.FindOneAndUpdate(filter2,update3);
+                    _documentofase.FindOneAndUpdate(filter2, update3);
+                }
             }
             var filter = Builders<Residentes>.Filter.Eq("id", residenteFase.residente.id);
             var update = Builders<Residentes>.Update
