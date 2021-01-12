@@ -28,5 +28,20 @@ namespace SISDOMI.Controllers
         {
             return await _actividadService.GetAll();
         }
+
+        [HttpPost()]
+        public async Task<ActionResult<Actividades>> PostAnexo(Actividades actividad)
+        {
+            try
+            {
+                return await _actividadService.CreateActividad(actividad);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+
+        }
     }
 }

@@ -76,5 +76,12 @@ namespace SISDOMI.Services
 
             return listActividades;
         }
+
+        public async Task<ActionResult<Actividades>> CreateActividad(Actividades actividad)
+        {
+            actividad.fechacreacion = DateTime.UtcNow.AddHours(-5);
+            await _actividades.InsertOneAsync(actividad);
+            return actividad;
+        }
     }
 }
