@@ -28,5 +28,34 @@ namespace SISDOMI.Controllers
         {
             return await _actividadService.GetAll();
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Actividades>> GetById(String id)
+        {
+            try
+            {
+                return await _actividadService.GetById(id);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
+
+        [HttpPost()]
+        public async Task<ActionResult<Actividades>> PostAnexo(Actividades actividad)
+        {
+            try
+            {
+                return await _actividadService.CreateActividad(actividad);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+
+        }
     }
 }

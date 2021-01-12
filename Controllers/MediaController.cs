@@ -133,6 +133,24 @@ namespace SISDOMI.Controllers
 
             return "completado";
         }
+        //talleres
+        [HttpPost("actividades")]
+        public async Task<ActionResult<String>> PostImageActividades(IFormFile file)
+        {
+            String imageUrl;
+
+            try
+            {
+                imageUrl = await mediaService.CrearFirmasActividades(file);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+
+            return imageUrl;
+        }
 
 
     }

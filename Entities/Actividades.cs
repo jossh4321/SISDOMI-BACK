@@ -34,12 +34,19 @@ namespace SISDOMI.Entities
 
     public class ParticipanteActividad
     {
-        public string idparticipante { get; set; }
-        public string observacion { get; set; }
+        public Usuaria usuaria { get; set; }
         public string cooperacion { get; set; }
         public string aprendizaje { get; set; }
         public string puntualidad { get; set; }
         public string conducta { get; set; }
+        public string firma { get; set; }
 
+    }
+
+    public class Usuaria
+    {
+        public string id { get; set; }
+        public string residente { get; set; }
+        public string numeroDocumento { get; set; }
     }
 }

@@ -113,5 +113,20 @@ namespace SISDOMI.Services
                await fileStorage.DeleteFile(x, "archivos");
             });
         }
+
+        public async Task<String> CrearFirmasActividades(IFormFile mediaInfo)
+        {
+            String urlImage = "";
+
+            using (var stream = new MemoryStream())
+            {
+                await mediaInfo.CopyToAsync(stream);
+
+                urlImage = await fileStorage.SaveFile(stream.ToArray(), "jpg", "actividades");
+
+            }
+
+            return urlImage;
+        }
     }
 }
