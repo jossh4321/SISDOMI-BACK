@@ -737,13 +737,15 @@ namespace SISDOMI.Services
                                 "$progreso",
                                 -1
                             })));
+            var project2 = new BsonDocument("$project",
+                           new BsonDocument("fases.progreso." + dtoFase.area +".documentos.fechaestimada", 0));
             var match = new BsonDocument("$match",
                         new BsonDocument("$and",
                         new BsonArray
                         {
                             new BsonDocument("ultimafase.fase", Convert.ToInt32(dtoFase.fase)),
                             new BsonDocument("fases.progreso."+dtoFase.area+".estado", "incompleto"),
-                            new BsonDocument("fases.progreso."+dtoFase.fasedocumentoanterior+dtoFase.area+".documentos",
+                            new BsonDocument("fases.progreso."+dtoFase.area+".documentos",
                             new BsonDocument("$in",
                             new BsonArray
                             {
@@ -779,6 +781,7 @@ namespace SISDOMI.Services
                                     .AppendStage<dynamic>(lookup)
                                     .AppendStage<dynamic>(unwind)
                                     .AppendStage<dynamic>(addfields)
+                                    .AppendStage<dynamic>(project2)
                                     .AppendStage<dynamic>(match)
                                     .AppendStage<Residentes>(project)
                                     .ToListAsync();
