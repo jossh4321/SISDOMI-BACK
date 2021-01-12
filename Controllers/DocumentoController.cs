@@ -27,7 +27,7 @@ namespace SISDOMI.Controllers
 
         public DocumentoController(IFileStorage fileStorage, FichaIngresoSocialService fichaIngresoSocialService, FichaIngresoEducativoService fichaIngresoEducativoService,FichaIngresoPsicologicaService  fichaIngresoPsicologicaService,
                                    DocumentoService documentoService,
-                                   DashBoardService dashBoardService)
+                                   DashBoardService dashBoardService, EntrevistaFamiliarService entrevistaFamiliarService)
         {
             _entrevistaFamiliarService = entrevistaFamiliarService;
             _fichaIngresoSocialService = fichaIngresoSocialService;
