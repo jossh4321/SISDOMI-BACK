@@ -26,7 +26,8 @@ namespace SISDOMI.Entities
        typeof(PlanIntervencionIndividualSocial),
        typeof(ActaExternamiento),
        typeof(InformeSeguimientoEducativo),
-       typeof(FichaEvaluacionDiagnosticoEducativo))]
+       typeof(FichaEvaluacionDiagnosticoEducativo),
+        typeof(EntrevistaFamiliar))]
     public class Documento
     {
         [BsonId]
@@ -35,7 +36,7 @@ namespace SISDOMI.Entities
         [BsonElement("tipo")]
         public string tipo { get; set; }
         [BsonElement("historialcontenido")]
-        public List<string> historialcontenido { get; set; }
+        public List<HistorialContenido> historialcontenido { get; set; }
         [BsonElement("creadordocumento")]
         public string creadordocumento { get; set; }
         [BsonElement("fechacreacion")]
@@ -412,7 +413,31 @@ namespace SISDOMI.Entities
         public String tipo { get; set; } //POSITIVO-NEGATIVO
         public String descripcion { get; set; }
     }
+    public class EntrevistaFamiliar : Documento
+    {
+        public ContenidoEntrevistaFamiliar contenido { get; set; } = new ContenidoEntrevistaFamiliar();
+    }
+    public class ContenidoEntrevistaFamiliar
+    {
 
+        [BsonElement("fechaentrevista")]
+        public DateTime? fechaEntrevista { get; set; }
+        [BsonElement("nombreapoderado")]
+        public string nombreApoderado { get; set; }
+        [BsonElement("apellidoapoderado")]
+        public string apellidoApoderado { get; set; }
+        [BsonElement("dniapoderado")]
+        public string dniApoderado { get; set; }
+        [BsonElement("observaciones")]
+        public string observaciones { get; set; }
+
+    }
+    public class HistorialContenido
+    {
+        public int version { get; set; }
+        public DateTime fechamodificacion { get; set; }
+        public string url { get; set; }
+    }
     /// >:(
 
 }

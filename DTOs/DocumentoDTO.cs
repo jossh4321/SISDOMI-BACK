@@ -14,7 +14,7 @@ namespace SISDOMI.DTOs
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
         public string tipo { get; set; }
-        public List<string> historialcontenido { get; set; }
+        public List<HistorialContenido> historialcontenido { get; set; }
         public string creadordocumento { get; set; }
         public DateTime? fechacreacion { get; set; }
         public string area { get; set; }
@@ -59,4 +59,5 @@ namespace SISDOMI.DTOs
         public string idresidente { get; set; }
         public string tipo { get; set; }
     }
+    
 }

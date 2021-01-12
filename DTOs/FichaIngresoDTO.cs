@@ -16,7 +16,7 @@ namespace SISDOMI.DTOs
         [BsonElement("tipo")]
         public string tipo { get; set; }
         [BsonElement("historialcontenido")]
-        public List<string> historialcontenido { get; set; }
+        public List<HistorialContenido> historialcontenido { get; set; }
         [BsonElement("creadordocumento")]
         public string creadordocumento { get; set; }
         [BsonElement("fechacreacion")]
@@ -54,7 +54,7 @@ namespace SISDOMI.DTOs
         [BsonElement("tipo")]
         public string tipo { get; set; }
         [BsonElement("historialcontenido")]
-        public List<string> historialContenido { get; set; }
+        public List<HistorialContenido> historialContenido { get; set; }
         [BsonElement("creadordocumento")]
         public Usuario creadorDocumento { get; set; }
         [BsonElement("fechacreacion")]

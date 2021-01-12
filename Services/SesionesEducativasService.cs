@@ -66,7 +66,8 @@ namespace SISDOMI.Services
                             { "fechanacimiento", 0 },
                             { "numerodocumento", 0 },
                             { "tipodocumento", 0 },
-                            { "direccion", 0 }
+                            { "direccion", 0 },
+                            { "firma", 0 }
                         } }
                     } }
             });
@@ -220,7 +221,7 @@ namespace SISDOMI.Services
         }
 
         public async Task<SesionEducativa> CreateSesionEducativa(SesionEducativa sesioneducativa)
-        {
+        { 
            sesioneducativa.fechaCreacion = DateTime.UtcNow.AddHours(-5);
             _sesioneducativa.InsertOne(sesioneducativa);
             return sesioneducativa;

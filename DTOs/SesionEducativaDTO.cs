@@ -85,6 +85,6 @@ namespace SISDOMI.DTOs
         public string nombre { get; set; }
         public string apellido { get; set; }
         public string email { get; set; }
-        public string imagen { get; set; }
+        public string imagen { get; set; }        
     }
 }

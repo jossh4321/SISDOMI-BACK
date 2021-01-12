@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -78,6 +78,7 @@ namespace SISDOMI
             services.AddScoped<HojaProductividadService>();
             services.AddScoped<ActividadService>();
             services.AddScoped<DashBoardService>();
+            services.AddScoped<EntrevistaFamiliarService>();
 
             services.AddScoped<IFileStorage, AzureFileStorage>();
             services.AddScoped<IDocument, Document>();
@@ -104,14 +105,14 @@ namespace SISDOMI
             {
                 g.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Version = "versión 1.0",
+                    Version = "versiï¿½n 1.0",
                     Title = "SISCAR API",
-                    Description = "Aplicación que contiene la descripción y uso de las APIS del SISCAR"
+                    Description = "Aplicaciï¿½n que contiene la descripciï¿½n y uso de las APIS del SISCAR"
                 });
 
                 g.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "Autorización para la entradas a las apis que generan la cabecera",
+                    Description = "Autorizaciï¿½n para la entradas a las apis que generan la cabecera",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey

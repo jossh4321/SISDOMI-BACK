@@ -20,6 +20,7 @@ namespace SISDOMI.Controllers
         private readonly FichaIngresoSocialService _fichaIngresoSocialService;
         private readonly FichaIngresoEducativoService _fichaIngresoEducativoService;
         private readonly FichaIngresoPsicologicaService _fichaIngresoPsicologicaService ;
+        private readonly EntrevistaFamiliarService _entrevistaFamiliarService;
         private readonly DashBoardService _dashBoardService;
         private readonly DocumentoService documentoService;
         private readonly IFileStorage _fileStorage;
@@ -28,6 +29,7 @@ namespace SISDOMI.Controllers
                                    DocumentoService documentoService,
                                    DashBoardService dashBoardService)
         {
+            _entrevistaFamiliarService = entrevistaFamiliarService;
             _fichaIngresoSocialService = fichaIngresoSocialService;
             _fichaIngresoEducativoService = fichaIngresoEducativoService;
             _fichaIngresoPsicologicaService = fichaIngresoPsicologicaService;
@@ -88,7 +90,14 @@ namespace SISDOMI.Controllers
         }
         [HttpPost("fichaeducativaingreso")]
         public async Task<ActionResult<FichaIngresoDTO>> PostFichaIngresoEducativa(FichaIngresoEducativa  documento)
-        {          
+        {
+            if (!string.IsNullOrWhiteSpace(documento.historialcontenido[0].url))
+            {
+                var solicitudBytes2 = Convert.FromBase64String(documento.historialcontenido[0].url);
+                documento.historialcontenido[0].url = await _fileStorage.SaveDoc(solicitudBytes2, "pdf", "archivos");
+            }
+            documento.historialcontenido[0].version = 1;
+            documento.historialcontenido[0].fechamodificacion = DateTime.UtcNow.AddHours(-5);
             FichaIngresoDTO objetofichaEducativa = await _fichaIngresoEducativoService.CreateFichaIngresoEducativo(documento);
            return objetofichaEducativa;
         }
@@ -188,6 +197,30 @@ namespace SISDOMI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
+        //ENTREVISTAS FAMILIARES
+        [HttpGet("entrevistafamiliar/all")]
+        public async Task<ActionResult<List<EntrevistaFamiliarDTO>>> GetAll()
+        {
+            return await _entrevistaFamiliarService.GetAll();
+        }
+        [HttpGet("entrevistafamiliar/iddoc/{id}")]
+        public EntrevistaFamiliar getEntrevistaFamiliarPorId(string id)
+        {
+            return _entrevistaFamiliarService.getByIdEntrevistaFamiliar(id);
+        }
+        [HttpPost("entrevistafamiliar")]
+        public async Task<ActionResult<EntrevistaFamiliar>> PostEntrevistaFamiliar(EntrevistaFamiliar documento)
+        {
+            EntrevistaFamiliar obj = await _entrevistaFamiliarService.CreateEntrevistaFamiliar(documento);
+            return obj;
+        }
+        [HttpPut("entrevistafamiliar")]
+        public ActionResult<EntrevistaFamiliar> PutEntrevistaFamiliar(EntrevistaFamiliar documento)
+        {
+            EntrevistaFamiliar objetofichaEducativa = _entrevistaFamiliarService.ModifyEntrevistaFamiliar(documento);
+            return objetofichaEducativa;
+        }
+
         [HttpGet("dashboard")]
         public async Task<ActionResult<DashboardDTO>> obtenerDashboard()
         {
