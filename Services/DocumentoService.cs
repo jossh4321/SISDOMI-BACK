@@ -22,6 +22,7 @@ namespace SISDOMI.Services
             _documentos = database.GetCollection<Documento>("documentos");
 
         }
+        
 
         public async Task<List<DocumentTypeResidentDTO>> ListDocumentsByTypeAndResident(String type, String residenteid)
         {

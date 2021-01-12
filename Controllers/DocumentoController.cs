@@ -21,16 +21,19 @@ namespace SISDOMI.Controllers
         private readonly FichaIngresoEducativoService _fichaIngresoEducativoService;
         private readonly FichaIngresoPsicologicaService _fichaIngresoPsicologicaService ;
         private readonly EntrevistaFamiliarService _entrevistaFamiliarService;
+        private readonly DashBoardService _dashBoardService;
         private readonly DocumentoService documentoService;
         private readonly IFileStorage _fileStorage;
 
         public DocumentoController(IFileStorage fileStorage, FichaIngresoSocialService fichaIngresoSocialService, FichaIngresoEducativoService fichaIngresoEducativoService,FichaIngresoPsicologicaService  fichaIngresoPsicologicaService,
-                                   DocumentoService documentoService, EntrevistaFamiliarService entrevistaFamiliarService)
+                                   DocumentoService documentoService,
+                                   DashBoardService dashBoardService, EntrevistaFamiliarService entrevistaFamiliarService)
         {
             _entrevistaFamiliarService = entrevistaFamiliarService;
             _fichaIngresoSocialService = fichaIngresoSocialService;
             _fichaIngresoEducativoService = fichaIngresoEducativoService;
             _fichaIngresoPsicologicaService = fichaIngresoPsicologicaService;
+            _dashBoardService = dashBoardService;
             _fileStorage = fileStorage;
             this.documentoService = documentoService;
         }
@@ -218,5 +221,18 @@ namespace SISDOMI.Controllers
             return objetofichaEducativa;
         }
 
+        [HttpGet("dashboard")]
+        public async Task<ActionResult<DashboardDTO>> obtenerDashboard()
+        {
+            try
+            {
+                DashboardDTO dashboard = await _dashBoardService.obtenerDashBoard();
+                return dashboard;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
     }
 }
