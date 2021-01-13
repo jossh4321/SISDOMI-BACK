@@ -442,5 +442,23 @@ namespace SISDOMI.Services
                 return true;
             }
         }
+
+        public async Task<AvanceSeguimiento> RegistrarAvanceSeguimiento(AvanceSeguimiento docAvance)
+        {
+            docAvance.fechacreacion = DateTime.UtcNow.AddHours(-5);
+            DateTime DateNow = DateTime.UtcNow.AddHours(-5);
+            Expediente expediente = await expedienteService.GetByResident(docAvance.idresidente);
+            docAvance.contenido.codigodocumento = document.CreateCodeDocument(DateNow, docAvance.tipo, expediente.documentos.Count + 1);
+            await _documentos.InsertOneAsync(docAvance);
+            DocumentoExpediente docexpe = new DocumentoExpediente()
+            {
+                tipo = docAvance.tipo,
+                iddocumento = docAvance.id
+            };
+            UpdateDefinition<Expediente> updateExpediente = Builders<Expediente>.Update.Push("documentos", docexpe);
+            _expedientes.FindOneAndUpdate(x => x.idresidente == docAvance.idresidente, updateExpediente);
+            Fase fase = faseService.ModifyStateForDocument(docAvance.idresidente, docAvance.fase, docAvance.area, docAvance.tipo);
+            return docAvance;
+        }
     }
 }
