@@ -24,9 +24,9 @@ namespace SISDOMI.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<AnexoDTO>>> GetAll()
+        public async Task<ActionResult<List<AnexoDTO>>> GetAll([FromQuery] DateTime? FromDate, [FromQuery] DateTime? ToDate)
         {
-            return await _anexoService.GetAll();
+            return await _anexoService.GetAll(FromDate?.Date.ToString(), ToDate?.Date.ToString());
         }
 
         [HttpGet("{id}")]

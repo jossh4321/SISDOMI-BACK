@@ -123,10 +123,10 @@ namespace SISDOMI.Controllers
             return await _fichaIngresoPsicologicaService.CreateFichaIngresoPsicologica(documento);
         }
         [HttpGet("all/fichaingresoresidente")]
-       public async Task<ActionResult<List<FichaIngresoDTO>>> GetFichaIngresoResidente()
-           {
-           return await _fichaIngresoSocialService.obtenerResidientesFichaIngreso();
-           }
+        public async Task<ActionResult<List<FichaIngresoDTO>>> GetFichaIngresoResidente([FromQuery] DateTime? FromDate, [FromQuery] DateTime? ToDate)
+        {
+        return await _fichaIngresoSocialService.obtenerResidientesFichaIngreso(FromDate?.Date.ToString(), ToDate?.Date.ToString());
+        }
         [HttpGet("fichaingreso/detalle/{id}")]
         public async Task<ActionResult<FichaIngresoDetalleDTO>> GetFichaIngresoResidenteDetalle(string id)
         {

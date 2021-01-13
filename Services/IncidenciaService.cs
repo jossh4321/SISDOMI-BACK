@@ -63,10 +63,112 @@ namespace SISDOMI.Services
             return incidenciaDTO;
         }
 
-        public async Task<List<IncidenciaDTO>> GetListDetalleIncidencia()
+        public async Task<List<IncidenciaDTO>> GetListDetalleIncidencia(String fromDate, String toDate)
         {
+            // Para realizar el filtro de los planes por fechas
+            var addFieldDayYearMonth = new BsonDocument("$addFields",
+                                       new BsonDocument
+                                       {
+                                           { "mes", new BsonDocument("$month", "$fecharegistro") },
+                                           { "ano", new BsonDocument("$year", "$fecharegistro") },
+                                           { "dia", new BsonDocument("$dayOfMonth", "$fecharegistro") }
+                                       });
+
+            //Se obtiene solamente la fecha sin los minutos ni los milisegundos
+            var addFieldDate = new BsonDocument("$addFields",
+                               new BsonDocument("fechaC",
+                               new BsonDocument("$toDate",
+                               new BsonDocument("$concat",
+                               new BsonArray
+                               {
+                                   new BsonDocument("$toString", "$ano"),
+                                   "-",
+                                   new BsonDocument("$toString", "$mes"),
+                                   "-",
+                                   new BsonDocument("$toString", "$dia")
+                               }))));
+
+            BsonValue fromDateTransform;
+            BsonValue toDateTransform;
+
+            if (fromDate != null)
+            {
+                fromDateTransform = fromDate;
+            }
+            else
+            {
+                fromDateTransform = BsonNull.Value;
+            }
+
+            if (toDate != null)
+            {
+                toDateTransform = toDate;
+            }
+            else
+            {
+                toDateTransform = BsonNull.Value;
+            }
+
+            //Obtener los planes donde solamente este entre las fechas consultadas
+            var matchPlanesBetweenDate = new BsonDocument("$match",
+                                         new BsonDocument("$expr",
+                                         new BsonDocument("$and",
+                                         new BsonArray
+                                         {
+                                             new BsonDocument("$or",
+                                             new BsonArray
+                                             {
+                                                 new BsonDocument("$gte",
+                                                 new BsonArray
+                                                 {
+                                                     "$fechaC",
+                                                     new BsonDocument("$toDate", fromDateTransform)
+                                                 }),
+                                                 new BsonDocument("$eq",
+                                                 new BsonArray
+                                                 {
+                                                     fromDateTransform,
+                                                     BsonNull.Value
+                                                 })
+                                             }),
+                                             new BsonDocument("$or",
+                                             new BsonArray
+                                             {
+                                                 new BsonDocument("$lte",
+                                                 new BsonArray
+                                                 {
+                                                     "$fechaC",
+                                                     new BsonDocument("$toDate", toDateTransform)
+                                                 }),
+                                                 new BsonDocument("$eq",
+                                                 new BsonArray
+                                                 {
+                                                     toDateTransform,
+                                                     BsonNull.Value
+                                                 })
+                                             })
+                                         }
+                                         )));
+
+            // Para eliminar las variables creadas para la consulta entre fechas
+            var projectIncidenciaNormal = new BsonDocument("$project", new BsonDocument
+            {
+                { "_id", 1},
+                { "usuario", 1 },
+                { "fecharegistro", 1 },
+                { "fecha", 1 },
+                { "titulo", 1 },
+                { "descripcion", 1 },
+                { "observaciones", 1 },
+                { "incidencias", 1 },
+                { "residentes", 1 },
+                { "firma", 1 }
+
+            });
+
             var unwind1 = new BsonDocument("$unwind",
                               new BsonDocument("path", "$residentes"));
+
             var subpipeline1 = new BsonArray
                         {
                             new BsonDocument("$match",
@@ -143,6 +245,10 @@ namespace SISDOMI.Services
 
             List<IncidenciaDTO> incidencia = new List<IncidenciaDTO>();
             incidencia = await _incidencias.Aggregate()
+                            .AppendStage<dynamic>(addFieldDayYearMonth)
+                            .AppendStage<dynamic>(addFieldDate)
+                            .AppendStage<dynamic>(matchPlanesBetweenDate)
+                            .AppendStage<dynamic>(projectIncidenciaNormal)
                             .AppendStage<dynamic>(unwind1)
                             .AppendStage<dynamic>(lookup1)
                             .AppendStage<dynamic>(unwind2)

@@ -124,11 +124,11 @@ namespace SISDOMI.Controllers
 
         //General
         [HttpGet("all")]
-        public async Task<ActionResult<List<PlanIntervencionDTO>>> GetAll()
+        public async Task<ActionResult<List<PlanIntervencionDTO>>> GetAll([FromQuery] DateTime? FromDate, [FromQuery] DateTime? ToDate)
         {
             try
             {
-                return await _planIntervencionService.GetAll();
+                return await _planIntervencionService.GetAll(FromDate?.Date.ToString(), ToDate?.Date.ToString());
             }
             catch (Exception ex)
             {

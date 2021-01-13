@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SISDOMI.DTOs;
@@ -19,9 +20,9 @@ namespace SISDOMI.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<Taller>>> GetAll()
+        public async Task<ActionResult<List<Taller>>> GetAll([FromQuery] DateTime? FromDate, [FromQuery] DateTime? ToDate)
         {
-            return await _tallerService.GetAll();
+            return await _tallerService.GetAll(FromDate?.Date.ToString(), ToDate?.Date.ToString());
         }
 
         [HttpGet("all/TallerEP")]

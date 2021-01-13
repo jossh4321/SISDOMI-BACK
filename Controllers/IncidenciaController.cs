@@ -49,9 +49,9 @@ namespace SISDOMI.Controllers
             return await _incidenciaService.GetDetalleIncidencia(id);
         }
         [HttpGet("all/detalle")]
-        public async Task<ActionResult<List<IncidenciaDTO>>> GetListDetalleIncidenciaDTO()
+        public async Task<ActionResult<List<IncidenciaDTO>>> GetListDetalleIncidenciaDTO([FromQuery] DateTime? FromDate, [FromQuery] DateTime? ToDate)
         {
-            return await _incidenciaService.GetListDetalleIncidencia();
+            return await _incidenciaService.GetListDetalleIncidencia(FromDate?.Date.ToString(), ToDate?.Date.ToString());
         }
     }
 }

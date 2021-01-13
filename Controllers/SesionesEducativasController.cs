@@ -26,9 +26,9 @@ namespace SISDOMI.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<SesionEducativaDTOInicial>>> GetAll()
+        public async Task<ActionResult<List<SesionEducativaDTOInicial>>> GetAll([FromQuery] DateTime? FromDate, [FromQuery] DateTime? ToDate)
         {
-            return await _sesionducativaService.GetAll();
+            return await _sesionducativaService.GetAll(FromDate?.Date.ToString(), ToDate?.Date.ToString());
         }
 
         [HttpGet("allsesiondto/id")]
