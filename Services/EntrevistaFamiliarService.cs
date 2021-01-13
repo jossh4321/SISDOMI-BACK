@@ -85,10 +85,58 @@ namespace SISDOMI.Services
                                 .ToListAsync();
             return entrevista;
         }
-        public EntrevistaFamiliar getByIdEntrevistaFamiliar(string id)
+        public async Task<EntrevistaFamiliarDTO> getByIdEntrevistaFamiliar(string id)
         {
-            EntrevistaFamiliar entrevista = new EntrevistaFamiliar();
-            entrevista = _documentos.AsQueryable().OfType<EntrevistaFamiliar>().ToList().Find(documento => documento.id == id);
+            EntrevistaFamiliarDTO entrevista = new EntrevistaFamiliarDTO();
+            var match = new BsonDocument("$match",
+                        new BsonDocument("_id",
+                        new ObjectId(id)));
+
+            var addfields = new BsonDocument("$addFields",
+                            new BsonDocument("idresidentepro",
+                            new BsonDocument("$toObjectId", "$idresidente")));
+
+            var lookup = new BsonDocument("$lookup",
+                         new BsonDocument
+                         {
+                            { "from", "residentes" },
+                            { "localField", "idresidentepro" },
+                            { "foreignField", "_id" },
+                            { "as", "contenido.datosresidente" }
+                         });
+            var unwind = new BsonDocument("$unwind",
+                         new BsonDocument("path", "$contenido.datosresidente"));
+
+            var project = new BsonDocument("$project",
+                          new BsonDocument
+                          {
+                            { "idresidentepro", 0 },
+                            { "contenido",
+                          new BsonDocument("datosresidente",
+                          new BsonDocument
+                            {
+                                { "_id", 0 },
+                                { "creadordocumento", 0 },
+                                { "lugarnacimiento", 0 },
+                                { "ubigeo", 0 },
+                                { "juzgadoprocedencia", 0 },
+                                { "fechanacimiento", 0 },
+                                { "sexo", 0 },
+                                { "motivoingreso", 0 },
+                                { "estado", 0 },
+                                { "fechaingreso", 0 },
+                                { "telefonosreferencias", 0 },
+                                { "progreso", 0 }
+                            }) }
+                          });
+
+            entrevista = await _documentos.Aggregate()
+                                .AppendStage<dynamic>(match)
+                                .AppendStage<dynamic>(addfields)
+                                .AppendStage<dynamic>(lookup)
+                                .AppendStage<dynamic>(unwind)
+                                .AppendStage<EntrevistaFamiliarDTO>(project)
+                                .FirstAsync();
             return entrevista;
         }
         public async Task<EntrevistaFamiliar> CreateEntrevistaFamiliar(EntrevistaFamiliar documento)

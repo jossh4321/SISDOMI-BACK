@@ -201,9 +201,9 @@ namespace SISDOMI.Controllers
             return await _entrevistaFamiliarService.GetAll();
         }
         [HttpGet("entrevistafamiliar/iddoc/{id}")]
-        public EntrevistaFamiliar getEntrevistaFamiliarPorId(string id)
+        public async Task<EntrevistaFamiliarDTO> getEntrevistaFamiliarPorId(string id)
         {
-            return _entrevistaFamiliarService.getByIdEntrevistaFamiliar(id);
+            return await _entrevistaFamiliarService.getByIdEntrevistaFamiliar(id);
         }
         [HttpPost("entrevistafamiliar")]
         public async Task<ActionResult<EntrevistaFamiliar>> PostEntrevistaFamiliar(EntrevistaFamiliar documento)
