@@ -182,7 +182,12 @@ namespace SISDOMI.Services {
             List<FichaEvaluacionDiagnosticoEducativoDTO> listainformes = new List<FichaEvaluacionDiagnosticoEducativoDTO>();
 
             listainformes = await _documentos.Aggregate()
+                            
                             .AppendStage<dynamic>(match)
+                            .AppendStage<dynamic>(addFieldDayYearMonth)
+                            .AppendStage<dynamic>(addFieldDate)
+                            .AppendStage<dynamic>(matchPlanesBetweenDate)
+                            .AppendStage<dynamic>(projectPlanNormal)
                             .AppendStage<dynamic>(addfield)
                             .AppendStage<dynamic>(lookup)
                             .AppendStage<dynamic>(unwind)
