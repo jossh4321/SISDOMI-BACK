@@ -79,6 +79,7 @@ namespace SISDOMI
             services.AddScoped<ActividadService>();
             services.AddScoped<DashBoardService>();
             services.AddScoped<EntrevistaFamiliarService>();
+            services.AddScoped<VisitaFamiliarService>();
 
             services.AddScoped<IFileStorage, AzureFileStorage>();
             services.AddScoped<IDocument, Document>();

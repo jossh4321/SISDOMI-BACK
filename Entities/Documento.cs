@@ -27,7 +27,9 @@ namespace SISDOMI.Entities
        typeof(ActaExternamiento),
        typeof(InformeSeguimientoEducativo),
        typeof(FichaEvaluacionDiagnosticoEducativo),
-        typeof(EntrevistaFamiliar))]
+        typeof(EntrevistaFamiliar),
+        typeof(VisitaFamiliar))]
+
     public class Documento
     {
         [BsonId]
@@ -430,6 +432,30 @@ namespace SISDOMI.Entities
         public string dniApoderado { get; set; }
         [BsonElement("observaciones")]
         public string observaciones { get; set; }
+
+    }
+    public class VisitaFamiliar : Documento
+    {
+        public ContenidoVisitaFamiliar contenido { get; set; } = new ContenidoVisitaFamiliar();
+    }
+    public class ContenidoVisitaFamiliar
+    {
+
+        [BsonElement("fechaentrevista")]
+        public DateTime? fechaEntrevista { get; set; }
+        [BsonElement("direccion")]
+        public string direccion{ get; set; }
+        [BsonElement("objetivo")]
+        public List<String> objetivo { get; set; }
+        [BsonElement("situcionencontrada")]
+        public List<String> situcionencontrada { get; set; }
+        [BsonElement("conclusiones")]
+        public List<String> conclusiones { get; set; }
+        [BsonElement("sugerencias")]
+        public List<String> sugerencias { get; set; }
+        [BsonElement("codigodocumento")]
+        public string codigodocumento { get; set; }
+
 
     }
     public class HistorialContenido
