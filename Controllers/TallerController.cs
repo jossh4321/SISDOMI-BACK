@@ -22,7 +22,7 @@ namespace SISDOMI.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<List<Taller>>> GetAll([FromQuery] DateTime? FromDate, [FromQuery] DateTime? ToDate)
         {
-            return await _tallerService.GetAll(FromDate?.Date.ToString(), ToDate?.Date.ToString());
+            return await _tallerService.GetAll(FromDate?.Date.ToString("MM/dd/yyyy"), ToDate?.Date.ToString("MM/dd/yyyy"));
         }
 
         [HttpGet("all/TallerEP")]

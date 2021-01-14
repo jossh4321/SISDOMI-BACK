@@ -148,22 +148,6 @@ namespace SISDOMI.Services
                                          }
                                          )));
 
-            // Para eliminar las variables creadas para la consulta entre fechas
-            var projectPlanNormal = new BsonDocument("$project", new BsonDocument
-            {
-                { "_id", 1},
-                {"_t", 1 },
-                { "tipo", 1 },
-                { "historialcontenido", 1 },
-                { "creadordocumento", 1 },
-                { "fechacreacion", 1 },
-                { "area", 1 },
-                { "fase", 1 },
-                { "idresidente", 1 },
-                { "estado", 1 },
-                { "contenido", 1 }
-
-            });
 
             //Para obtener los datos del residente usando el lookup
             var lookupPlan = new BsonDocument("$lookup", new BsonDocument
@@ -211,7 +195,6 @@ namespace SISDOMI.Services
                                                     .AppendStage<dynamic>(addFieldDayYearMonth)
                                                     .AppendStage<dynamic>(addFieldDate)
                                                     .AppendStage<dynamic>(matchPlanesBetweenDate)
-                                                    .AppendStage<dynamic>(projectPlanNormal)
                                                     .AppendStage<dynamic>(lookupPlan)
                                                     .AppendStage<dynamic>(unwindPlan)
                                                     .AppendStage<PlanIntervencionDTO>(projectPlan)

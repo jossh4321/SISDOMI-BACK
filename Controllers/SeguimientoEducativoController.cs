@@ -33,7 +33,7 @@ namespace SISDOMI.Controllers
         
         public async Task<ActionResult<List<SeguimientoDTO>>> GetAll([FromQuery] DateTime? FromDate, [FromQuery] DateTime? ToDate)
         {
-            return await _seguimientoeducativoservice.GetAll(FromDate?.Date.ToString(), ToDate?.Date.ToString());
+            return await _seguimientoeducativoservice.GetAll(FromDate?.Date.ToString("MM/dd/yyyy"), ToDate?.Date.ToString("MM/dd/yyyy"));
         }
         [HttpGet("id")]
         public async Task<ActionResult<DocumentoDTO>> GetById([FromQuery] string id)

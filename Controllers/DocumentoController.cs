@@ -125,7 +125,7 @@ namespace SISDOMI.Controllers
         [HttpGet("all/fichaingresoresidente")]
         public async Task<ActionResult<List<FichaIngresoDTO>>> GetFichaIngresoResidente([FromQuery] DateTime? FromDate, [FromQuery] DateTime? ToDate)
         {
-        return await _fichaIngresoSocialService.obtenerResidientesFichaIngreso(FromDate?.Date.ToString(), ToDate?.Date.ToString());
+        return await _fichaIngresoSocialService.obtenerResidientesFichaIngreso(FromDate?.Date.ToString("MM/dd/yyyy"), ToDate?.Date.ToString("MM/dd/yyyy"));
         }
         [HttpGet("fichaingreso/detalle/{id}")]
         public async Task<ActionResult<FichaIngresoDetalleDTO>> GetFichaIngresoResidenteDetalle(string id)

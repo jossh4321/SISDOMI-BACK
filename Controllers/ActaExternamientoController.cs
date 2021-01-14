@@ -25,7 +25,7 @@ using System.Threading.Tasks;namespace SISDOMI.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<List<ActaExternamientoDTO>>> GetAll([FromQuery] DateTime? FromDate, [FromQuery] DateTime? ToDate)
         {
-            return await _ActaExternamientoService.GetAll(FromDate?.Date.ToString(), ToDate?.Date.ToString());
+            return await _ActaExternamientoService.GetAll(FromDate?.Date.ToString("MM/dd/yyyy"), ToDate?.Date.ToString("MM/dd/yyyy"));
         }
 
         [HttpGet("id")]

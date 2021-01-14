@@ -128,7 +128,8 @@ namespace SISDOMI.Controllers
         {
             try
             {
-                return await _planIntervencionService.GetAll(FromDate?.Date.ToString(), ToDate?.Date.ToString());
+                
+                return await _planIntervencionService.GetAll(FromDate?.Date.ToString("MM/dd/yyyy"), ToDate?.Date.ToString("MM/dd/yyyy"));
             }
             catch (Exception ex)
             {
