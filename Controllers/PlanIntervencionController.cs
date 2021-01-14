@@ -35,13 +35,16 @@ namespace SISDOMI.Controllers
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace(planIntervencionIndividual.planintervencionindividual.historialcontenido[0].url))
+                if (planIntervencionIndividual.planintervencionindividual.historialcontenido.Count() != 0)
                 {
-                    var solicitudBytes2 = Convert.FromBase64String(planIntervencionIndividual.planintervencionindividual.historialcontenido[0].url);
-                    planIntervencionIndividual.planintervencionindividual.historialcontenido[0].url = await _fileStorage.SaveDoc(solicitudBytes2, "pdf", "archivos");
+                    if (!string.IsNullOrWhiteSpace(planIntervencionIndividual.planintervencionindividual.historialcontenido[0].url))
+                    {
+                        var solicitudBytes2 = Convert.FromBase64String(planIntervencionIndividual.planintervencionindividual.historialcontenido[0].url);
+                        planIntervencionIndividual.planintervencionindividual.historialcontenido[0].url = await _fileStorage.SaveDoc(solicitudBytes2, "pdf", "archivos");
+                    }
+                    planIntervencionIndividual.planintervencionindividual.historialcontenido[0].version = 1;
+                    planIntervencionIndividual.planintervencionindividual.historialcontenido[0].fechamodificacion = DateTime.UtcNow.AddHours(-5);
                 }
-                planIntervencionIndividual.planintervencionindividual.historialcontenido[0].version = 1;
-                planIntervencionIndividual.planintervencionindividual.historialcontenido[0].fechamodificacion = DateTime.UtcNow.AddHours(-5);
                 return await _planIntervencionService.CreateIndividualInterventionPlan(planIntervencionIndividual);
             }
             catch (Exception ex)
