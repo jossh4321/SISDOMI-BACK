@@ -60,6 +60,19 @@ namespace SISDOMI.Controllers
         {
             try
             {
+                if (planIntervencion.historialcontenido.Count() != 0)
+                {
+                    if (!planIntervencion.historialcontenido[planIntervencion.historialcontenido.Count() - 1].url.Contains("https://") && !planIntervencion.historialcontenido[planIntervencion.historialcontenido.Count() - 1].url.Contains("http://"))
+                    {
+                        if (!string.IsNullOrWhiteSpace(planIntervencion.historialcontenido[planIntervencion.historialcontenido.Count() - 1].url))
+                        {
+                            var solicitudBytes2 = Convert.FromBase64String(planIntervencion.historialcontenido[planIntervencion.historialcontenido.Count() - 1].url);
+                            planIntervencion.historialcontenido[planIntervencion.historialcontenido.Count() - 1].url = await _fileStorage.SaveDoc(solicitudBytes2, "pdf", "archivos");
+                        }
+                        planIntervencion.historialcontenido[planIntervencion.historialcontenido.Count() - 1].version = planIntervencion.historialcontenido.Count();
+                        planIntervencion.historialcontenido[planIntervencion.historialcontenido.Count() - 1].fechamodificacion = DateTime.UtcNow.AddHours(-5);
+                    }
+                }
                 PlanIntervencionIndividualEducativo objetoplan = await _planIntervencionService.ModifyIndividualInterventionPlan(planIntervencion);
                 return objetoplan;
             }

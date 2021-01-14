@@ -225,7 +225,8 @@ namespace SISDOMI.Services
                 { "area", 1  },
                 { "fase", 1  },
                 { "estado", 1  },
-                { "contenido", 1 }
+                { "contenido", 1 },
+                { "historialcontenido", 1 }
             });
 
 
@@ -277,6 +278,7 @@ namespace SISDOMI.Services
                 {"estado", 1 },
                 { "contenido", 1},
                 { "residente", 1},
+                { "historialcontenido", 1 },
                 { "creador", new BsonDocument("$toString", "$creador._id") }
                 /*{ "creador", new BsonDocument("$concat", new BsonArray{ 
                                                             "$creador.datos.nombre",

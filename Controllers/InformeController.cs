@@ -94,12 +94,38 @@ namespace SISDOMI.Controllers
         //PUT
         [HttpPut("informeei")]
         public async Task<ActionResult<InformeEducativoInicial>> ModificarInformeEI(InformeEducativoInicial informe)
-        {         
+        {
+            if (informe.historialcontenido.Count() != 0)
+            {
+                if (!informe.historialcontenido[informe.historialcontenido.Count() - 1].url.Contains("https://") && !informe.historialcontenido[informe.historialcontenido.Count() - 1].url.Contains("http://"))
+                {
+                    if (!string.IsNullOrWhiteSpace(informe.historialcontenido[informe.historialcontenido.Count() - 1].url))
+                    {
+                        var solicitudBytes2 = Convert.FromBase64String(informe.historialcontenido[informe.historialcontenido.Count() - 1].url);
+                        informe.historialcontenido[informe.historialcontenido.Count() - 1].url = await _fileStorage.SaveDoc(solicitudBytes2, "pdf", "archivos");
+                    }
+                    informe.historialcontenido[informe.historialcontenido.Count() - 1].version = informe.historialcontenido.Count();
+                    informe.historialcontenido[informe.historialcontenido.Count() - 1].fechamodificacion = DateTime.UtcNow.AddHours(-5);
+                }
+            }
             return await _informeService.ModificarInformeEI(informe);
         }
         [HttpPut("informeee")]
         public async Task<ActionResult<InformeEducativoEvolutivo>> ModificarInformeEE(InformeEducativoEvolutivo informe)
         {
+            if (informe.historialcontenido.Count() != 0)
+            {
+                if (!informe.historialcontenido[informe.historialcontenido.Count() - 1].url.Contains("https://") && !informe.historialcontenido[informe.historialcontenido.Count() - 1].url.Contains("http://"))
+                {
+                    if (!string.IsNullOrWhiteSpace(informe.historialcontenido[informe.historialcontenido.Count() - 1].url))
+                    {
+                        var solicitudBytes2 = Convert.FromBase64String(informe.historialcontenido[informe.historialcontenido.Count() - 1].url);
+                        informe.historialcontenido[informe.historialcontenido.Count() - 1].url = await _fileStorage.SaveDoc(solicitudBytes2, "pdf", "archivos");
+                    }
+                    informe.historialcontenido[informe.historialcontenido.Count() - 1].version = informe.historialcontenido.Count();
+                    informe.historialcontenido[informe.historialcontenido.Count() - 1].fechamodificacion = DateTime.UtcNow.AddHours(-5);
+                }
+            }
             return await _informeService.ModificarInformeEE(informe);
         }
         [HttpPut("informesi")]

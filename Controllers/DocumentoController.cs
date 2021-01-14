@@ -71,7 +71,19 @@ namespace SISDOMI.Controllers
         [HttpPut("fichaingresoeducativa")]
         public async Task<ActionResult<FichaIngresoDTO>> PutFichaIngresoEducativa(FichaIngresoEducativa documento)
         {
-
+            if (documento.historialcontenido.Count() != 0)
+            {
+                if (!documento.historialcontenido[documento.historialcontenido.Count() - 1].url.Contains("https://") && !documento.historialcontenido[documento.historialcontenido.Count() - 1].url.Contains("http://"))
+                {
+                    if (!string.IsNullOrWhiteSpace(documento.historialcontenido[documento.historialcontenido.Count() - 1].url))
+                    {
+                        var solicitudBytes2 = Convert.FromBase64String(documento.historialcontenido[documento.historialcontenido.Count() - 1].url);
+                        documento.historialcontenido[documento.historialcontenido.Count() - 1].url = await _fileStorage.SaveDoc(solicitudBytes2, "pdf", "archivos");
+                    }
+                    documento.historialcontenido[documento.historialcontenido.Count() - 1].version = documento.historialcontenido.Count();
+                    documento.historialcontenido[documento.historialcontenido.Count() - 1].fechamodificacion = DateTime.UtcNow.AddHours(-5);
+                }
+            }
             FichaIngresoDTO objetofichaEducativa = await  _fichaIngresoEducativoService.ModifyFichaIngresoEducativa(documento);
             return objetofichaEducativa;
         }
