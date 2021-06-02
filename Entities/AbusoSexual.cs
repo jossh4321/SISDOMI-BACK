@@ -7,6 +7,7 @@ namespace SISDOMI.Entities
 {
     public class AbusoSexual
     {
+        public bool ES_abusosexual { get; set; }
         public int edad { get; set; }
         public int veces { get; set; }
         public bool  atencionpsicologica { get; set; }
