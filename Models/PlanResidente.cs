@@ -28,7 +28,7 @@ namespace SISDOMI.Models
     {
         public String id { get; set; }
         public String idresidente { get; set; }
-        public List<string> historialcontenido { get; set; }
+        public List<HistorialContenido> historialcontenido { get; set; }
         public String tipo { get; set; }
     }
 

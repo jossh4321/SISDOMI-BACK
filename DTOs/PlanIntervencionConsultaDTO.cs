@@ -15,6 +15,7 @@ namespace SISDOMI.DTOs
         public String id { get; set; }
         public String tipo { get; set; }
         public String area { get; set; }
+        public List<HistorialContenido> historialcontenido { get; set; }
         public String fase { get; set; }
         public String estado { get; set; }
         public Object contenido { get; set; }
